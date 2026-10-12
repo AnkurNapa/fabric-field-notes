@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>A star schema that behaves: modelling retail sales | Fabric Field Notes</title><meta name="description" content="Build a star schema in Power BI Desktop: split a flat sales extract into a fact, dimensions and a date table, then check the model by hand."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/star-schema-that-behaves/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="A star schema that behaves: modelling retail sales"><meta property="og:description" content="Build a star schema in Power BI Desktop: split a flat sales extract into a fact, dimensions and a date table, then check the model by hand."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/star-schema-that-behaves/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/star-schema-that-behaves.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>A star schema that behaves: modelling retail sales</h1> <p class="lede" data-astro-cid-eomsrdgo>Split one flat sales extract into an orders fact, two dimensions and a proper date table in Power BI Desktop, wire them one-to-many with single-direction filters, then prove the model with numbers you can check by hand.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 1</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Power%20BI" data-astro-cid-eomsrdgo>Power BI</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Put the numbers you add up in one table (the fact) and the words you slice by in small tables around it (the dimensions). Join each dimension to the fact on a key that is unique on the dimension side. Set every relationship to many-to-one with a single cross filter direction, add one date table and mark it as the date table. That shape is called a star schema and it is what the Power BI engine is built for. Most "the total is wrong" tickets come from skipping one of those steps, usually the unique key.</p>
+<h2 id="what-you-will-build">What you will build</h2>
+<p>Harbour Goods is a fictional mid-size retailer with eight stores across India. Its order system exports one flat file with everything on every row: order, store, city, product, category and price. You will turn it into this:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Table</th><th>Role</th><th>Rows</th><th>One row per</th><th>Joins to <code>orders</code> on</th></tr></thead><tbody><tr><td><code>orders</code></td><td>Fact</td><td>110</td><td>Order line, January 2025 to September 2026</td><td></td></tr><tr><td><code>products</code></td><td>Dimension</td><td>9</td><td>Product: name, category, unit cost</td><td><code>product_id</code></td></tr><tr><td><code>stores</code></td><td>Dimension</td><td>8</td><td>Store: city, region, opening date</td><td><code>store_id</code></td></tr><tr><td><code>Date</code></td><td>Dimension</td><td>731</td><td>Day in 2025 and 2026</td><td><code>order_date</code></td></tr></tbody></table>
+<p>Picture <code>orders</code> in the middle with the other three around it, each joined by one line. That is the star.</p>
+<p>Then three measures and a page that proves the filters flow the way you think.</p>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>Power BI Desktop, recent build. Everything here also works in a Fabric workspace later, but Desktop is the cleanest place to learn modelling.</li>
+<li>The sample file: <a href="/fabric-field-notes/samples/star-schema-that-behaves.csv">star-schema-that-behaves.csv</a>. It is synthetic, 110 rows. Prices are in INR.</li>
+<li>Ten minutes of patience for Power Query. The modelling itself is quick.</li>
+</ul>
+<h2 id="step-1-load-the-flat-file">Step 1: load the flat file</h2>
+<ol>
+<li>In Power BI Desktop select <strong>Get data</strong> > <strong>Text/CSV</strong> and pick the file.</li>
+<li>In the preview select <strong>Transform Data</strong>, not <strong>Load</strong>. You want Power Query open.</li>
+<li>Rename the query to <code>orders_raw</code>.</li>
+<li>Check the column types in the header icons: <code>order_date</code> as <strong>Date</strong>, <code>opened</code> as <strong>Date</strong>, <code>quantity</code> as <strong>Whole Number</strong>, <code>unit_price</code>, <code>unit_cost</code> and <code>discount</code> as <strong>Decimal Number</strong>. Fix any that came in as text.</li>
+</ol>
+<h2 id="step-2-turn-off-auto-datetime">Step 2: turn off Auto date/time</h2>
+<p>Before anything else, go to <strong>File</strong> > <strong>Options and settings</strong> > <strong>Options</strong> > <strong>Current File</strong> > <strong>Data Load</strong> and clear <strong>Auto date/time</strong> under Time intelligence. Left on, Desktop builds a hidden date table for every date column in the model. That bloats the file and those hidden tables cannot be shared across facts. You will build one real date table instead.</p>
+<h2 id="step-3-split-out-the-dimensions">Step 3: split out the dimensions</h2>
+<p>Each dimension is a reference to the raw query, cut down to its own columns, with duplicates removed.</p>
+<ol>
+<li>Right-click <code>orders_raw</code> in the Queries pane and select <strong>Reference</strong>. Rename the new query <code>products</code>.</li>
+<li>Select <strong>Home</strong> > <strong>Choose Columns</strong> and keep <code>product_id</code>, <code>name</code>, <code>category</code> and <code>unit_cost</code>.</li>
+<li>Select <strong>Home</strong> > <strong>Remove Rows</strong> > <strong>Remove Duplicates</strong>.</li>
+<li>Repeat for <code>stores</code>: reference <code>orders_raw</code>, keep <code>store_id</code>, <code>city</code>, <code>region</code> and <code>opened</code>, then remove duplicates.</li>
+<li>Reference <code>orders_raw</code> once more and name it <code>orders</code>. Keep <code>order_id</code>, <code>order_date</code>, <code>store_id</code>, <code>product_id</code>, <code>quantity</code>, <code>unit_price</code> and <code>discount</code>.</li>
+<li>Right-click <code>orders_raw</code> and clear <strong>Enable load</strong>. It feeds the other three but should not land in the model itself.</li>
+<li>Select <strong>Close &#x26; Apply</strong>.</li>
+</ol>
+<p>Notice where <code>unit_price</code> went. It stays on the fact because the price is part of the sale and could change from one order to the next. <code>unit_cost</code> belongs to the product. Deciding which side a column lives on is most of the modelling job.</p>
+<h2 id="step-4-build-and-mark-the-date-table">Step 4: build and mark the date table</h2>
+<p>Select <strong>Modeling</strong> > <strong>New table</strong> and paste:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="dax"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">Date</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">ADDCOLUMNS</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> (</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">    CALENDAR</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">DATE</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">2025</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ), </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">DATE</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">2026</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">12</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">31</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ) ),</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">    "Year"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">YEAR</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">[Date]</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ),</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">    "Year month"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">YEAR</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">[Date]</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">*</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 100</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> +</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> MONTH</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">[Date]</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ),</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">    "Month"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">FORMAT</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">[Date]</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"mmm yyyy"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> )</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span></code></pre>
+<p>Then:</p>
+<ol>
+<li>Select the <code>Month</code> column. Under <strong>Column tools</strong>, set <strong>Sort by column</strong> to <code>Year month</code>. Without this, April sorts before January.</li>
+<li>Select the <code>Date</code> table, then <strong>Table tools</strong> > <strong>Mark as date table</strong> and choose the <code>Date</code> column.</li>
+</ol>
+<p>The table covers whole calendar years, even though the data stops in September 2026. Time intelligence functions expect full years with no gaps.</p>
+<h2 id="step-5-relationships">Step 5: relationships</h2>
+<p>Open <strong>Model view</strong>. Desktop may already have guessed two relationships from matching column names. Check them anyway in <strong>Modeling</strong> > <strong>Manage relationships</strong>.</p>
+<p>You want exactly three:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>From (many)</th><th>To (one)</th><th>Cardinality</th><th>Cross filter direction</th></tr></thead><tbody><tr><td><code>orders[product_id]</code></td><td><code>products[product_id]</code></td><td>Many to one</td><td>Single</td></tr><tr><td><code>orders[store_id]</code></td><td><code>stores[store_id]</code></td><td>Many to one</td><td>Single</td></tr><tr><td><code>orders[order_date]</code></td><td><code>Date[Date]</code></td><td>Many to one</td><td>Single</td></tr></tbody></table>
+<p>To add a missing one, drag the fact column onto the dimension column in Model view, or use <strong>Manage relationships</strong> > <strong>New</strong>. If Desktop offers <strong>Both</strong> for cross filter direction, change it to <strong>Single</strong>. Both feels helpful because slicers start filtering each other. It also creates more than one path between tables and the engine then picks a path you did not choose. If one measure truly needs the other direction, turn it on inside that measure with <code>CROSSFILTER</code>, not on the relationship.</p>
+<p>Finally, hide the key columns on the fact (<code>product_id</code>, <code>store_id</code>, <code>order_date</code>) so report authors slice by the dimension columns instead. Right-click each and select <strong>Hide in report view</strong>.</p>
+<h2 id="step-6-three-measures">Step 6: three measures</h2>
+<p>Select the <code>orders</code> table, then <strong>New measure</strong> for each.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="dax"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">Net</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> sales</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">SUMX</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">orders</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">orders[quantity]</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> *</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> orders[unit_price]</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> *</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> -</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> orders[discount]</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ) )</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="dax"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">Units</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> SUM</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">orders[quantity]</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> )</span></span></code></pre>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="dax"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">Products</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> sold</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> DISTINCTCOUNT</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">orders[product_id]</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> )</span></span></code></pre>
+<p>The fact stores quantity, price and discount, the additive base values. The line amount is computed in the measure. A stored percentage or margin would not add up across rows.</p>
+<h2 id="step-7-a-proof-page">Step 7: a proof page</h2>
+<p>Build one report page:</p>
+<ul>
+<li>Three cards: <code>Net sales</code>, <code>Units</code>, <code>Products sold</code>.</li>
+<li>A table with <code>stores[region]</code>, <code>Net sales</code> and <code>Products sold</code>.</li>
+<li>A clustered column chart of <code>Net sales</code> by <code>Date[Month]</code>.</li>
+</ul>
+<h2 id="check-it-worked">Check it worked</h2>
+<p>In <strong>Table view</strong> the row counts should read 110 for <code>orders</code>, 9 for <code>products</code>, 8 for <code>stores</code> and 731 for <code>Date</code>. If <code>products</code> shows more than 9 rows, the same product came through with two spellings or two costs. Fix that before you trust a single total.</p>
+<p>The cards:</p>
+<ul>
+<li>Net sales: 995,654.70</li>
+<li>Units: 741</li>
+<li>Products sold: 9</li>
+</ul>
+<p>The region table:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Region</th><th>Net sales</th><th>Products sold</th></tr></thead><tbody><tr><td>East</td><td>84,098.10</td><td>6</td></tr><tr><td>North</td><td>164,567.35</td><td>9</td></tr><tr><td>South</td><td>451,352.80</td><td>9</td></tr><tr><td>West</td><td>295,636.45</td><td>9</td></tr></tbody></table>
+<p>By category, Outdoor leads at 452,275.80, then Home at 284,444.30 and Kitchen at 258,934.60.</p>
+<p>Now the test that shows you understand the filter direction. Add a quick measure <code>Product count = COUNTROWS ( products )</code> and drop it into the region table. It shows 9 on every row, East included. The region filter flows from <code>stores</code> to <code>orders</code>, but it never flows out of <code>orders</code> into <code>products</code>, because that relationship is single direction. <code>Products sold</code> counts over the fact, so it does answer "how many products did East actually sell": six. Count over the fact when the question is about activity. Count over the dimension when the question is about the catalogue.</p>
+<h2 id="where-this-breaks">Where this breaks</h2>
+<ul>
+<li><strong>A duplicate key on the one side.</strong> If a product arrives twice with different costs, <strong>Remove Duplicates</strong> keeps both rows because they are not identical. Desktop then either refuses the relationship ("One of the columns must have unique values") or quietly suggests many-to-many. Fix the source, or pick one row per key in Power Query.</li>
+<li><strong>Bidirectional relationships to make a slicer behave.</strong> It works on day one and causes ambiguous paths on day ninety when a second fact arrives.</li>
+<li><strong>Joining on text.</strong> City names are not keys. "Bengaluru" and "Bangalore" are the same store and two different rows.</li>
+<li><strong>Mixed grain.</strong> If the source adds a delivery charge per order, do not put it on every order line or it will be counted once per line. Allocate it down to the lines or keep it in its own fact.</li>
+<li><strong>Auto date/time left on.</strong> You get a date hierarchy that looks fine and a model twice the size it should be.</li>
+</ul>
+<h2 id="next-on-the-roadmap">Next on the roadmap</h2>
+<p>This covers <a href="/fabric-field-notes/roadmap/">A star schema that behaves</a> (bi-1-1). Next, <a href="/fabric-field-notes/articles/dax-you-use-every-day/">DAX you use every day</a> puts CALCULATE and time intelligence on this exact model. When the data lives in a lakehouse, <a href="/fabric-field-notes/articles/direct-lake-model-sales-kpis/">Your first Direct Lake model</a> builds the same shape without an import.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A brewery's sales export looks like this file: every invoice line repeats the beer name, the style, the pub and the town. Split it the same way. Invoice lines become the fact with litres sold and price, beers become one dimension with style and strength, outlets become another with town and channel. The date table is identical. The first time someone asks how many beers a pub actually stocked last quarter, you count over the fact, not the beer list, for exactly the reason East showed six products and not nine.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/power-bi/guidance/star-schema">Understand star schema and the importance for Power BI</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/transform-model/desktop-create-and-manage-relationships">Create and manage relationships in Power BI Desktop</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/guidance/relationships-bidirectional-filtering">Bidirectional relationship guidance</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/guidance/auto-date-time">Auto date/time guidance in Power BI Desktop</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/transform-model/desktop-date-tables">Set and use date tables in Power BI Desktop</a></li>
+<li><a href="https://www.sqlbi.com/articles/the-importance-of-star-schemas-in-power-bi/">SQLBI: The importance of star schemas in Power BI</a></li>
+<li><a href="https://www.sqlbi.com/articles/power-bi-star-schema-or-single-table/">SQLBI: Power BI star schema or single table</a></li>
+<li><a href="https://www.sqlbi.com/articles/relationships-in-power-bi-and-tabular-models/">SQLBI: Relationships in Power BI and Tabular models</a></li>
+<li><a href="https://www.sqlbi.com/articles/bidirectional-relationships-and-ambiguity-in-dax/">SQLBI: Bidirectional relationships and ambiguity in DAX</a></li>
+<li><a href="https://www.sqlbi.com/articles/mark-as-date-table/">SQLBI: Mark as date table</a></li>
+<li><a href="https://www.sqlbi.com/articles/creating-a-simple-date-table-in-dax/">SQLBI: Creating a simple date table in DAX</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#what-you-will-build" data-astro-cid-eomsrdgo>What you will build</a></li><li data-astro-cid-eomsrdgo><a href="#before-you-start" data-astro-cid-eomsrdgo>Before you start</a></li><li data-astro-cid-eomsrdgo><a href="#step-1-load-the-flat-file" data-astro-cid-eomsrdgo>Step 1: load the flat file</a></li><li data-astro-cid-eomsrdgo><a href="#step-2-turn-off-auto-datetime" data-astro-cid-eomsrdgo>Step 2: turn off Auto date/time</a></li><li data-astro-cid-eomsrdgo><a href="#step-3-split-out-the-dimensions" data-astro-cid-eomsrdgo>Step 3: split out the dimensions</a></li><li data-astro-cid-eomsrdgo><a href="#step-4-build-and-mark-the-date-table" data-astro-cid-eomsrdgo>Step 4: build and mark the date table</a></li><li data-astro-cid-eomsrdgo><a href="#step-5-relationships" data-astro-cid-eomsrdgo>Step 5: relationships</a></li><li data-astro-cid-eomsrdgo><a href="#step-6-three-measures" data-astro-cid-eomsrdgo>Step 6: three measures</a></li><li data-astro-cid-eomsrdgo><a href="#step-7-a-proof-page" data-astro-cid-eomsrdgo>Step 7: a proof page</a></li><li data-astro-cid-eomsrdgo><a href="#check-it-worked" data-astro-cid-eomsrdgo>Check it worked</a></li><li data-astro-cid-eomsrdgo><a href="#where-this-breaks" data-astro-cid-eomsrdgo>Where this breaks</a></li><li data-astro-cid-eomsrdgo><a href="#next-on-the-roadmap" data-astro-cid-eomsrdgo>Next on the roadmap</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-1" data-astro-cid-eomsrdgo>Level 1: A star schema that behaves</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

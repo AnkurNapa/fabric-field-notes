@@ -1,0 +1,111 @@
+order_id,order_date,store_id,city,region,opened,product_id,name,category,unit_cost,quantity,unit_price,discount
+O-10001,2025-01-02,ST-014,Pune,West,2022-02-10,P-303,Insulated cooler box,Outdoor,1450,3,2799,0
+O-10002,2025-01-05,ST-011,Mumbai,West,2018-11-01,P-303,Insulated cooler box,Outdoor,1450,5,2799,0
+O-10003,2025-01-11,ST-014,Pune,West,2022-02-10,P-301,Folding camp chair,Outdoor,890,8,1699,0
+O-10004,2025-01-13,ST-007,Chennai,South,2021-08-15,P-102,Cast iron skillet,Kitchen,980,10,1899,0.05
+O-10005,2025-01-21,ST-011,Mumbai,West,2018-11-01,P-102,Cast iron skillet,Kitchen,980,5,1899,0.1
+O-10006,2025-02-02,ST-003,Bengaluru,South,2019-04-01,P-202,Table lamp,Home,640,8,1199,0
+O-10007,2025-02-08,ST-014,Pune,West,2022-02-10,P-202,Table lamp,Home,640,10,1199,0
+O-10008,2025-02-13,ST-014,Pune,West,2022-02-10,P-201,Cotton bedsheet set,Home,760,7,1499,0
+O-10009,2025-02-18,ST-014,Pune,West,2022-02-10,P-101,Steel water bottle,Kitchen,310,11,599,0
+O-10010,2025-02-19,ST-029,Hyderabad,South,2024-03-01,P-303,Insulated cooler box,Outdoor,1450,8,2799,0
+O-10011,2025-03-08,ST-003,Bengaluru,South,2019-04-01,P-201,Cotton bedsheet set,Home,760,3,1499,0.1
+O-10012,2025-03-10,ST-019,Delhi,North,2020-06-20,P-303,Insulated cooler box,Outdoor,1450,9,2799,0
+O-10013,2025-03-12,ST-029,Hyderabad,South,2024-03-01,P-202,Table lamp,Home,640,11,1199,0
+O-10014,2025-03-15,ST-014,Pune,West,2022-02-10,P-303,Insulated cooler box,Outdoor,1450,8,2799,0
+O-10015,2025-03-19,ST-021,Jaipur,North,2023-09-01,P-103,Glass storage jar set,Kitchen,420,9,799,0.05
+O-10016,2025-04-02,ST-021,Jaipur,North,2023-09-01,P-203,Bath towel pack,Home,350,7,699,0.1
+O-10017,2025-04-03,ST-029,Hyderabad,South,2024-03-01,P-302,Garden hose 15 m,Outdoor,540,3,999,0
+O-10018,2025-04-18,ST-019,Delhi,North,2020-06-20,P-302,Garden hose 15 m,Outdoor,540,12,999,0
+O-10019,2025-04-22,ST-011,Mumbai,West,2018-11-01,P-202,Table lamp,Home,640,12,1199,0.1
+O-10020,2025-04-25,ST-029,Hyderabad,South,2024-03-01,P-202,Table lamp,Home,640,8,1199,0
+O-10021,2025-05-01,ST-014,Pune,West,2022-02-10,P-302,Garden hose 15 m,Outdoor,540,2,999,0
+O-10022,2025-05-06,ST-019,Delhi,North,2020-06-20,P-103,Glass storage jar set,Kitchen,420,5,799,0.05
+O-10023,2025-05-12,ST-022,Kolkata,East,2023-09-05,P-302,Garden hose 15 m,Outdoor,540,3,999,0
+O-10024,2025-05-15,ST-029,Hyderabad,South,2024-03-01,P-301,Folding camp chair,Outdoor,890,10,1699,0
+O-10025,2025-05-20,ST-003,Bengaluru,South,2019-04-01,P-301,Folding camp chair,Outdoor,890,10,1699,0
+O-10026,2025-06-12,ST-007,Chennai,South,2021-08-15,P-103,Glass storage jar set,Kitchen,420,3,799,0
+O-10027,2025-06-13,ST-003,Bengaluru,South,2019-04-01,P-201,Cotton bedsheet set,Home,760,12,1499,0
+O-10028,2025-06-14,ST-011,Mumbai,West,2018-11-01,P-302,Garden hose 15 m,Outdoor,540,11,999,0
+O-10029,2025-06-22,ST-019,Delhi,North,2020-06-20,P-202,Table lamp,Home,640,2,1199,0
+O-10030,2025-06-23,ST-022,Kolkata,East,2023-09-05,P-303,Insulated cooler box,Outdoor,1450,7,2799,0.1
+O-10031,2025-07-05,ST-011,Mumbai,West,2018-11-01,P-302,Garden hose 15 m,Outdoor,540,12,999,0.1
+O-10032,2025-07-11,ST-022,Kolkata,East,2023-09-05,P-301,Folding camp chair,Outdoor,890,8,1699,0.05
+O-10033,2025-07-17,ST-014,Pune,West,2022-02-10,P-302,Garden hose 15 m,Outdoor,540,12,999,0.05
+O-10034,2025-07-19,ST-011,Mumbai,West,2018-11-01,P-201,Cotton bedsheet set,Home,760,3,1499,0
+O-10035,2025-07-23,ST-029,Hyderabad,South,2024-03-01,P-103,Glass storage jar set,Kitchen,420,3,799,0
+O-10036,2025-08-01,ST-003,Bengaluru,South,2019-04-01,P-303,Insulated cooler box,Outdoor,1450,3,2799,0
+O-10037,2025-08-02,ST-011,Mumbai,West,2018-11-01,P-102,Cast iron skillet,Kitchen,980,5,1899,0.1
+O-10038,2025-08-04,ST-022,Kolkata,East,2023-09-05,P-103,Glass storage jar set,Kitchen,420,12,799,0
+O-10039,2025-08-19,ST-021,Jaipur,North,2023-09-01,P-203,Bath towel pack,Home,350,9,699,0
+O-10040,2025-08-20,ST-014,Pune,West,2022-02-10,P-302,Garden hose 15 m,Outdoor,540,9,999,0.05
+O-10041,2025-09-03,ST-021,Jaipur,North,2023-09-01,P-202,Table lamp,Home,640,9,1199,0
+O-10042,2025-09-04,ST-011,Mumbai,West,2018-11-01,P-201,Cotton bedsheet set,Home,760,10,1499,0
+O-10043,2025-09-05,ST-003,Bengaluru,South,2019-04-01,P-303,Insulated cooler box,Outdoor,1450,2,2799,0.1
+O-10044,2025-09-10,ST-019,Delhi,North,2020-06-20,P-102,Cast iron skillet,Kitchen,980,6,1899,0.1
+O-10045,2025-09-16,ST-021,Jaipur,North,2023-09-01,P-103,Glass storage jar set,Kitchen,420,7,799,0
+O-10046,2025-10-11,ST-007,Chennai,South,2021-08-15,P-201,Cotton bedsheet set,Home,760,5,1499,0.05
+O-10047,2025-10-17,ST-007,Chennai,South,2021-08-15,P-201,Cotton bedsheet set,Home,760,10,1499,0.05
+O-10048,2025-10-18,ST-021,Jaipur,North,2023-09-01,P-101,Steel water bottle,Kitchen,310,2,599,0
+O-10049,2025-10-21,ST-029,Hyderabad,South,2024-03-01,P-202,Table lamp,Home,640,5,1199,0.1
+O-10050,2025-10-25,ST-021,Jaipur,North,2023-09-01,P-302,Garden hose 15 m,Outdoor,540,7,999,0
+O-10051,2025-11-03,ST-021,Jaipur,North,2023-09-01,P-201,Cotton bedsheet set,Home,760,9,1499,0.1
+O-10052,2025-11-04,ST-011,Mumbai,West,2018-11-01,P-302,Garden hose 15 m,Outdoor,540,12,999,0
+O-10053,2025-11-07,ST-014,Pune,West,2022-02-10,P-102,Cast iron skillet,Kitchen,980,8,1899,0
+O-10054,2025-11-08,ST-029,Hyderabad,South,2024-03-01,P-103,Glass storage jar set,Kitchen,420,8,799,0
+O-10055,2025-11-16,ST-014,Pune,West,2022-02-10,P-301,Folding camp chair,Outdoor,890,9,1699,0.05
+O-10056,2025-12-01,ST-003,Bengaluru,South,2019-04-01,P-302,Garden hose 15 m,Outdoor,540,12,999,0
+O-10057,2025-12-03,ST-029,Hyderabad,South,2024-03-01,P-203,Bath towel pack,Home,350,4,699,0.1
+O-10058,2025-12-05,ST-003,Bengaluru,South,2019-04-01,P-101,Steel water bottle,Kitchen,310,2,599,0
+O-10059,2025-12-06,ST-003,Bengaluru,South,2019-04-01,P-301,Folding camp chair,Outdoor,890,5,1699,0
+O-10060,2025-12-24,ST-011,Mumbai,West,2018-11-01,P-202,Table lamp,Home,640,5,1199,0
+O-10061,2026-01-08,ST-022,Kolkata,East,2023-09-05,P-103,Glass storage jar set,Kitchen,420,2,799,0
+O-10062,2026-01-09,ST-029,Hyderabad,South,2024-03-01,P-303,Insulated cooler box,Outdoor,1450,8,2799,0.1
+O-10063,2026-01-11,ST-003,Bengaluru,South,2019-04-01,P-303,Insulated cooler box,Outdoor,1450,4,2799,0.1
+O-10064,2026-01-17,ST-011,Mumbai,West,2018-11-01,P-302,Garden hose 15 m,Outdoor,540,4,999,0.1
+O-10065,2026-01-19,ST-011,Mumbai,West,2018-11-01,P-103,Glass storage jar set,Kitchen,420,4,799,0
+O-10066,2026-01-25,ST-029,Hyderabad,South,2024-03-01,P-102,Cast iron skillet,Kitchen,980,10,1899,0
+O-10067,2026-02-11,ST-014,Pune,West,2022-02-10,P-303,Insulated cooler box,Outdoor,1450,2,2799,0
+O-10068,2026-02-16,ST-007,Chennai,South,2021-08-15,P-202,Table lamp,Home,640,2,1199,0
+O-10069,2026-02-17,ST-029,Hyderabad,South,2024-03-01,P-303,Insulated cooler box,Outdoor,1450,2,2799,0
+O-10070,2026-02-18,ST-029,Hyderabad,South,2024-03-01,P-203,Bath towel pack,Home,350,11,699,0.1
+O-10071,2026-02-22,ST-007,Chennai,South,2021-08-15,P-202,Table lamp,Home,640,9,1199,0.1
+O-10072,2026-03-08,ST-019,Delhi,North,2020-06-20,P-303,Insulated cooler box,Outdoor,1450,5,2799,0.05
+O-10073,2026-03-16,ST-003,Bengaluru,South,2019-04-01,P-301,Folding camp chair,Outdoor,890,3,1699,0.05
+O-10074,2026-03-17,ST-029,Hyderabad,South,2024-03-01,P-203,Bath towel pack,Home,350,3,699,0
+O-10075,2026-03-18,ST-022,Kolkata,East,2023-09-05,P-102,Cast iron skillet,Kitchen,980,5,1899,0
+O-10076,2026-03-24,ST-014,Pune,West,2022-02-10,P-103,Glass storage jar set,Kitchen,420,12,799,0
+O-10077,2026-03-26,ST-003,Bengaluru,South,2019-04-01,P-202,Table lamp,Home,640,4,1199,0.05
+O-10078,2026-04-04,ST-003,Bengaluru,South,2019-04-01,P-201,Cotton bedsheet set,Home,760,4,1499,0.05
+O-10079,2026-04-08,ST-022,Kolkata,East,2023-09-05,P-203,Bath towel pack,Home,350,8,699,0
+O-10080,2026-04-13,ST-021,Jaipur,North,2023-09-01,P-203,Bath towel pack,Home,350,3,699,0
+O-10081,2026-04-16,ST-011,Mumbai,West,2018-11-01,P-203,Bath towel pack,Home,350,10,699,0.05
+O-10082,2026-04-24,ST-029,Hyderabad,South,2024-03-01,P-101,Steel water bottle,Kitchen,310,8,599,0
+O-10083,2026-05-03,ST-007,Chennai,South,2021-08-15,P-102,Cast iron skillet,Kitchen,980,3,1899,0
+O-10084,2026-05-04,ST-019,Delhi,North,2020-06-20,P-101,Steel water bottle,Kitchen,310,4,599,0
+O-10085,2026-05-10,ST-003,Bengaluru,South,2019-04-01,P-301,Folding camp chair,Outdoor,890,12,1699,0
+O-10086,2026-05-17,ST-022,Kolkata,East,2023-09-05,P-103,Glass storage jar set,Kitchen,420,10,799,0.1
+O-10087,2026-05-20,ST-029,Hyderabad,South,2024-03-01,P-203,Bath towel pack,Home,350,3,699,0
+O-10088,2026-05-27,ST-011,Mumbai,West,2018-11-01,P-103,Glass storage jar set,Kitchen,420,8,799,0
+O-10089,2026-06-01,ST-019,Delhi,North,2020-06-20,P-102,Cast iron skillet,Kitchen,980,11,1899,0
+O-10090,2026-06-03,ST-014,Pune,West,2022-02-10,P-202,Table lamp,Home,640,3,1199,0.05
+O-10091,2026-06-09,ST-011,Mumbai,West,2018-11-01,P-203,Bath towel pack,Home,350,10,699,0.05
+O-10092,2026-06-21,ST-019,Delhi,North,2020-06-20,P-103,Glass storage jar set,Kitchen,420,2,799,0.1
+O-10093,2026-06-26,ST-007,Chennai,South,2021-08-15,P-102,Cast iron skillet,Kitchen,980,4,1899,0
+O-10094,2026-07-02,ST-007,Chennai,South,2021-08-15,P-202,Table lamp,Home,640,9,1199,0.1
+O-10095,2026-07-06,ST-003,Bengaluru,South,2019-04-01,P-202,Table lamp,Home,640,7,1199,0
+O-10096,2026-07-07,ST-019,Delhi,North,2020-06-20,P-101,Steel water bottle,Kitchen,310,2,599,0
+O-10097,2026-07-10,ST-007,Chennai,South,2021-08-15,P-303,Insulated cooler box,Outdoor,1450,9,2799,0
+O-10098,2026-07-21,ST-029,Hyderabad,South,2024-03-01,P-102,Cast iron skillet,Kitchen,980,12,1899,0.05
+O-10099,2026-07-24,ST-029,Hyderabad,South,2024-03-01,P-303,Insulated cooler box,Outdoor,1450,8,2799,0.1
+O-10100,2026-08-07,ST-007,Chennai,South,2021-08-15,P-103,Glass storage jar set,Kitchen,420,8,799,0
+O-10101,2026-08-08,ST-011,Mumbai,West,2018-11-01,P-103,Glass storage jar set,Kitchen,420,2,799,0
+O-10102,2026-08-10,ST-019,Delhi,North,2020-06-20,P-301,Folding camp chair,Outdoor,890,4,1699,0
+O-10103,2026-08-11,ST-014,Pune,West,2022-02-10,P-301,Folding camp chair,Outdoor,890,10,1699,0
+O-10104,2026-08-23,ST-007,Chennai,South,2021-08-15,P-202,Table lamp,Home,640,2,1199,0.05
+O-10105,2026-09-01,ST-021,Jaipur,North,2023-09-01,P-203,Bath towel pack,Home,350,10,699,0
+O-10106,2026-09-06,ST-007,Chennai,South,2021-08-15,P-101,Steel water bottle,Kitchen,310,6,599,0
+O-10107,2026-09-09,ST-021,Jaipur,North,2023-09-01,P-103,Glass storage jar set,Kitchen,420,2,799,0
+O-10108,2026-09-15,ST-022,Kolkata,East,2023-09-05,P-102,Cast iron skillet,Kitchen,980,9,1899,0
+O-10109,2026-09-25,ST-007,Chennai,South,2021-08-15,P-201,Cotton bedsheet set,Home,760,10,1499,0
+O-10110,2026-09-27,ST-014,Pune,West,2022-02-10,P-202,Table lamp,Home,640,3,1199,0

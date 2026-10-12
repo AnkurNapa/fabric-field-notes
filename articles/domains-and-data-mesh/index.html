@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Domains and data mesh: organising Fabric for many teams | Fabric Field Notes</title><meta name="description" content="Organise Fabric for many teams with domains and workspaces. Domains help people find and own data, but they do not secure anything."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/domains-and-data-mesh/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Domains and data mesh: organising Fabric for many teams"><meta property="og:description" content="Organise Fabric for many teams with domains and workspaces. Domains help people find and own data, but they do not secure anything."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/domains-and-data-mesh/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/domains-and-data-mesh.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Domains and data mesh: organising Fabric for many teams</h1> <p class="lede" data-astro-cid-eomsrdgo>How to lay out workspaces and domains once more than one team builds on Fabric. Domains organise, delegate and help people find data. They do not secure anything, which is the mistake most designs make first.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 4</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a><a class="pill" href="/fabric-field-notes/articles/?tag=Security" data-astro-cid-eomsrdgo>Security</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>A Fabric domain is a label on a group of workspaces plus a place to hand a few tenant settings down to the business. It lets people filter the OneLake catalog by business area. It lets a domain admin set a default sensitivity label and run certification for that area. It does not change who can see or open anything. Microsoft Learn is blunt about this: domain assignment does not affect item visibility or access. Access still lives on workspace roles, item permissions and OneLake security.</p>
+<p>So design in two layers. Workspaces carry the hard boundaries: who has which role, which Git branch, which deployment stage and which capacity. Domains sit on top and carry ownership and discovery. Learn's data mesh shape is one domain per business area plus a central domain for shared enterprise data, with consumers reading producer data rather than copying it.</p>
+<p>Use domains when a central team has become the queue every request waits in. Skip them while one team builds everything. A mesh with no owners is sprawl with nicer labels.</p>
+<h2 id="the-decision">The decision</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Option</th><th>Fits when</th><th>Costs you</th><th>Watch</th></tr></thead><tbody><tr><td>No domains, one central team</td><td>One data team, a handful of workspaces</td><td>Nothing yet</td><td>The catalog gets noisy as workspaces multiply</td></tr><tr><td>Domains for discovery only</td><td>Many teams consume, one team produces</td><td>A naming convention and someone to assign workspaces</td><td>Easy start; delegation goes unused</td></tr><tr><td>Domains with delegated settings</td><td>Business areas own their data and want to certify it themselves</td><td>A named domain admin and certifiers per area</td><td>Domain admins cannot delete the domain, rename it or add other domain admins</td></tr><tr><td>Full mesh with producer and consumer workspaces</td><td>Several teams publish data products that others depend on</td><td>Contracts, shortcuts, endorsement rules and a Centre of Excellence to referee</td><td>A shortcut couples the consumer to every schema change the producer makes</td></tr></tbody></table>
+<p>The rule for when to create a new workspace is older than domains and still the right one: create a workspace when the security group, Git branch, deployment stage or capacity differs. If none of those differ, it is a folder, not a workspace.</p>
+<p>Three roles run domains. A <strong>Fabric admin</strong> creates domains, names domain admins and can assign any workspace. A <strong>domain admin</strong> edits the description, names domain contributors, assigns workspaces and overrides the settings the Fabric admin has delegated. A <strong>domain contributor</strong> is a workspace admin who has been allowed to put their own workspace into the domain from workspace settings. Today two kinds of tenant setting can be delegated: the domain-level default sensitivity label and certification settings.</p>
+<h2 id="reference-design">Reference design</h2>
+<p>Harbour Goods, the fictional retailer and distributor used across this site, has three business areas that build on Fabric: Sales, Supply chain and Finance. Products and stores are used by everyone.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Tenant</span></span>
+<span class="line"><span> |</span></span>
+<span class="line"><span> +-- Domain: Enterprise (shared)      admins: data platform lead + deputy</span></span>
+<span class="line"><span> |     ent-masterdata-prod             products, stores   [Master data badge]</span></span>
+<span class="line"><span> |</span></span>
+<span class="line"><span> +-- Domain: Sales                     admins: head of sales analytics + deputy</span></span>
+<span class="line"><span> |     subdomain: Stores</span></span>
+<span class="line"><span> |       sales-orders-dev / -test / -prod    orders lakehouse, gold model</span></span>
+<span class="line"><span> |       sales-reporting-prod                reports and the store app</span></span>
+<span class="line"><span> |</span></span>
+<span class="line"><span> +-- Domain: Supply chain              admins: logistics data owner + deputy</span></span>
+<span class="line"><span> |     sc-deliveries-dev / -prod             deliveries lakehouse</span></span>
+<span class="line"><span> |     sc-coldstore-prod                     Eventhouse with sensor_readings</span></span>
+<span class="line"><span> |</span></span>
+<span class="line"><span> +-- Domain: Finance                   admins: finance systems lead + deputy</span></span>
+<span class="line"><span>       fin-margin-prod                       shortcuts to sales gold orders</span></span>
+<span class="line"><span>                                             and enterprise products</span></span></code></pre>
+<p>What each layer owns:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Layer</th><th>Owns</th><th>Set by</th></tr></thead><tbody><tr><td>Domain</td><td>Catalog filter, certifiers, default label</td><td>Fabric admin creates it; domain admin runs it</td></tr><tr><td>Subdomain</td><td>Finer grouping only. General settings only, no admins of its own</td><td>Fabric admin or domain admin</td></tr><tr><td>Workspace</td><td>Roles, Git connection, deployment stage, capacity</td><td>Workspace admin</td></tr><tr><td>Item</td><td>Sharing, endorsement, OneLake security roles</td><td>Item owner</td></tr></tbody></table>
+<p>How a data product moves between domains:</p>
+<ol>
+<li>Sales builds gold <code>orders</code> in <code>sales-orders-prod</code> and promotes the lakehouse. A Sales certifier reviews it against the certification rules and certifies it.</li>
+<li>Finance does not copy it. A Finance engineer creates a OneLake shortcut to it from <code>fin-margin-prod</code>. Finance users need read access on the source, granted by the producer through item permissions or a OneLake security role. The domain grants nothing.</li>
+<li>Products and stores carry the <strong>Master data</strong> badge, applied by the few people the Fabric admin has authorised. Turn this on with the <strong>Endorse master data (preview)</strong> tenant setting. Learn still labels it preview.</li>
+</ol>
+<p>Getting workspaces into domains is a one-time job and then a habit. Fabric and domain admins can assign by workspace name, by workspace admin or by capacity. All three apply to existing workspaces only. To catch new ones, make the domain the <strong>default domain</strong> for the people who create workspaces in that area: unassigned workspaces they admin and every new one they create land in the domain automatically. By default an admin assignment does not override an existing assignment. That needs the <strong>Allow tenant and domain admins to override workspace assignments (preview)</strong> tenant setting.</p>
+<h2 id="questions-to-ask-the-client">Questions to ask the client</h2>
+<ul>
+<li>When a number in this data set is wrong, whose phone rings? Ask for a name, not a team.</li>
+<li>Do the business areas have people who can build, or only people who can ask? A mesh needs producers.</li>
+<li>Which data does everyone use (products, customers, stores, calendar)? Who owns it today, if anyone?</li>
+<li>Does each business area already have its own capacity or budget? If yes, assigning by capacity is quick and chargeback follows.</li>
+<li>Is there a workspace naming convention? If not, write one before creating domains, because assignment by name depends on it.</li>
+<li>Who will certify? How does an item lose its certification?</li>
+<li>Do any areas need data kept in a different region? That drives capacities, which drives workspaces. See the network and residency guide.</li>
+<li>Which settings do they actually want delegated? Today that is the default label and certification, nothing more.</li>
+</ul>
+<h2 id="review-checklist">Review checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Every production workspace sits in a domain. None are left unassigned.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Each domain has two named domain admins, so leave and resignations do not orphan it.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Workspace names encode domain, product and stage, for example <code>sales-orders-prod</code>.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Dev, test and prod are separate workspaces. Prod sits on a different capacity from dev.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Shared data is reached through shortcuts, not copies, unless the copy changes shape, quality or ownership.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Certification is switched on, delegated where the domain really reviews items and has a documentation URL.</li>
+<li class="task-list-item"><input type="checkbox" disabled> The Master data badge is on a short list of items, each with an owner.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Access was reviewed at workspace and item level with domains ignored, because domains grant nothing.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Default domains are set for the people who create workspaces, so new work does not land unassigned.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Domain changes are visible in the audit log and someone reads it.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns</h2>
+<ul>
+<li><strong>Domain as a security boundary.</strong> "Only Finance can see the Finance domain" is false. Every user in the tenant sees every domain in the catalog filter. What they can open depends on workspace roles and item permissions alone.</li>
+<li><strong>One giant workspace per domain.</strong> It puts dev and prod, two security groups and one Git branch into the same box. You lose every boundary a workspace exists to give you.</li>
+<li><strong>Domains copied from this year's org chart.</strong> Reorganisations then mean reassigning hundreds of workspaces. Learn lists functional, product, process, regional and mixed structures. Pick the one that changes least.</li>
+<li><strong>The product table in every domain.</strong> Three copies give you three answers to "how many active products". Publish it once in the enterprise domain and shortcut to it.</li>
+<li><strong>A mesh with nobody minding it.</strong> Domain admins who never open the admin portal, certification that never happens and no central team to settle disputes. Federated ownership still needs a referee.</li>
+<li><strong>Expecting subdomains to behave like domains.</strong> Subdomains have general settings only and inherit their parent's admins. Use them for grouping, not for delegation.</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>This is <a href="/fabric-field-notes/roadmap/">Domains and data mesh</a> (gov-4-1). The people who run it are covered in <a href="/fabric-field-notes/articles/running-a-centre-of-excellence/">Running a Centre of Excellence</a> (gov-4-4). For regions and private networks per domain, read <a href="/fabric-field-notes/articles/network-isolation-and-residency/">Network isolation and residency</a> (gov-4-2). The access model domains sit on is in <a href="/fabric-field-notes/articles/workspaces-roles-licences/">Workspaces, roles and licences</a> and <a href="/fabric-field-notes/articles/sharing-without-regret/">Sharing without regret</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A drinks group with a brewery, a bottling plant and a distribution arm hits the same wall Harbour Goods did. Each site wants its own reports, yet everyone needs one product list. Give each site a domain, keep the product and pack-size master in a shared enterprise domain with the Master data badge and let the bottling team shortcut to it. The quality lab's results table is the one everyone argues about, so the lab certifies it in its own domain and nobody else gets to edit it. Nothing about the domains decides who sees the lab results. The workspace roles do.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/governance/domains">Fabric domains</a></li>
+<li><a href="https://learn.microsoft.com/fabric/governance/domains-best-practices">Best practices for planning and creating domains in Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/governance/endorsement-overview">Endorsement overview</a></li>
+<li><a href="https://learn.microsoft.com/fabric/admin/endorsement-master-data-enable">Enable master data endorsement</a></li>
+<li><a href="https://learn.microsoft.com/fabric/admin/endorsement-certification-enable">Enable item certification</a></li>
+<li><a href="https://learn.microsoft.com/fabric/fundamentals/understand-best-practices-fabric-cicd">Best practices for lifecycle management in Fabric</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-decision" data-astro-cid-eomsrdgo>The decision</a></li><li data-astro-cid-eomsrdgo><a href="#reference-design" data-astro-cid-eomsrdgo>Reference design</a></li><li data-astro-cid-eomsrdgo><a href="#questions-to-ask-the-client" data-astro-cid-eomsrdgo>Questions to ask the client</a></li><li data-astro-cid-eomsrdgo><a href="#review-checklist" data-astro-cid-eomsrdgo>Review checklist</a></li><li data-astro-cid-eomsrdgo><a href="#anti-patterns" data-astro-cid-eomsrdgo>Anti-patterns</a></li><li data-astro-cid-eomsrdgo><a href="#next" data-astro-cid-eomsrdgo>Next</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-4" data-astro-cid-eomsrdgo>Level 4: Domains and data mesh</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

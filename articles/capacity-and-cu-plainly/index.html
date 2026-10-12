@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Capacity and CU, plainly | Fabric Field Notes</title><meta name="description" content="Fabric capacity and capacity units explained: what F SKUs cost at list price, how smoothing and throttling work and when overage billing starts."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/capacity-and-cu-plainly/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Capacity and CU, plainly"><meta property="og:description" content="Fabric capacity and capacity units explained: what F SKUs cost at list price, how smoothing and throttling work and when overage billing starts."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/capacity-and-cu-plainly/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/capacity-and-cu-plainly.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Capacity and CU, plainly</h1> <p class="lede" data-astro-cid-eomsrdgo>What an F SKU is, what a capacity unit measures, what an F2, F8 and F64 cost at list price in East US and the Indian regions, how smoothing and throttling work and when overage billing kicks in.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 0</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Capacity" data-astro-cid-eomsrdgo>Capacity</a><a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>A Fabric capacity is a pool of compute you rent by the second. Its size is counted in capacity units (CU): an F8 has 8, an F64 has 64. Every workload, from a Spark notebook to a Power BI report, converts its work into CU seconds and draws from that one pool. You pay for the size of the pool whether you use it or not, unless you pause it.</p>
+<p>Fabric lets a job run faster than the pool allows, then spreads the cost over the following minutes or hours. That is smoothing. Throttling only starts when the pool has already spent more than ten minutes of its future. Overage billing, on by default for new F capacities, can pay that debt at three times the normal rate instead of slowing people down.</p>
+<h2 id="the-idea-in-one-picture">The idea in one picture</h2>
+<p>Each capacity unit gives you 30 CU seconds in every 30-second slot, which Microsoft calls a timepoint.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>SKU</th><th>CUs</th><th>CU seconds per timepoint</th><th>CU hours per day</th><th>Rough Power BI equivalent</th></tr></thead><tbody><tr><td>F2</td><td>2</td><td>60</td><td>48</td><td>none</td></tr><tr><td>F8</td><td>8</td><td>240</td><td>192</td><td>EM/A1</td></tr><tr><td>F32</td><td>32</td><td>960</td><td>768</td><td>EM3/A3</td></tr><tr><td>F64</td><td>64</td><td>1,920</td><td>1,536</td><td>P1</td></tr><tr><td>Trial</td><td>64</td><td>1,920</td><td>n/a</td><td>none</td></tr></tbody></table>
+<p>Sizes always double. There is no F48. List prices, USD, checked on 11 October 2026 from the Azure Retail Prices API, before any EA, MCA or CSP discount:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>East US</th><th>Central India</th><th>South India</th></tr></thead><tbody><tr><td>Pay as you go, per CU hour</td><td>0.18</td><td>0.20</td><td>0.22</td></tr><tr><td>F2, pay as you go, per month (730 h)</td><td>262.80</td><td>292.00</td><td>321.20</td></tr><tr><td>F8, pay as you go, per month</td><td>1,051.20</td><td>1,168.00</td><td>1,284.80</td></tr><tr><td>F8, 1-year reserved, per month</td><td>625.33</td><td>694.67</td><td>764.00</td></tr><tr><td>F64, pay as you go, per month</td><td>8,409.60</td><td>9,344.00</td><td>10,278.40</td></tr><tr><td>F64, 1-year reserved, per month</td><td>5,002.67</td><td>5,557.33</td><td>6,112.00</td></tr><tr><td>Capacity overage, per CU hour</td><td>0.54</td><td>0.60</td><td>0.66</td></tr></tbody></table>
+<p>A one-year reservation saves 40.5% at list. Prices are set in USD and converted at London closing spot rates, so an INR invoice moves with the exchange rate. OneLake storage is billed separately per GB and does not use CUs.</p>
+<p><strong>Smoothing, in one example.</strong> Harbour Goods, a fictional retailer, runs its warehouse on an F8 in Central India. Every night a pipeline loads the day's <code>orders</code> and <code>deliveries</code> and uses 6 CU hours, which is 21,600 CU seconds. That is a background job, so Fabric spreads it over the next 24 hours: 21,600 divided by 2,880 timepoints is 7.5 CU seconds in each one. An F8 timepoint holds 240, so the nightly load costs about 3% of the capacity all day long. Interactive work, such as someone opening the sales report at 9 am, is smoothed over a shorter window of 5 to 64 minutes, so a burst of report users shows up quickly.</p>
+<p><strong>Throttling, in four stages.</strong> The trigger is how much future capacity you have already spent:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Future capacity already used</th><th>What happens</th></tr></thead><tbody><tr><td>Up to 10 minutes</td><td>Nothing. This is overage protection.</td></tr><tr><td>10 to 60 minutes</td><td>New interactive work waits 20 seconds before it starts</td></tr><tr><td>60 minutes to 24 hours</td><td>New interactive work is rejected. Background jobs still start.</td></tr><tr><td>More than 24 hours</td><td>Everything new is rejected</td></tr></tbody></table>
+<p>Jobs already running always finish. Debt burns down in quiet timepoints and throttling holds until it is paid off.</p>
+<h2 id="a-ten-minute-tour">A ten-minute tour</h2>
+<ol>
+<li><strong>Find the capacity in Azure.</strong> In the Azure portal, search for <strong>Microsoft Fabric</strong> and open your capacity resource. The overview shows the SKU and region. <strong>Pause</strong>, <strong>Resume</strong> and resizing live here, for F SKUs only.</li>
+<li><strong>Find it in Fabric.</strong> Open the admin portal and select <strong>Capacity settings</strong>. You see each capacity, its admins and the workspaces assigned to it.</li>
+<li><strong>Open the Capacity Metrics app.</strong> If your admin has installed the Microsoft Fabric Capacity Metrics app, open its <strong>Compute</strong> page. Look at the <strong>Utilisation</strong> chart first, then the <strong>Throttling</strong> tab. Utilisation above 100% is normal. Throttling above 100% is the one that hurts.</li>
+<li><strong>Read the price yourself.</strong> Open the <a href="https://azure.microsoft.com/pricing/calculator/?service=microsoft-fabric">Azure pricing calculator</a>, pick your region and compare pay as you go with a one-year reservation for the same SKU.</li>
+<li><strong>Check the overage setting.</strong> On the capacity, the setting may read <strong>Capacity overage</strong> or sit under the capacity's settings in Azure. Note whether it is on and what the threshold is.</li>
+</ol>
+<h2 id="what-people-get-wrong">What people get wrong</h2>
+<ul>
+<li><strong>Reading utilisation as a crisis.</strong> Bars over the line on the utilisation chart mean bursting, which is the system working. Act on the throttling tab.</li>
+<li><strong>Pausing to save money in the middle of a throttle.</strong> Pausing bills all smoothed and carried-forward CUs at once. A heavily overloaded capacity hands you a lump sum.</li>
+<li><strong>Treating overage as a cap or a speed-up.</strong> Overage bills at three times the pay as you go rate (USD 0.60 per CU hour in Central India). It is on by default with a 25% rolling 24-hour threshold. The threshold is checked every five minutes, so it is soft. It adds no memory or speed. Reservations do not cover it. Microsoft suggests keeping the threshold under a third of the SKU's daily CU hours, the point where scaling up costs the same.</li>
+<li><strong>Reserving the peak.</strong> A reservation is a billing discount for one region. It does not shrink when you scale down. Reserve the floor you run all day, every day.</li>
+<li><strong>Assuming three years is cheaper.</strong> At list, the three-year meter is exactly three times the one-year price. Check your agreement.</li>
+<li><strong>Sizing from data volume.</strong> Gigabytes do not tell you how many people open reports at 9 am. Measure a few full days, because background smoothing needs 24 hours to show its real shape.</li>
+</ul>
+<h2 id="next-on-the-roadmap">Next on the roadmap</h2>
+<p>This is <a href="/fabric-field-notes/roadmap/">Capacity and CU, plainly</a> (gov-0-1). Next, see who needs a paid licence on which SKU in <a href="/fabric-field-notes/articles/workspaces-roles-licences/">Workspaces, roles and licences</a>. Then learn to find the item that used the CU in Read the Capacity Metrics app (gov-1-2) and size, reserve and pause with real numbers in Cost control (gov-3-2), both on the <a href="/fabric-field-notes/roadmap/">roadmap</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A brewery's busiest data hour is usually early morning, when the overnight fermentation readings land and the production meeting opens the same dashboard at once. The nightly load is background work and smooths across the day. The meeting is interactive and smooths over minutes, so ten people refreshing a heavy report at 8 am can tip a small capacity into the 20-second delay stage. Moving the load earlier does nothing for that. Making the report lighter, or starting the meeting from one shared screen, does more than buying the next SKU up.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/licenses">Microsoft Fabric concepts and licences</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/plan-capacity">Plan your capacity size</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/throttling">Understand your Fabric capacity throttling</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/capacity-overage-overview">Capacity overage overview</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/enable-capacity-overage">Enable capacity overage</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/pause-resume">Pause and resume your capacity</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/scale-capacity">Scale your Fabric capacity</a></li>
+<li><a href="https://learn.microsoft.com/azure/cost-management-billing/reservations/fabric-capacity">Save costs with Microsoft Fabric capacity reservations</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/metrics-app-compute-page">Capacity Metrics app compute page</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/fabric-operations">Fabric operations and consumption rates</a></li>
+<li><a href="https://prices.azure.com/api/retail/prices">Azure Retail Prices API</a> (service Microsoft Fabric, queried 11 October 2026)</li>
+<li><a href="https://azure.microsoft.com/pricing/details/microsoft-fabric/">Microsoft Fabric pricing</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-idea-in-one-picture" data-astro-cid-eomsrdgo>The idea in one picture</a></li><li data-astro-cid-eomsrdgo><a href="#a-ten-minute-tour" data-astro-cid-eomsrdgo>A ten-minute tour</a></li><li data-astro-cid-eomsrdgo><a href="#what-people-get-wrong" data-astro-cid-eomsrdgo>What people get wrong</a></li><li data-astro-cid-eomsrdgo><a href="#next-on-the-roadmap" data-astro-cid-eomsrdgo>Next on the roadmap</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-0" data-astro-cid-eomsrdgo>Level 0: Capacity and CU, plainly</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

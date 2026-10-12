@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Real-time platform design: streaming, the lake and alerts together | Fabric Field Notes</title><meta name="description" content="Real-time platform design in Fabric: combine Eventstream, Eventhouse, OneLake and Activator with one copy of the data and known latency."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/real-time-platform-design/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Real-time platform design: streaming, the lake and alerts together"><meta property="og:description" content="Real-time platform design in Fabric: combine Eventstream, Eventhouse, OneLake and Activator with one copy of the data and known latency."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/real-time-platform-design/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/real-time-platform-design.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Real-time platform design: streaming, the lake and alerts together</h1> <p class="lede" data-astro-cid-eomsrdgo>A design guide for putting Eventstream, Eventhouse, OneLake and Activator together so operators get seconds, analysts get history and nobody keeps two copies. Includes the latency each hop really adds and the settings that lock you in.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 4</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Real-time" data-astro-cid-eomsrdgo>Real-time</a><a class="pill" href="/fabric-field-notes/articles/?tag=KQL" data-astro-cid-eomsrdgo>KQL</a><a class="pill" href="/fabric-field-notes/articles/?tag=Lakehouse" data-astro-cid-eomsrdgo>Lakehouse</a><a class="pill" href="/fabric-field-notes/articles/?tag=Direct%20Lake" data-astro-cid-eomsrdgo>Direct Lake</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Use Eventstream to land events, an Eventhouse as the hot store, KQL update policies for silver, materialised views for gold, then turn on OneLake availability so Spark, the SQL endpoint and Direct Lake read the same data as Delta without a second copy. Real-Time Dashboards serve operators, Activator turns conditions into actions and Power BI serves everyone else. Send Eventstream straight to a lakehouse only for append-only history with a stable schema, because the lakehouse destination enforces the first record's schema. The design question is never "real-time or batch". It is how fresh each consumer actually needs the data. Then pay for exactly that.</p>
+<h2 id="the-decision">The decision</h2>
+<p>Start from consumers, not from tools. Each one has a freshness need and a natural home.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Consumer</th><th>Freshness they need</th><th>Serve from</th><th>Why</th></tr></thead><tbody><tr><td>An alert that something is wrong now</td><td>Seconds</td><td>Activator on Eventstream or on an Eventhouse query</td><td>Acts before a person looks</td></tr><tr><td>Operations wall screen</td><td>Seconds to a minute</td><td>Real-Time Dashboard on Eventhouse</td><td>KQL over billions of rows in seconds</td></tr><tr><td>Analyst exploring last week</td><td>Minutes</td><td>Eventhouse (KQL) or its OneLake copy via SQL</td><td>Same data, their language</td></tr><tr><td>Monthly report, finance</td><td>Hours</td><td>Direct Lake on the OneLake copy</td><td>No refresh, no extra storage</td></tr><tr><td>Data science training set</td><td>Hours to a day</td><td>Spark on the OneLake copy</td><td>Delta, read in place</td></tr></tbody></table>
+<p>And the landing choice:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Landing pattern</th><th>Good for</th><th>Watch</th></tr></thead><tbody><tr><td>Eventstream to Eventhouse</td><td>Anything operational, changing schemas, high volume</td><td>KQL skills on the team</td></tr><tr><td>Eventstream to Lakehouse</td><td>Append-only history, stable schema</td><td>First record sets the schema; not recommended for CDC-shaped feeds</td></tr><tr><td>Both, fanned out</td><td>Hot alerts plus a cheap long archive</td><td>Two stores to govern; only do it when retention differs</td></tr><tr><td>Spark Structured Streaming</td><td>Teams already fluent in Spark</td><td>You run the job, checkpoints and the small-file problem yourself</td></tr></tbody></table>
+<p>Settings that decide cost and freshness:</p>
+<ul>
+<li><strong>OneLake availability</strong> on an Eventhouse table creates a logical Delta copy at no extra storage cost. The write delay (<code>TargetLatencyInMinutes</code>) defaults to up to 3 hours, or until files of about 200 to 256 MB form. You can set it from 5 minutes to 3 hours. Shorter delays mean small files. The OneLake copy is read-only, so you cannot optimise it later.</li>
+<li>While OneLake availability is on you cannot rename tables, change a column type, apply row level security to the table or delete, truncate or purge data. Turning it off soft-deletes the OneLake copy. Decide the schema before you switch it on.</li>
+<li><strong>Eventstream retention</strong> beyond one day is billed as OneLake storage.</li>
+<li><strong>Activator from a Real-Time Dashboard tile</strong> only works if the tile's KQL uses the dashboard's <code>_startTime</code> and <code>_endTime</code> parameters. A custom time range disables <strong>Set alert</strong>.</li>
+</ul>
+<h2 id="reference-design">Reference design</h2>
+<p>Harbour Goods, the fictional retailer used across this site, runs cold-store warehouses. Each sensor sends <code>sensor_readings</code> (warehouse_id, sensor_id, reading_time, temperature_c, humidity_pct) every 30 seconds. Ops wants an alert when a cold room drifts. Finance wants monthly spoilage risk next to <code>deliveries</code>.</p>
+<p><a href="/fabric-field-notes/diagrams/real-time-cold-chain.svg" class="diagram"><picture><source media="(max-width: 40rem)" srcset="/fabric-field-notes/diagrams/real-time-cold-chain-m.svg"><img src="/fabric-field-notes/diagrams/real-time-cold-chain.svg" alt="Architecture: sensor readings flow through Azure Event Hubs and Eventstream. Activator alerts on cold-room breaches; the Eventhouse shapes bronze, silver and gold for a dashboard and, via OneLake, a monthly spoilage report." width="1200" height="603" loading="lazy" decoding="async"></picture></a></p>
+<p>Three choices are deliberate. The alert reads from Eventstream, not from the OneLake copy, so it is not waiting on a 60-minute write delay. Bronze keeps 30 days because nobody debugs a parser older than that. Silver keeps 13 months so a year-on-year comparison always has its base month.</p>
+<p>The latency budget, end to end:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Hop</th><th>Typical delay</th><th>Controlled by</th></tr></thead><tbody><tr><td>Sensor to Eventstream</td><td>Seconds</td><td>Source and network</td></tr><tr><td>Eventstream to Eventhouse</td><td>Seconds</td><td>Ingestion batching policy</td></tr><tr><td>Bronze to silver to gold</td><td>Seconds after ingestion</td><td>Update policy, materialised view</td></tr><tr><td>Eventhouse to OneLake Delta</td><td>5 minutes to 3 hours</td><td><code>TargetLatencyInMinutes</code></td></tr><tr><td>OneLake to Direct Lake report</td><td>Seconds after a commit</td><td>Automatic Direct Lake updates</td></tr></tbody></table>
+<h2 id="questions-to-ask-the-client">Questions to ask the client</h2>
+<ol>
+<li>Who acts on this data and how fast do they need to? Name a person and a minute count, not "real time".</li>
+<li>What is the action? An email nobody reads at 2am is not an action. Who picks up the phone?</li>
+<li>Does the source schema change? CDC feeds and evolving device payloads rule out the direct lakehouse destination.</li>
+<li>How long must raw events be kept? For whom? Retention per layer drives cost more than ingestion does.</li>
+<li>Will the OneLake copy need row level security? It cannot be applied on the Eventhouse table while availability is on, so secure it in the semantic model or with OneLake security instead.</li>
+<li>Is there an existing Kafka or Event Hubs estate? Eventstream connects to both, so do not rebuild the producer side.</li>
+<li>Who on the team writes KQL today? If nobody, plan the training before the go-live.</li>
+</ol>
+<h2 id="review-checklist">Review checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Every consumer has a freshness number and a serving layer from the first table.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Alerts read from the hottest layer that holds the signal, not from the OneLake copy.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Retention set per table, with a reason written next to each.</li>
+<li class="task-list-item"><input type="checkbox" disabled> <code>TargetLatencyInMinutes</code> chosen against the slowest consumer that reads the Delta copy, not the fastest.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Schema settled before OneLake availability is switched on.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Activator rules have a named owner and a tested action.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Dashboard tiles that feed alerts use <code>_startTime</code> and <code>_endTime</code>.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Capacity Metrics checked after a week; Eventhouse always-on compute is the usual surprise.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns</h2>
+<ul>
+<li><strong>Real time everywhere.</strong> Five-minute OneLake latency on a table read once a month buys small files and nothing else.</li>
+<li><strong>Alerting off the lake.</strong> An alert built on a Direct Lake report inherits the slowest hop. The cold room has warmed for an hour before anyone hears.</li>
+<li><strong>Two copies of the same stream.</strong> Eventstream into both an Eventhouse and a lakehouse with the same retention is double storage with no benefit. OneLake availability already gives the Delta copy.</li>
+<li><strong>Lakehouse destination for CDC.</strong> The first record fixes the schema. The first new column breaks the feed.</li>
+<li><strong>Alerts with no owner.</strong> A rule that fires into a shared mailbox trains everyone to ignore it within a fortnight.</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>For the hands-on version of this pattern start with <a href="/fabric-field-notes/articles/stream-cold-store-temperature-alert/">Stream a cold-store temperature alert</a>, then <a href="/fabric-field-notes/articles/update-policies-materialised-views/">Update policies and materialised views</a> for the bronze to gold layers. The question page behind this guide is <a href="/fabric-field-notes/questions/b13/">B13</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>Fermentation is the brewery version of the cold room. Each fermenter at Brewery A reports temperature every minute. A lager that drifts two degrees warm for a few hours can pick up off-flavours the brewer will taste a fortnight later. The alert belongs on the stream: FV-03 above its set point for 20 minutes pages the shift brewer. The OneLake copy can lag by an hour, because the people reading it are comparing this month's fermentation curves with last year's, not saving tonight's batch.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/real-time-intelligence/event-streams/add-manage-eventstream-destinations">Add and manage Eventstream destinations</a></li>
+<li><a href="https://learn.microsoft.com/fabric/real-time-intelligence/event-streams/add-destination-lakehouse">Add a lakehouse destination to an eventstream</a></li>
+<li><a href="https://learn.microsoft.com/fabric/real-time-intelligence/event-house-onelake-availability">Turn on OneLake availability for an eventhouse</a></li>
+<li><a href="https://learn.microsoft.com/fabric/real-time-intelligence/architecture-medallion">Implement medallion architecture in Real-Time Intelligence</a></li>
+<li><a href="https://learn.microsoft.com/fabric/real-time-intelligence/data-activator/ingestion/ingestion-realtime-dashboards">Ingestion from Real-Time Dashboards (Activator)</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-engineering/load-data-lakehouse">Options to get data into the lakehouse</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-decision" data-astro-cid-eomsrdgo>The decision</a></li><li data-astro-cid-eomsrdgo><a href="#reference-design" data-astro-cid-eomsrdgo>Reference design</a></li><li data-astro-cid-eomsrdgo><a href="#questions-to-ask-the-client" data-astro-cid-eomsrdgo>Questions to ask the client</a></li><li data-astro-cid-eomsrdgo><a href="#review-checklist" data-astro-cid-eomsrdgo>Review checklist</a></li><li data-astro-cid-eomsrdgo><a href="#anti-patterns" data-astro-cid-eomsrdgo>Anti-patterns</a></li><li data-astro-cid-eomsrdgo><a href="#next" data-astro-cid-eomsrdgo>Next</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-4" data-astro-cid-eomsrdgo>Level 4: Real-time platform design</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

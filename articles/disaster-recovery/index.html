@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Disaster recovery in Fabric: what fails over and what you must back up | Fabric Field Notes</title><meta name="description" content="Disaster recovery in Microsoft Fabric: what fails over, what OneLake replicates only if you switch it on and the backups people forget."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/disaster-recovery/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Disaster recovery in Fabric: what fails over and what you must back up"><meta property="og:description" content="Disaster recovery in Microsoft Fabric: what fails over, what OneLake replicates only if you switch it on and the backups people forget."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/disaster-recovery/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/disaster-recovery.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Disaster recovery in Fabric: what fails over and what you must back up</h1> <p class="lede" data-astro-cid-eomsrdgo>Fabric copes with a failed datacentre on its own. A lost region is different: OneLake data is replicated only if you switch it on. Most code and configuration is not replicated at all. Here is the item-by-item map, a tiered design and the backups people forget.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 4</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a><a class="pill" href="/fabric-field-notes/articles/?tag=Capacity" data-astro-cid-eomsrdgo>Capacity</a><a class="pill" href="/fabric-field-notes/articles/?tag=CI%2FCD" data-astro-cid-eomsrdgo>CI/CD</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Fabric spreads itself across availability zones without any set-up, so a failed datacentre usually costs you a retried Spark job or a rerun query. A lost region is your problem as much as Microsoft's.</p>
+<ul>
+<li><strong>Data in OneLake</strong> (lakehouse and warehouse) is copied to the Azure paired region only if a capacity admin turns on the capacity's disaster recovery switch. The copy is asynchronous, so whatever had not replicated when the region went down is gone.</li>
+<li><strong>Power BI</strong> semantic models, reports and dashboards have disaster recovery by default and stay readable after failover. Refreshes and publishing stop.</li>
+<li><strong>Almost everything else is not replicated</strong>: notebook code, pipelines, Dataflow Gen2, Eventstream and Activator definitions, KQL databases, SQL database in Fabric, mirrored database settings, ML experiments and Fabric Apps. You rebuild those from Git, exported files or a second copy you kept running elsewhere.</li>
+</ul>
+<p>After a failover the portal is read only. Lakehouses and warehouses cannot be opened, though their files are readable through the OneLake APIs. Recovery means a new capacity in a working region, new workspaces with the same item names, a copy of the data and a redeploy from source control.</p>
+<p>And disaster recovery is not backup. A bad overnight load replicates perfectly. Accidental deletes and bad loads need soft delete, Delta time travel and warehouse restore points instead.</p>
+<h2 id="the-decision">The decision</h2>
+<p>Start with what each item does in a regional failure. This is the table to put in front of the client.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Item</th><th>Replicated with the DR switch on?</th><th>After failover</th><th>What you must do beforehand</th></tr></thead><tbody><tr><td>Lakehouse tables and files</td><td>Yes, OneLake data</td><td>Item will not open; files readable through OneLake APIs</td><td>Turn on DR. Keep the copy script from Learn's recovery guide ready</td></tr><tr><td>Warehouse data</td><td>Yes, OneLake data</td><td>Item will not open</td><td>Keep schema, views and procedures in Git; reload through an interim lakehouse</td></tr><tr><td>Semantic models, reports, dashboards</td><td>Yes, Power BI BCDR is always on</td><td>Read only; no refresh, no publish</td><td>Keep models and reports as PBIP in Git</td></tr><tr><td>Notebooks</td><td>No</td><td>Code is not saved</td><td>Git integration</td></tr><tr><td>Spark job definitions</td><td>Code files are in OneLake</td><td>Will not open; code readable through OneLake</td><td>Git integration</td></tr><tr><td>Pipelines, copy jobs</td><td>No</td><td>Will not open</td><td>Git integration; recreate connections</td></tr><tr><td>Dataflow Gen2</td><td>No</td><td>Will not open</td><td>Export a <code>.pqt</code> template to source control, or Git</td></tr><tr><td>Eventstream</td><td>No</td><td>Will not open</td><td>Point destinations at items you protect, or run active/active in two regions</td></tr><tr><td>KQL database and queryset</td><td>No, data is stored outside OneLake</td><td>Not accessible</td><td>Run a second Eventhouse in another region and ingest into both</td></tr><tr><td>Activator</td><td>No</td><td>Not covered by failover</td><td>Git integration for trigger definitions</td></tr><tr><td>SQL database in Fabric</td><td>Use exports</td><td>Not accessible</td><td>Regular <code>.bacpac</code> export with SqlPackage to storage in another region</td></tr><tr><td>Mirrored database</td><td>Settings are not replicated</td><td>Not accessible</td><td>Recreate the mirror in the new region</td></tr><tr><td>ML models and experiments</td><td>No</td><td>Code and run metrics lost</td><td>Keep training code in Git</td></tr><tr><td>Fabric Apps</td><td>No</td><td>App unavailable</td><td>App source in Git; redeploy with <code>rayfin up</code> and restore its SQL database</td></tr></tbody></table>
+<p>Then decide per capacity:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Choice</th><th>Fits when</th><th>Costs you</th><th>Watch</th></tr></thead><tbody><tr><td>DR switch off, rebuild from source</td><td>Data can be reloaded from systems of record within the agreed outage</td><td>Nothing extra; recovery takes longer</td><td>Only true if the sources still hold the history</td></tr><tr><td>DR switch on</td><td>Gold data is expensive or impossible to rebuild</td><td>BCDR storage and BCDR operations, shown as separate lines in the Capacity Metrics app</td><td>After a change the switch is locked for 30 days</td></tr><tr><td>Active/active in two regions</td><td>Near-zero recovery time for streams and KQL</td><td>Two of everything, double ingestion</td><td>The most complex and costly option on Learn's own list</td></tr></tbody></table>
+<p>Three facts change the conversation with a client. Microsoft declares the failover, not you. It typically completes in under an hour. Replication works only where the home region and capacity region have an Azure pair that runs Fabric. And if the tenant home region itself is down, recovery waits for Microsoft to restore it first.</p>
+<h2 id="reference-design">Reference design</h2>
+<p>Harbour Goods tiers its estate by how painful each data product is to lose.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Tier 1: rebuild would take days or lose history</span></span>
+<span class="line"><span>  sales-orders-prod, sc-deliveries-prod     capacity PROD-1, DR switch ON</span></span>
+<span class="line"><span>  sc-coldstore-prod (Eventhouse)            second Eventhouse in another region,</span></span>
+<span class="line"><span>                                            Eventstream writes to both</span></span>
+<span class="line"><span>  claims app (Fabric App + SQL database)    nightly .bacpac to storage in</span></span>
+<span class="line"><span>                                            another region</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Tier 2: rebuild from source in a day</span></span>
+<span class="line"><span>  sales-reporting-prod, fin-margin-prod     capacity PROD-2, DR switch OFF</span></span>
+<span class="line"><span>                                            models and reports as PBIP in Git</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>All tiers</span></span>
+<span class="line"><span>  every prod workspace connected to Git</span></span>
+<span class="line"><span>  connections, gateways and secrets listed in the runbook</span></span></code></pre>
+<p>The recovery runbook, in Learn's order:</p>
+<ol>
+<li>Create a new capacity in a working region. Learn suggests a region outside the primary geography, because demand spikes during a regional event.</li>
+<li>Create workspaces on it, with the same names if scripts depend on them.</li>
+<li>Create items with the same names as the originals. The lakehouse copy scripts assume this.</li>
+<li>Copy lakehouse tables one table at a time and files in one pass, from the old OneLake paths to the new lakehouse.</li>
+<li>Reload warehouses from an interim lakehouse with <code>INSERT INTO</code>, <code>SELECT INTO</code> or <code>CREATE TABLE AS SELECT</code>.</li>
+<li>Connect the new workspaces to Git and sync notebooks, pipelines, Activator rules and models.</li>
+<li>Import the latest <code>.bacpac</code>, recreate mirrors, redeploy apps and rebind connections.</li>
+</ol>
+<p>Disaster recovery covers a lost region. The everyday losses need different tools:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>What went wrong</th><th>Tool</th><th>Window</th></tr></thead><tbody><tr><td>Someone deleted files in OneLake</td><td>OneLake soft delete</td><td>7 days</td></tr><tr><td>Someone deleted an item</td><td>Item recovery, on by default</td><td>3 days by default, up to 90</td></tr><tr><td>Someone deleted a workspace</td><td>Workspace retention</td><td>7 days by default, up to 90</td></tr><tr><td>A bad load overwrote a lakehouse table</td><td>Delta time travel and <code>RESTORE TABLE</code></td><td>Until <code>VACUUM</code> removes the old files</td></tr><tr><td>A bad release broke a warehouse</td><td>Restore point, restored in place</td><td>System point every 8 hours; 30-day default retention, 1 to 120 days</td></tr></tbody></table>
+<h2 id="questions-to-ask-the-client">Questions to ask the client</h2>
+<ul>
+<li>For each data product, how long can it be down and how much recent data can it lose? Get two numbers, not "as little as possible".</li>
+<li>Which data can be reloaded from the source system? Does the source still hold the full history?</li>
+<li>What is the tenant home region? Does it have an Azure pair that runs Fabric?</li>
+<li>Are any KQL databases, SQL databases or mirrored databases in production? None of them is covered by the switch.</li>
+<li>Is every production workspace connected to Git today? If not, which ones hold the only copy of their code?</li>
+<li>Which gateways, connections and secrets would have to be recreated? Who knows the credentials?</li>
+<li>Who holds the capacity admin role? Are they reachable at 3 in the morning?</li>
+<li>When was recovery last rehearsed?</li>
+</ul>
+<h2 id="review-checklist">Review checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Each production capacity has a recorded decision on the DR switch, with the reason.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Every production workspace is in Git, including notebooks, pipelines, Activator rules and semantic models.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Data outside OneLake (KQL, SQL database, shortcut targets in your own storage) has its own protection.</li>
+<li class="task-list-item"><input type="checkbox" disabled> SQL database exports run on a schedule and land in a different region.</li>
+<li class="task-list-item"><input type="checkbox" disabled> A user restore point is created before every warehouse release.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Soft delete, item recovery and workspace retention periods are set on purpose, not left at defaults by accident.</li>
+<li class="task-list-item"><input type="checkbox" disabled> The runbook names the recovery region and lists every connection to recreate.</li>
+<li class="task-list-item"><input type="checkbox" disabled> BCDR storage and operations are visible in the Capacity Metrics app and in the budget.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Recovery has been rehearsed into a test capacity at least once.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns</h2>
+<ul>
+<li><strong>Treating the DR switch as a backup.</strong> It copies your mistakes too. Corrupt data in the primary becomes corrupt data in the secondary as soon as it replicates.</li>
+<li><strong>Code that only exists in the workspace.</strong> Notebook code is not saved after a regional disaster. If Git is not connected, the notebook is gone.</li>
+<li><strong>Assuming streaming data is covered.</strong> KQL database data lives outside OneLake. The switch does nothing for it.</li>
+<li><strong>Flipping the switch on and off to save money.</strong> Each change locks it for 30 days. The first replication can take a long time in busy regions.</li>
+<li><strong>Forgetting the app.</strong> Fabric Apps are not replicated. Without the source code in a repository, there is nothing to redeploy.</li>
+<li><strong>A runbook nobody has run.</strong> Item names, connection strings and gateway credentials all surface as surprises on the day.</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>This is <a href="/fabric-field-notes/roadmap/">Disaster recovery</a> (gov-4-3). Region choices come from <a href="/fabric-field-notes/articles/network-isolation-and-residency/">Network isolation and residency</a> (gov-4-2). Git is the backbone of every rebuild above, so read <a href="/fabric-field-notes/articles/git-deployment-pipelines-dev-to-prod/">Dev to prod without fear</a> (gov-2-1) if it is not in place. The app half of the story is in <a href="/fabric-field-notes/articles/fabric-as-application-backend/">Fabric as an application backend</a> (apps-4-1).</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A winery takes in grapes for a few weeks a year. Every truck crossing the weighbridge becomes a record: grower, block, tonnes and sugar level. Those intake records decide what each grower is paid and which tank the fruit went into. The vintage happens once. If they sit in a lakehouse, the DR switch protects them. If the weighbridge feed lands in a KQL database for live dashboards, the switch does not, so the same events should also land in a lakehouse or a second Eventhouse elsewhere. You can re-run a report next week. You cannot re-run a harvest.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/security/reliability-fabric">Reliability in Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/experience-specific-guidance">Experience-specific disaster recovery guidance</a></li>
+<li><a href="https://learn.microsoft.com/fabric/onelake/onelake-disaster-recovery">Disaster recovery and data protection for OneLake</a></li>
+<li><a href="https://learn.microsoft.com/fabric/onelake/soft-delete">Recover deleted files in OneLake</a></li>
+<li><a href="https://learn.microsoft.com/fabric/admin/retention-recovery">Retention and recovery in Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-warehouse/restore-in-place">Restore in-place of a warehouse in Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-warehouse/data-retention">Data retention in Fabric Data Warehouse</a></li>
+<li><a href="https://learn.microsoft.com/fabric/admin/find-fabric-home-region">Find your Fabric home region</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-decision" data-astro-cid-eomsrdgo>The decision</a></li><li data-astro-cid-eomsrdgo><a href="#reference-design" data-astro-cid-eomsrdgo>Reference design</a></li><li data-astro-cid-eomsrdgo><a href="#questions-to-ask-the-client" data-astro-cid-eomsrdgo>Questions to ask the client</a></li><li data-astro-cid-eomsrdgo><a href="#review-checklist" data-astro-cid-eomsrdgo>Review checklist</a></li><li data-astro-cid-eomsrdgo><a href="#anti-patterns" data-astro-cid-eomsrdgo>Anti-patterns</a></li><li data-astro-cid-eomsrdgo><a href="#next" data-astro-cid-eomsrdgo>Next</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-4" data-astro-cid-eomsrdgo>Level 4: Disaster recovery</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

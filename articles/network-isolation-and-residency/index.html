@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Network isolation and residency: private links, VNets and Multi-Geo | Fabric Field Notes</title><meta name="description" content="Fabric network isolation and data residency: private links, managed VNets and Multi-Geo. Plus what each one quietly stops from working."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/network-isolation-and-residency/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Network isolation and residency: private links, VNets and Multi-Geo"><meta property="og:description" content="Fabric network isolation and data residency: private links, managed VNets and Multi-Geo. Plus what each one quietly stops from working."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/network-isolation-and-residency/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/network-isolation-and-residency.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Network isolation and residency: private links, VNets and Multi-Geo</h1> <p class="lede" data-astro-cid-eomsrdgo>Three separate questions hide inside &#39;lock Fabric down&#39;: who can reach Fabric, what Fabric can reach and where the data sits. Each has its own tool, its own status on Microsoft Learn and its own list of things that quietly stop working.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 4</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Security" data-astro-cid-eomsrdgo>Security</a><a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a><a class="pill" href="/fabric-field-notes/articles/?tag=Capacity" data-astro-cid-eomsrdgo>Capacity</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Split the request before you design anything.</p>
+<ul>
+<li><strong>Inbound: who can reach Fabric.</strong> Start with Microsoft Entra Conditional Access, which answers most "corporate network only" requests without private networking. For one sensitive workspace, use a workspace-level private link and deny public access to that workspace. Only when policy says nothing may be reachable from the internet, turn on tenant-level Private Link and then <strong>Block Public Internet Access</strong>.</li>
+<li><strong>Outbound: what Fabric can reach.</strong> Private endpoints protect traffic coming in, not going out. For firewalled sources use managed private endpoints (Spark), trusted workspace access (firewalled Azure Storage) or a virtual network data gateway. Then switch on workspace outbound access protection so nothing else leaves.</li>
+<li><strong>Residency: where the data lives.</strong> Each capacity sits in one Azure region and its workspaces' compute and OneLake data stay there. A capacity outside the tenant home region is Multi-Geo. Some metadata always stays in the home region, whatever you do.</li>
+</ul>
+<p>Every switch in this list breaks something. Read the limitations before you flip it, not after.</p>
+<h2 id="the-decision">The decision</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Control</th><th>Scope</th><th>Status on Learn, October 2026</th><th>Needs</th><th>What it breaks</th></tr></thead><tbody><tr><td>Entra Conditional Access</td><td>Sign-in to the tenant</td><td>Generally available</td><td>Entra licensing that includes Conditional Access</td><td>Very little. It does not change the network path</td></tr><tr><td>Tenant-level Private Link plus Block Public Internet Access</td><td>Whole tenant</td><td>Not labelled preview</td><td>Private endpoint and private DNS in Azure. Trial capacity does not work</td><td>Publish to web, PDF and PowerPoint export, email subscriptions, on-premises data gateway, the Capacity Metrics app, Copilot, the OneLake catalog Govern tab</td></tr><tr><td>Workspace-level private link, deny public access</td><td>One workspace</td><td>Generally available for most listed items; SQL database support is preview</td><td>F SKU only, not P SKU or trial</td><td>Power BI semantic models cannot live in the workspace. Deployment pipelines cannot connect to it. Item sharing stops working</td></tr><tr><td>Workspace IP firewall rules</td><td>One workspace</td><td>Preview (the tenant switch is labelled preview)</td><td>A tenant admin enables the setting</td><td>Allows named IP ranges in even when tenant public access is blocked</td></tr><tr><td>Workspace outbound access protection</td><td>Outbound connections from one workspace</td><td>Learn is inconsistent: the overview carries no preview label, the CI/CD network security page still calls it preview. Per-item status is on the security feature availability page</td><td>F SKU, not trial</td><td>Power BI items other than semantic models cannot exist in the workspace. Not compatible with external data sharing. Fabric Apps does not support it</td></tr><tr><td>Managed private endpoints</td><td>Spark and lakehouse outbound, Eventstream (preview)</td><td>Generally available for Data Engineering</td><td>Any Fabric capacity, including trial</td><td>Starter pools switch off, so Spark sessions take about 3 to 5 minutes to start</td></tr><tr><td>Trusted workspace access</td><td>Firewalled ADLS Gen2 or Blob Storage</td><td>Generally available</td><td>Workspace identity, purchased F SKU, a resource instance rule on the storage account</td><td>Shortcuts, pipelines, COPY and import models only. Spark cannot use it</td></tr><tr><td>Multi-Geo</td><td>Where one capacity's data lives</td><td>Generally available</td><td>A capacity created in another region</td><td>Workspaces holding non-Power BI Fabric items cannot move between regions</td></tr></tbody></table>
+<p>Two interactions decide most designs. A workspace that restricts inbound access can no longer be reached through the tenant-level private link: it needs its own. And once a managed virtual network exists for a workspace, it cannot migrate to a capacity in a different region.</p>
+<h2 id="reference-design">Reference design</h2>
+<p>Harbour Goods has its tenant home region in India, where the first person signed up. Most work is open behind Conditional Access. One finance workspace holds supplier payments and must not be reachable from the internet. A new European subsidiary must keep its order data in the EU.</p>
+<p><a href="/fabric-field-notes/diagrams/network-isolation.svg" class="diagram"><picture><source media="(max-width: 40rem)" srcset="/fabric-field-notes/diagrams/network-isolation-m.svg"><img src="/fabric-field-notes/diagrams/network-isolation.svg" alt="Architecture: only fin-payments-prod is private, reached by private endpoint and reaching sources through an outbound allow list. eu-orders-prod runs on an EU capacity, but metadata stays in the India home region." width="1200" height="527" loading="lazy" decoding="async"></picture></a></p>
+<p>Design notes:</p>
+<ol>
+<li><strong>Payments workspace.</strong> Workspace-level private link with public access denied. Outbound access protection on, with one managed private endpoint to the ERP database and a data connection rule for the storage account the pipeline uses. The Fabric portal cannot set data connection rules while private links are on, so use the Outbound Gateway Rules REST API. It cannot join a deployment pipeline, so promote it with Git and scripts.</li>
+<li><strong>Reporting for payments.</strong> Semantic models are not supported in a workspace with a workspace-level private link. Plan a separate reporting workspace and prove the connection path to the locked workspace in a test before promising it. Learn does not spell out every cross-workspace path.</li>
+<li><strong>EU orders.</strong> A capacity in an EU region keeps compute and OneLake data for <code>eu-orders-prod</code> in that region. The permissions and report metadata still live in India. If the regulator's wording covers metadata, Multi-Geo alone does not meet it. Tell the client before the contract does.</li>
+<li><strong>Region moves.</strong> When data moves region, the source copy can stay in the old region, inaccessible, for up to 30 days. Large storage format semantic models must not be moved at all. Deploy them fresh instead.</li>
+</ol>
+<h2 id="questions-to-ask-the-client">Questions to ask the client</h2>
+<ul>
+<li>Is the requirement "only from our network" or "no public endpoint exists"? The first is Conditional Access. The second is Private Link.</li>
+<li>Which regulation, which data and what exact wording? Does it mention metadata, backups or support access?</li>
+<li>Where is the tenant home region today? (Open the Help pane, select the <strong>About</strong> link and read the value next to <strong>Your data is stored in</strong>.)</li>
+<li>Which sources sit behind firewalls? Are any on premises? Tenant Private Link stops the on-premises data gateway registering; the virtual network data gateway works.</li>
+<li>Who uses Publish to web, email subscriptions, PDF export or Copilot today? Those users lose features under tenant Private Link.</li>
+<li>Is any workspace that needs locking already in a deployment pipeline, or does it hold semantic models?</li>
+<li>Will the sensitive workspaces run on trial capacity during the pilot? Workspace private links and outbound protection need an F SKU.</li>
+<li>Will anyone share data with another tenant? Private Link and outbound protection both block that path.</li>
+</ul>
+<h2 id="review-checklist">Review checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> The ask has been written down as inbound, outbound and residency, with one owner each.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Conditional Access is in place before any private networking work starts.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Every locked workspace is on an F SKU and is not in a deployment pipeline.</li>
+<li class="task-list-item"><input type="checkbox" disabled> No semantic models were planned inside a workspace with a workspace-level private link.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Outbound access protection has an allow list: managed private endpoints or data connection rules for every real source.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Spark users know starter pools are gone in a managed virtual network and sessions start slower.</li>
+<li class="task-list-item"><input type="checkbox" disabled> The Private Link limitations page was read end to end and every lost feature has a named user who accepted it.</li>
+<li class="task-list-item"><input type="checkbox" disabled> New capacities were given 24 hours for private DNS before anyone expects private access.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Capacity regions are on an approved list and the home region limits are written into the residency statement.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Copilot and AI cross-geo tenant settings are off unless residency allows them.</li>
+<li class="task-list-item"><input type="checkbox" disabled> The <strong>Workspaces - List Networking Communication Policies</strong> admin API is run on a schedule to audit which workspaces are locked.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns</h2>
+<ul>
+<li><strong>Block Public Internet Access on a Friday afternoon.</strong> It takes 10 to 20 minutes to apply and turns off features nobody listed. Test on a separate tenant or start with one workspace.</li>
+<li><strong>Thinking a private endpoint secures outbound traffic.</strong> It only protects connections into Fabric. Outbound needs managed private endpoints, trusted workspace access, gateways and outbound access protection.</li>
+<li><strong>Locking the workspace that holds the reports.</strong> Semantic models are not supported there, so the lock cannot be turned on until they move out.</li>
+<li><strong>Promising residency with Multi-Geo alone.</strong> Tenant metadata stays in the home region. Some features, such as screenshots and data alerts, process data there too.</li>
+<li><strong>Moving a lakehouse workspace to another region.</strong> Workspaces with non-Power BI Fabric items cannot move region. Plan the region at creation.</li>
+<li><strong>Piloting on trial.</strong> Private links and outbound protection do not work on trial capacity, so the pilot proves nothing about production.</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>This is <a href="/fabric-field-notes/roadmap/">Network isolation and residency</a> (gov-4-2). Region choices feed straight into <a href="/fabric-field-notes/articles/disaster-recovery/">Disaster recovery</a> (gov-4-3), because paired regions decide where data is replicated. The workspace layout these controls attach to is in <a href="/fabric-field-notes/articles/domains-and-data-mesh/">Domains and data mesh</a> (gov-4-1). Day-one tenant settings are covered in <a href="/fabric-field-notes/articles/day-one-tenant-hardening/">Day-one tenant hardening</a> (gov-3-3).</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A distillery keeps a bonded warehouse ledger: every cask filled, moved and released, with the litres of pure alcohol on each line, which the excise officer can ask to see at any time. That ledger is the one workspace worth locking behind a workspace-level private link with outbound protection, reachable only from the site network. The production dashboards the stillhouse team checks on their phones stay open behind Conditional Access. One locked room, not a locked building, is usually what the regulator meant.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/security/security-private-links-overview">Private links for Fabric tenants</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/security-workspace-level-private-links-overview">Workspace-level private links in Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/security-workspace-level-private-links-support">Supported scenarios and limitations for workspace-level private links</a></li>
+<li><a href="https://learn.microsoft.com/fabric/admin/service-admin-portal-advanced-networking">Overview of advanced networking settings</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/workspace-outbound-access-protection-overview">Workspace outbound access protection</a></li>
+<li><a href="https://learn.microsoft.com/fabric/cicd/cicd-security">Network security for continuous integration/continuous deployment</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/security-managed-vnets-fabric-overview">What are managed virtual networks?</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/security-managed-private-endpoints-overview">Overview of managed private endpoints for Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/security-trusted-workspace-access">Trusted workspace access</a></li>
+<li><a href="https://learn.microsoft.com/fabric/admin/service-admin-premium-multi-geo">Configure Multi-Geo support for Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/security-feature-availability">Security feature availability in Microsoft Fabric</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-decision" data-astro-cid-eomsrdgo>The decision</a></li><li data-astro-cid-eomsrdgo><a href="#reference-design" data-astro-cid-eomsrdgo>Reference design</a></li><li data-astro-cid-eomsrdgo><a href="#questions-to-ask-the-client" data-astro-cid-eomsrdgo>Questions to ask the client</a></li><li data-astro-cid-eomsrdgo><a href="#review-checklist" data-astro-cid-eomsrdgo>Review checklist</a></li><li data-astro-cid-eomsrdgo><a href="#anti-patterns" data-astro-cid-eomsrdgo>Anti-patterns</a></li><li data-astro-cid-eomsrdgo><a href="#next" data-astro-cid-eomsrdgo>Next</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-4" data-astro-cid-eomsrdgo>Level 4: Network isolation and residency</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI-ready semantic models: prepare a model so Copilot answers correctly | Fabric Field Notes</title><meta name="description" content="Prepare a Direct Lake semantic model for Copilot in Power BI with clean names, an AI data schema, AI instructions and a verified answer."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/ai-ready-semantic-models/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="AI-ready semantic models: prepare a model so Copilot answers correctly"><meta property="og:description" content="Prepare a Direct Lake semantic model for Copilot in Power BI with clean names, an AI data schema, AI instructions and a verified answer."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/ai-ready-semantic-models/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/ai-ready-semantic-models.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>AI-ready semantic models: prepare a model so Copilot answers correctly</h1> <p class="lede" data-astro-cid-eomsrdgo>Take a working Direct Lake sales model and make it safe for Copilot: clean names and descriptions, a trimmed AI data schema, AI instructions that settle what &#39;margin&#39; means, one verified answer and the Approved for Copilot setting. With six test questions and the answers Copilot should give.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 2</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=AI" data-astro-cid-eomsrdgo>AI</a><a class="pill" href="/fabric-field-notes/articles/?tag=Power%20BI" data-astro-cid-eomsrdgo>Power BI</a><a class="pill" href="/fabric-field-notes/articles/?tag=Direct%20Lake" data-astro-cid-eomsrdgo>Direct Lake</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Copilot in Power BI writes DAX against your model's metadata. If two measures could both be "margin", it will pick one. You will not know which until someone quotes it. Preparing a model for AI means removing that choice: business names, descriptions, hidden plumbing columns, then <strong>Prep data for AI</strong> with an AI data schema, AI instructions and verified answers. Finish by marking the model <strong>Approved for Copilot</strong>. Q&#x26;A must be on for the model or the Prep data for AI tabs stay disabled. For a Direct Lake model, author all of this in the Power BI service, because Desktop supports the feature only for Import, DirectQuery and local composite models. The whole feature set is in preview and the answers stay nondeterministic. Test with fixed questions and known answers.</p>
+<h2 id="what-you-will-build">What you will build</h2>
+<p>The <code>sm_sales_kpis</code> model from <a href="/fabric-field-notes/articles/direct-lake-model-sales-kpis/">Your first Direct Lake model</a> answers dashboards well. Ask Copilot "what is our margin?" and it has two honest options: Gross margin % (35.8 per cent) and Average order margin % (37.6 per cent). A model that is fine for a careful report author is a coin toss for a chat window.</p>
+<p>By the end, the model will have:</p>
+<ul>
+<li>Business names and descriptions on every field Copilot can see.</li>
+<li>An AI data schema that leaves out keys, raw amounts and sort helpers.</li>
+<li>AI instructions that define sales, margin, quarters and stores.</li>
+<li>One verified answer for "margin by category".</li>
+<li>The <strong>Approved for Copilot</strong> flag.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>The <code>sm_sales_kpis</code> model and the sample data <a href="/fabric-field-notes/samples/direct-lake-model-sales-kpis.csv">direct-lake-model-sales-kpis.csv</a>: 66 orders, July to September 2026, rupees.</li>
+<li>Copilot enabled for your tenant and the workspace on a capacity where Copilot is allowed.</li>
+<li>Write permission on the model.</li>
+<li>A region check. Learn lists the standalone Copilot experience as not yet available in Spain Central, Qatar, India-West and Mexico. The report Copilot pane is a separate experience. If your capacity sits in India-West, test in the report pane.</li>
+</ul>
+<h2 id="step-1-fix-the-model-before-touching-the-ai-tooling">Step 1: fix the model before touching the AI tooling</h2>
+<p>Copilot reads names, descriptions and visibility. Fix those first.</p>
+<ol>
+<li>Open the model from the workspace (<strong>...</strong> > <strong>Open semantic model</strong>) and switch to <strong>Editing</strong>.</li>
+<li>Hide fields nobody should ask about: <code>fact_sales[product_key]</code>, <code>dim_product[product_key]</code>, <code>dim_date[month_no]</code>, <code>fact_sales[net_amount]</code> and <code>fact_sales[cost_amount]</code>. The measures already cover the amounts.</li>
+<li>Rename the visible columns that still read like code. <code>fact_sales[store_id]</code> becomes <code>Store</code>, <code>dim_product[product]</code> becomes <code>Product</code>, <code>dim_product[category]</code> becomes <code>Category</code>, <code>dim_date[month]</code> becomes <code>Month</code>. Renaming in the model does not touch the Delta column underneath.</li>
+<li>Select each measure and fill in <strong>Description</strong> in the <strong>Properties</strong> pane:</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Measure</th><th>Description</th></tr></thead><tbody><tr><td>Net sales</td><td>Order value after discount, in Indian rupees, excluding tax.</td></tr><tr><td>Gross margin %</td><td>Net sales minus product cost, divided by net sales, over the whole selection. The standard margin figure.</td></tr><tr><td>Average order margin %</td><td>Simple average of each order's margin. Use only when asked for a per-order average.</td></tr></tbody></table>
+<ol start="5">
+<li>Check for duplicate field names across tables. Two columns called <code>date</code> in different tables is enough to send a question to the wrong one.</li>
+</ol>
+<h2 id="step-2-turn-on-qa">Step 2: turn on Q&#x26;A</h2>
+<ol>
+<li>In the workspace, open <strong>...</strong> on <code>sm_sales_kpis</code> > <strong>Settings</strong>.</li>
+<li>Expand <strong>Q&#x26;A</strong> and switch it on. Select <strong>Apply</strong>.</li>
+</ol>
+<p>The Prep data for AI dialog also offers to switch Q&#x26;A on when it finds it off.</p>
+<h2 id="step-3-simplify-the-data-schema">Step 3: simplify the data schema</h2>
+<ol>
+<li>Open the model page in the service and select <strong>Prep data for AI</strong> on the ribbon.</li>
+<li>Go to <strong>Simplify data schema</strong>.</li>
+<li>Leave ticked: the three measures, <code>Store</code>, <code>Product</code>, <code>Category</code>, <code>Month</code>, <code>dim_date[date]</code>, <code>dim_date[year]</code>, <code>order_id</code> and <code>quantity</code>.</li>
+<li>Untick everything else, including <code>unit_price</code> and <code>discount</code>. A question about discounts is a real question, but it deserves its own measure first, not a raw column Copilot will sum.</li>
+<li>Select <strong>Apply</strong>.</li>
+</ol>
+<h2 id="step-4-write-ai-instructions">Step 4: write AI instructions</h2>
+<p>Go to the <strong>Add AI instructions</strong> tab and paste:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Business context</span></span>
+<span class="line"><span>- Harbour Goods is a retailer with six stores in India. All money is in Indian rupees (INR).</span></span>
+<span class="line"><span>- Data covers orders from 1 July 2026 to 30 September 2026, one row per order.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Metrics</span></span>
+<span class="line"><span>- "Sales", "revenue" or "turnover" without another qualifier means [Net sales].</span></span>
+<span class="line"><span>- "Margin" or "gross margin" means [Gross margin %]. Do not use [Average order margin %]</span></span>
+<span class="line"><span>  unless the user asks for an average per order.</span></span>
+<span class="line"><span>- Report margins to one decimal place as a percentage.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Dates</span></span>
+<span class="line"><span>- Quarters are calendar quarters. Q3 2026 is July to September 2026.</span></span>
+<span class="line"><span>- Use 'dim_date'[date] for all date filtering.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Stores</span></span>
+<span class="line"><span>- Stores are identified by codes such as ST-014. If the user names a city, ask which store</span></span>
+<span class="line"><span>  they mean rather than guessing.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Ambiguity</span></span>
+<span class="line"><span>- If "performance" could mean sales or margin, ask which one the user wants.</span></span></code></pre>
+<p>Select <strong>Apply</strong>. Instructions are limited to 10,000 characters and end users cannot see them. Short and grouped beats long and clever; contradictions between instructions are a common reason Copilot ignores one of them.</p>
+<h2 id="step-5-add-one-verified-answer">Step 5: add one verified answer</h2>
+<p>A verified answer ties trigger phrases to a visual you built and checked. For Direct Lake models these are authored in the service only.</p>
+<ol>
+<li>Create a report on the model with a clustered bar chart: <code>Category</code> on the Y-axis, <code>Gross margin %</code> on the X-axis, sorted ascending. Add <code>Store</code> to the report-level filters and leave it set to all.</li>
+<li>In edit mode, select the visual, open <strong>...</strong> and choose <strong>Set up a verified answer</strong>.</li>
+<li>Add trigger phrases: <code>margin by category</code>, <code>which category has the lowest margin</code>, <code>gross margin per category</code>.</li>
+<li>Under filters, make <code>Store</code> available to users. It qualifies only because it exists on the report and has no value applied.</li>
+<li>Select <strong>Apply</strong> and save the report.</li>
+</ol>
+<p>Limits worth knowing: 250 verified answers per model, 15 trigger phrases each, 10 filter permutations each. Relative date filters such as "last three months" are not supported as verified answer filters.</p>
+<h2 id="step-6-mark-it-approved-for-copilot">Step 6: mark it Approved for Copilot</h2>
+<ol>
+<li>Open the model <strong>Settings</strong> again.</li>
+<li>Expand <strong>Approved for Copilot</strong>, tick the box and select <strong>Apply</strong>.</li>
+</ol>
+<p>This removes the friction treatment the standalone Copilot applies to unapproved models. Changes usually show within an hour and can take up to 24 hours on a model with many reports.</p>
+<h2 id="check-it-worked">Check it worked</h2>
+<p>Open the Copilot pane on the report and ask each question three times in a fresh chat. All expected answers were computed from the 66-row sample.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Question</th><th>Expected answer</th></tr></thead><tbody><tr><td>What were net sales in August 2026?</td><td>162,931.25</td></tr><tr><td>What is our margin?</td><td>35.8% (Gross margin %, not 37.6%)</td></tr><tr><td>What was gross margin in Q3 2026?</td><td>35.8%</td></tr><tr><td>Which category has the lowest margin?</td><td>Electronics, 29.1% (verified answer badge)</td></tr><tr><td>Which store sold the most?</td><td>ST-014, 106,845.15</td></tr><tr><td>How did Pune do?</td><td>A clarifying question about the store</td></tr></tbody></table>
+<p>For every answer, open <strong>How Copilot arrived at this</strong> and check the measure it used. A right number from the wrong measure is a failure that will surface next quarter. If a change does not show, close and reopen the Copilot pane; changes can take a few minutes to apply.</p>
+<h2 id="where-this-breaks">Where this breaks</h2>
+<ul>
+<li><strong>Preview.</strong> Prep data for AI is in preview. Labels move and behaviour changes. Keep the test table and rerun it after every model change.</li>
+<li><strong>Hidden fields break verified answers.</strong> A verified answer that uses a hidden field, or a filter field left out of the AI data schema, is not returned reliably.</li>
+<li><strong>Deployment needs a refresh.</strong> AI instructions and schema live in the model's linguistic schema. After a Git sync or deployment pipeline move, a Direct Lake model must be refreshed in the service for the changes to apply. Learn qualifies that with "only once a day" for Direct Lake models, so expect a delay rather than an instant change.</li>
+<li><strong>Field parameters.</strong> Q&#x26;A and AI visuals do not support field parameters. Pages built on <a href="/fabric-field-notes/articles/calculation-groups-field-parameters/">field parameters</a> give Copilot the visual's current state only.</li>
+<li><strong>RLS still applies, unseen.</strong> Copilot answers within the user's roles. Test as role cannot validate Copilot, so test restricted users by signing in as them.</li>
+<li><strong>Instructions are advice.</strong> The model interprets them. They do not disable features or guarantee a measure choice. Descriptions and a trimmed schema do more of the work.</li>
+</ul>
+<h2 id="next-on-the-roadmap">Next on the roadmap</h2>
+<p>This is AI-ready semantic models (ai-2-1) on the <a href="/fabric-field-notes/roadmap/">roadmap</a>. For the bigger picture of Copilot, agents and AI functions read <a href="/fabric-field-notes/articles/copilot-agents-ai-functions/">Copilot, agents and AI functions</a>. Next on the AI track is data agents in production (ai-3-1), which reuse this exact preparation: a data agent querying a semantic model uses the Prep data for AI configuration, not its own instructions, when it writes DAX. Before certifying the model, read <a href="/fabric-field-notes/articles/labels-endorsement-lineage/">Labels, endorsement and lineage</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A winery's sales model has the same trap with a different word. Ask Copilot for "volume" and it can answer in bottles, nine-litre cases or litres, all of which sit in the model. A winery shipping 12,000 cases a quarter is moving 108,000 litres or 144,000 bottles, three true numbers that look nothing alike. One instruction line ("volume means nine-litre cases unless the user says otherwise") and a description on each measure settle it before the export manager quotes litres to a distributor who buys in cases.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/power-bi/create-reports/copilot-prepare-data-ai">Prepare your data for AI to improve Copilot results</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/create-reports/copilot-prepare-data-ai-data-schema">Prepare your data for AI: AI data schemas</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/create-reports/copilot-prepare-data-ai-instructions">Prepare your data for AI: AI instructions</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/create-reports/copilot-prepare-data-ai-verified-answers">Prepare your data for AI: Verified answers</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/create-reports/tutorial-copilot-power-bi-prepare-model">Copilot in Power BI tutorial: prepare semantic model for AI</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-science/semantic-model-best-practices">Semantic model best practices for data agent</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/connect-data/service-semantic-model-settings-pane">Manage semantic model settings in the settings pane</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/create-reports/power-bi-field-parameters">Use field parameters: limitations</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#what-you-will-build" data-astro-cid-eomsrdgo>What you will build</a></li><li data-astro-cid-eomsrdgo><a href="#before-you-start" data-astro-cid-eomsrdgo>Before you start</a></li><li data-astro-cid-eomsrdgo><a href="#step-1-fix-the-model-before-touching-the-ai-tooling" data-astro-cid-eomsrdgo>Step 1: fix the model before touching the AI tooling</a></li><li data-astro-cid-eomsrdgo><a href="#step-2-turn-on-qa" data-astro-cid-eomsrdgo>Step 2: turn on Q&amp;A</a></li><li data-astro-cid-eomsrdgo><a href="#step-3-simplify-the-data-schema" data-astro-cid-eomsrdgo>Step 3: simplify the data schema</a></li><li data-astro-cid-eomsrdgo><a href="#step-4-write-ai-instructions" data-astro-cid-eomsrdgo>Step 4: write AI instructions</a></li><li data-astro-cid-eomsrdgo><a href="#step-5-add-one-verified-answer" data-astro-cid-eomsrdgo>Step 5: add one verified answer</a></li><li data-astro-cid-eomsrdgo><a href="#step-6-mark-it-approved-for-copilot" data-astro-cid-eomsrdgo>Step 6: mark it Approved for Copilot</a></li><li data-astro-cid-eomsrdgo><a href="#check-it-worked" data-astro-cid-eomsrdgo>Check it worked</a></li><li data-astro-cid-eomsrdgo><a href="#where-this-breaks" data-astro-cid-eomsrdgo>Where this breaks</a></li><li data-astro-cid-eomsrdgo><a href="#next-on-the-roadmap" data-astro-cid-eomsrdgo>Next on the roadmap</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-2" data-astro-cid-eomsrdgo>Level 2: AI-ready semantic models</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

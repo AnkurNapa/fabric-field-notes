@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sharing without regret: items, apps and workspaces | Fabric Field Notes</title><meta name="description" content="Share Fabric reports through items, apps or workspaces with the least access. Row-level security skips Admins, Members and Contributors."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/sharing-without-regret/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Sharing without regret: items, apps and workspaces"><meta property="og:description" content="Share Fabric reports through items, apps or workspaces with the least access. Row-level security skips Admins, Members and Contributors."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/sharing-without-regret/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/sharing-without-regret.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Sharing without regret: items, apps and workspaces</h1> <p class="lede" data-astro-cid-eomsrdgo>Three ways to give someone a report in Fabric, what each one really grants and how to pick the least access that works. Includes the trap that catches most teams: row-level security does nothing for Admins, Members or Contributors.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 1</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a><a class="pill" href="/fabric-field-notes/articles/?tag=Security" data-astro-cid-eomsrdgo>Security</a><a class="pill" href="/fabric-field-notes/articles/?tag=Power%20BI" data-astro-cid-eomsrdgo>Power BI</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Workspace roles are for the people who build. Apps are for the people who read. Direct item sharing is for the odd one-off. Give builders Contributor or Member, give readers an app audience or the Viewer role and keep Admin to two or three named people. Then remember the rule that breaks most security designs: row-level security (RLS) on a semantic model only filters people who can read but not edit it. Admin, Member and Contributor all have edit rights on every semantic model in the workspace, so RLS does not apply to them at all.</p>
+<h2 id="what-you-will-build">What you will build</h2>
+<p>Harbour Goods, a fictional retailer, has a sales report over a small star schema: orders, products, stores and dates. Regional managers should see only their own region. You will:</p>
+<ul>
+<li>Add a static RLS role so the North manager sees only North stores.</li>
+<li>Set workspace roles for the build team.</li>
+<li>Publish an app to the managers.</li>
+<li>Share one report directly with a single person, without letting them reshare it.</li>
+<li>Prove what each person can see.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Who</th><th>Needs</th><th>Gets</th></tr></thead><tbody><tr><td>Report builders</td><td>Edit models and reports</td><td>Contributor role</td></tr><tr><td>Workspace owner</td><td>Manage access, publish the app</td><td>Admin (one or two people)</td></tr><tr><td>Regional managers</td><td>Read the report, filtered</td><td>App audience plus RLS role</td></tr><tr><td>Finance analyst</td><td>One report, once</td><td>Direct share, no Reshare, no Build</td></tr></tbody></table>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>The model and report from <a href="/fabric-field-notes/articles/star-schema-that-behaves/">A star schema that behaves</a>, built on <a href="/fabric-field-notes/samples/star-schema-that-behaves.csv">star-schema-that-behaves.csv</a> (110 synthetic orders, prices in INR). Add one more measure: <code>Orders = COUNTROWS ( orders )</code>.</li>
+<li>A Fabric workspace where you are Admin, for example <code>Harbour Goods Sales</code>.</li>
+<li>Security groups, not individuals, for each audience. A group outlives the person who left in March.</li>
+<li>Licences. Publishing an app needs a Pro licence and the Member role or higher. App readers need Pro or Premium Per User unless the workspace sits on an F64 or larger capacity, where a free licence is enough.</li>
+</ul>
+<h2 id="step-1-define-the-rls-role-in-desktop">Step 1: define the RLS role in Desktop</h2>
+<ol>
+<li>In Power BI Desktop, select <strong>Modeling</strong> > <strong>Manage roles</strong>.</li>
+<li>Select <strong>New</strong> and name the role <code>North</code>.</li>
+<li>Under <strong>Select tables</strong> choose <code>stores</code>. Under <strong>Filter data</strong> set <code>region</code> equals <code>North</code>. In the DAX editor that reads <code>[region] = "North"</code>.</li>
+<li>Save, then select <strong>Modeling</strong> > <strong>View as</strong>, tick <code>North</code> and select <strong>OK</strong>.</li>
+</ol>
+<p>The cards should drop to the North figures. The filter sits on the <code>stores</code> dimension and flows down the one-to-many relationship to <code>orders</code>, which is why the star schema shape matters here too. Select <strong>Stop viewing</strong> when you are done.</p>
+<h2 id="step-2-publish-and-give-the-builders-a-workspace-role">Step 2: publish and give the builders a workspace role</h2>
+<ol>
+<li>Select <strong>Publish</strong> and choose your workspace.</li>
+<li>In the workspace select <strong>Manage access</strong> (on some layouts it sits under the <strong>...</strong> menu), then <strong>Add people or groups</strong>.</li>
+<li>Add the build team group as <strong>Contributor</strong>. Add a second owner as <strong>Admin</strong> so you are not the single point of failure.</li>
+</ol>
+<p>Contributor can create and edit items, run notebooks and read all data in the workspace. It cannot add people or share the workspace. That is the right default for builders. Member adds the ability to share and add other people. Hand it out sparingly.</p>
+<h2 id="step-3-map-the-managers-to-the-role">Step 3: map the managers to the role</h2>
+<ol>
+<li>In the workspace, hover over the semantic model, select <strong>...</strong> > <strong>Security</strong>.</li>
+<li>Select the <code>North</code> role and add the North managers group. Select <strong>Save</strong>.</li>
+<li>Select <strong>...</strong> next to the role, then <strong>Test as role</strong>. The report opens with a <strong>Now viewing as</strong> header showing the role in force.</li>
+</ol>
+<h2 id="step-4-publish-the-app">Step 4: publish the app</h2>
+<ol>
+<li>In the workspace select <strong>Create app</strong>.</li>
+<li>On <strong>Setup</strong>, name it <code>Harbour Goods Sales</code> and add a one-line description.</li>
+<li>On <strong>Content</strong>, select <strong>Add content</strong> and add the report.</li>
+<li>On <strong>Audience</strong>, add the North managers group to an audience. Under the audience's advanced settings, leave the options to share the semantic models and build content switched off.</li>
+<li>Select <strong>Publish app</strong> and copy the link.</li>
+</ol>
+<p>App audiences get read access to the content in the app and to the semantic model behind it, without seeing anything else in the workspace. RLS still applies because they do not have edit rights.</p>
+<h2 id="step-5-share-one-report-narrowly">Step 5: share one report, narrowly</h2>
+<p>For the finance analyst who needs the report once:</p>
+<ol>
+<li>Open the report and select <strong>Share</strong>.</li>
+<li>Choose <strong>Specific people</strong> and enter the name.</li>
+<li>Open the link settings and clear <strong>Reshare</strong> and <strong>Build</strong>. On some layouts the labels read as allowing recipients to share the report and to build content with its data.</li>
+<li>Send the link.</li>
+</ol>
+<p>Reshare lets them pass access on up to the level they hold. Build lets them connect Excel or a new report straight to the model. Neither is needed to read a page.</p>
+<h2 id="check-it-worked">Check it worked</h2>
+<p>Use the measures <code>Net sales</code> and <code>Orders</code> on cards:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Viewer</th><th>How they got access</th><th>Net sales</th><th>Orders</th></tr></thead><tbody><tr><td>You, as owner</td><td>Admin</td><td>995,654.70</td><td>110</td></tr><tr><td><strong>Test as role</strong>: North</td><td>RLS role</td><td>164,567.35</td><td>22</td></tr><tr><td>North manager</td><td>App audience, in <code>North</code></td><td>164,567.35</td><td>22</td></tr><tr><td>North manager also added as Contributor</td><td>Workspace role, in <code>North</code></td><td>995,654.70</td><td>110</td></tr></tbody></table>
+<p>The North figures cover two stores, ST-019 in Delhi and ST-021 in Jaipur.</p>
+<p>The last row is the trap. Someone asks the North manager to "just help with a measure" and adds them to the workspace as Contributor. They are still in the <code>North</code> role. They now see every region, because Contributor carries edit rights on the semantic model and RLS is not enforced for anyone with edit rights. Nothing warns you. Remove the workspace role and the filter returns the next time they sign in.</p>
+<h2 id="where-this-breaks">Where this breaks</h2>
+<ul>
+<li><strong>RLS on editors.</strong> As above. If someone must both edit and be filtered, give them a copy of the model in a separate workspace, not an exception in this one.</li>
+<li><strong>Hidden is not secured.</strong> Content hidden from an app's navigation can still be opened by anyone in the audience who has a direct link. Leave sensitive items out of the app instead of hiding them.</li>
+<li><strong>App access without RLS means all the data.</strong> App readers get read on the semantic model. Without an RLS role, a reader with Build permission can query every row, including tables the report never shows.</li>
+<li><strong>Delays.</strong> Workspace role changes take effect the next time the person signs in. Revoking an item permission can take up to two hours to bite for someone already signed in. Plan incident response around that.</li>
+<li><strong>Data outside the model.</strong> RLS on the semantic model does not stop a Contributor opening the lakehouse behind it. Data-plane security in OneLake and SQL is a separate layer for another article.</li>
+<li><strong>Service principals.</strong> They cannot be added to an RLS role, so an app that queries as a service principal sees everything.</li>
+</ul>
+<h2 id="next-on-the-roadmap">Next on the roadmap</h2>
+<p>This covers <a href="/fabric-field-notes/roadmap/">Sharing without regret</a> (gov-1-1). Next, <a href="/fabric-field-notes/articles/read-capacity-metrics-app/">Read the Capacity Metrics app</a> shows what all those readers cost the capacity. The model used here comes from <a href="/fabric-field-notes/articles/star-schema-that-behaves/">A star schema that behaves</a> and its measures from <a href="/fabric-field-notes/articles/dax-you-use-every-day/">DAX you use every day</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A distillery stores maturing casks in three bonded warehouses, each with its own manager who signs off stock for the excise officer. Build one stock report, add an RLS role per warehouse on the warehouse dimension and publish an app with one audience per manager. Each manager then sees only the casks they are answerable for. The day the production lead asks to add a warehouse manager to the workspace "so they can fix a visual", check the role first: as Contributor, that manager sees every cask on site.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/fundamentals/give-access-workspaces">Give users access to workspaces</a></li>
+<li><a href="https://learn.microsoft.com/fabric/fundamentals/roles-workspaces">Roles in workspaces in Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/collaborate-share/service-roles-new-workspaces">Roles in workspaces in Power BI</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/service-admin-row-level-security">Row-level security (RLS) with Power BI</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/collaborate-share/service-create-distribute-apps">Publish a workspace app in Power BI</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/collaborate-share/service-share-dashboards">Share Power BI reports and dashboards</a></li>
+<li><a href="https://learn.microsoft.com/fabric/fundamentals/share-items">Share items in Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/permission-model">Permission model in Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/guidance/powerbi-implementation-planning-content-distribution-sharing">Content distribution and sharing (implementation planning)</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/create-reports/tutorial-end-to-end-power-bi">End-to-end: from raw data to a shared Power BI app</a></li>
+<li><a href="https://www.sqlbi.com/whitepapers/security-in-tabular-semantic-models/">SQLBI: Security in Tabular semantic models</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#what-you-will-build" data-astro-cid-eomsrdgo>What you will build</a></li><li data-astro-cid-eomsrdgo><a href="#before-you-start" data-astro-cid-eomsrdgo>Before you start</a></li><li data-astro-cid-eomsrdgo><a href="#step-1-define-the-rls-role-in-desktop" data-astro-cid-eomsrdgo>Step 1: define the RLS role in Desktop</a></li><li data-astro-cid-eomsrdgo><a href="#step-2-publish-and-give-the-builders-a-workspace-role" data-astro-cid-eomsrdgo>Step 2: publish and give the builders a workspace role</a></li><li data-astro-cid-eomsrdgo><a href="#step-3-map-the-managers-to-the-role" data-astro-cid-eomsrdgo>Step 3: map the managers to the role</a></li><li data-astro-cid-eomsrdgo><a href="#step-4-publish-the-app" data-astro-cid-eomsrdgo>Step 4: publish the app</a></li><li data-astro-cid-eomsrdgo><a href="#step-5-share-one-report-narrowly" data-astro-cid-eomsrdgo>Step 5: share one report, narrowly</a></li><li data-astro-cid-eomsrdgo><a href="#check-it-worked" data-astro-cid-eomsrdgo>Check it worked</a></li><li data-astro-cid-eomsrdgo><a href="#where-this-breaks" data-astro-cid-eomsrdgo>Where this breaks</a></li><li data-astro-cid-eomsrdgo><a href="#next-on-the-roadmap" data-astro-cid-eomsrdgo>Next on the roadmap</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-1" data-astro-cid-eomsrdgo>Level 1: Sharing without regret</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

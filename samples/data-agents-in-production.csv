@@ -1,0 +1,73 @@
+order_id,order_date,store_id,city,region,product_id,product_name,category,quantity,unit_price,discount,net_amount,cost_amount
+HG-41001,2026-07-05,ST-007,Chennai,South,P-103,Pressure cooker 5 L,Kitchen,4,2499,0,9996.00,6000
+HG-41002,2026-07-06,ST-003,Bengaluru,South,P-105,Bluetooth speaker,Electronics,3,2199,0.05,6267.15,4350
+HG-41003,2026-07-07,ST-011,Mumbai,West,P-108,Insulated cooler box,Outdoor,2,2599,0.1,4678.20,3400
+HG-41004,2026-07-07,ST-003,Bengaluru,South,P-102,Cotton bath towel,Home,3,549,0.05,1564.65,900
+HG-41005,2026-07-08,ST-007,Chennai,South,P-106,Double bedsheet set,Home,1,899,0.05,854.05,520
+HG-41006,2026-07-08,ST-014,Pune,West,P-101,Steel water bottle 750 mL,Kitchen,4,699,0,2796.00,1520
+HG-41007,2026-07-08,ST-019,Delhi,North,P-106,Double bedsheet set,Home,2,899,0.15,1528.30,1040
+HG-41008,2026-07-08,ST-011,Mumbai,West,P-108,Insulated cooler box,Outdoor,3,2599,0.05,7407.15,5100
+HG-41009,2026-07-09,ST-003,Bengaluru,South,P-102,Cotton bath towel,Home,2,549,0.05,1043.10,600
+HG-41010,2026-07-09,ST-022,Kolkata,East,P-102,Cotton bath towel,Home,1,549,0.15,466.65,300
+HG-41011,2026-07-10,ST-022,Kolkata,East,P-105,Bluetooth speaker,Electronics,4,2199,0.1,7916.40,5800
+HG-41012,2026-07-12,ST-022,Kolkata,East,P-108,Insulated cooler box,Outdoor,2,2599,0.15,4418.30,3400
+HG-41013,2026-07-12,ST-014,Pune,West,P-106,Double bedsheet set,Home,1,899,0.05,854.05,520
+HG-41014,2026-07-13,ST-011,Mumbai,West,P-103,Pressure cooker 5 L,Kitchen,3,2499,0,7497.00,4500
+HG-41015,2026-07-13,ST-014,Pune,West,P-101,Steel water bottle 750 mL,Kitchen,1,699,0.05,664.05,380
+HG-41016,2026-07-14,ST-007,Chennai,South,P-104,LED desk lamp,Electronics,2,1299,0.05,2468.10,1640
+HG-41017,2026-07-16,ST-014,Pune,West,P-102,Cotton bath towel,Home,1,549,0.05,521.55,300
+HG-41018,2026-07-16,ST-014,Pune,West,P-109,Garden hose 15 m,Outdoor,2,899,0,1798.00,1120
+HG-41019,2026-07-18,ST-014,Pune,West,P-109,Garden hose 15 m,Outdoor,2,899,0.15,1528.30,1120
+HG-41020,2026-07-19,ST-014,Pune,West,P-106,Double bedsheet set,Home,4,899,0.05,3416.20,2080
+HG-41021,2026-07-20,ST-007,Chennai,South,P-103,Pressure cooker 5 L,Kitchen,1,2499,0,2499.00,1500
+HG-41022,2026-07-24,ST-007,Chennai,South,P-104,LED desk lamp,Electronics,4,1299,0,5196.00,3280
+HG-41023,2026-07-25,ST-003,Bengaluru,South,P-108,Insulated cooler box,Outdoor,3,2599,0,7797.00,5100
+HG-41024,2026-07-27,ST-011,Mumbai,West,P-105,Bluetooth speaker,Electronics,1,2199,0,2199.00,1450
+HG-41025,2026-07-28,ST-014,Pune,West,P-109,Garden hose 15 m,Outdoor,2,899,0.1,1618.20,1120
+HG-41026,2026-07-29,ST-019,Delhi,North,P-106,Double bedsheet set,Home,1,899,0.15,764.15,520
+HG-41027,2026-07-29,ST-019,Delhi,North,P-101,Steel water bottle 750 mL,Kitchen,2,699,0.15,1188.30,760
+HG-41028,2026-07-31,ST-019,Delhi,North,P-107,Folding camp chair,Outdoor,2,1599,0.05,3038.10,2100
+HG-41029,2026-08-07,ST-014,Pune,West,P-102,Cotton bath towel,Home,2,549,0.15,933.30,600
+HG-41030,2026-08-08,ST-014,Pune,West,P-101,Steel water bottle 750 mL,Kitchen,1,699,0,699.00,380
+HG-41031,2026-08-09,ST-007,Chennai,South,P-108,Insulated cooler box,Outdoor,1,2599,0,2599.00,1700
+HG-41032,2026-08-10,ST-011,Mumbai,West,P-101,Steel water bottle 750 mL,Kitchen,1,699,0,699.00,380
+HG-41033,2026-08-11,ST-019,Delhi,North,P-103,Pressure cooker 5 L,Kitchen,3,2499,0,7497.00,4500
+HG-41034,2026-08-16,ST-011,Mumbai,West,P-101,Steel water bottle 750 mL,Kitchen,1,699,0,699.00,380
+HG-41035,2026-08-16,ST-019,Delhi,North,P-107,Folding camp chair,Outdoor,1,1599,0.15,1359.15,1050
+HG-41036,2026-08-17,ST-011,Mumbai,West,P-106,Double bedsheet set,Home,3,899,0.05,2562.15,1560
+HG-41037,2026-08-20,ST-014,Pune,West,P-102,Cotton bath towel,Home,1,549,0.05,521.55,300
+HG-41038,2026-08-20,ST-014,Pune,West,P-108,Insulated cooler box,Outdoor,2,2599,0.05,4938.10,3400
+HG-41039,2026-08-23,ST-003,Bengaluru,South,P-103,Pressure cooker 5 L,Kitchen,1,2499,0.15,2124.15,1500
+HG-41040,2026-08-23,ST-011,Mumbai,West,P-105,Bluetooth speaker,Electronics,2,2199,0.15,3738.30,2900
+HG-41041,2026-08-24,ST-007,Chennai,South,P-109,Garden hose 15 m,Outdoor,1,899,0,899.00,560
+HG-41042,2026-08-24,ST-019,Delhi,North,P-106,Double bedsheet set,Home,1,899,0.15,764.15,520
+HG-41043,2026-08-25,ST-019,Delhi,North,P-101,Steel water bottle 750 mL,Kitchen,3,699,0.05,1992.15,1140
+HG-41044,2026-08-28,ST-022,Kolkata,East,P-102,Cotton bath towel,Home,4,549,0.05,2086.20,1200
+HG-41045,2026-08-29,ST-019,Delhi,North,P-106,Double bedsheet set,Home,1,899,0.05,854.05,520
+HG-41046,2026-09-02,ST-007,Chennai,South,P-109,Garden hose 15 m,Outdoor,3,899,0.1,2427.30,1680
+HG-41047,2026-09-03,ST-011,Mumbai,West,P-104,LED desk lamp,Electronics,3,1299,0,3897.00,2460
+HG-41048,2026-09-07,ST-007,Chennai,South,P-107,Folding camp chair,Outdoor,4,1599,0,6396.00,4200
+HG-41049,2026-09-07,ST-007,Chennai,South,P-109,Garden hose 15 m,Outdoor,2,899,0.05,1708.10,1120
+HG-41050,2026-09-08,ST-022,Kolkata,East,P-101,Steel water bottle 750 mL,Kitchen,1,699,0.05,664.05,380
+HG-41051,2026-09-09,ST-014,Pune,West,P-105,Bluetooth speaker,Electronics,1,2199,0.15,1869.15,1450
+HG-41052,2026-09-09,ST-019,Delhi,North,P-106,Double bedsheet set,Home,2,899,0.15,1528.30,1040
+HG-41053,2026-09-10,ST-011,Mumbai,West,P-106,Double bedsheet set,Home,1,899,0,899.00,520
+HG-41054,2026-09-10,ST-003,Bengaluru,South,P-104,LED desk lamp,Electronics,2,1299,0,2598.00,1640
+HG-41055,2026-09-11,ST-011,Mumbai,West,P-104,LED desk lamp,Electronics,2,1299,0.1,2338.20,1640
+HG-41056,2026-09-11,ST-019,Delhi,North,P-101,Steel water bottle 750 mL,Kitchen,2,699,0.15,1188.30,760
+HG-41057,2026-09-12,ST-011,Mumbai,West,P-102,Cotton bath towel,Home,4,549,0,2196.00,1200
+HG-41058,2026-09-12,ST-014,Pune,West,P-104,LED desk lamp,Electronics,2,1299,0,2598.00,1640
+HG-41059,2026-09-12,ST-014,Pune,West,P-106,Double bedsheet set,Home,1,899,0.15,764.15,520
+HG-41060,2026-09-13,ST-014,Pune,West,P-108,Insulated cooler box,Outdoor,2,2599,0.15,4418.30,3400
+HG-41061,2026-09-13,ST-003,Bengaluru,South,P-103,Pressure cooker 5 L,Kitchen,1,2499,0,2499.00,1500
+HG-41062,2026-09-13,ST-003,Bengaluru,South,P-103,Pressure cooker 5 L,Kitchen,3,2499,0.05,7122.15,4500
+HG-41063,2026-09-13,ST-022,Kolkata,East,P-103,Pressure cooker 5 L,Kitchen,3,2499,0.1,6747.30,4500
+HG-41064,2026-09-13,ST-014,Pune,West,P-106,Double bedsheet set,Home,1,899,0.1,809.10,520
+HG-41065,2026-09-18,ST-019,Delhi,North,P-103,Pressure cooker 5 L,Kitchen,1,2499,0,2499.00,1500
+HG-41066,2026-09-19,ST-022,Kolkata,East,P-102,Cotton bath towel,Home,3,549,0.15,1399.95,900
+HG-41067,2026-09-19,ST-007,Chennai,South,P-107,Folding camp chair,Outdoor,1,1599,0,1599.00,1050
+HG-41068,2026-09-20,ST-003,Bengaluru,South,P-105,Bluetooth speaker,Electronics,1,2199,0.05,2089.05,1450
+HG-41069,2026-09-22,ST-019,Delhi,North,P-104,LED desk lamp,Electronics,3,1299,0.05,3702.15,2460
+HG-41070,2026-09-26,ST-011,Mumbai,West,P-109,Garden hose 15 m,Outdoor,2,899,0,1798.00,1120
+HG-41071,2026-09-26,ST-003,Bengaluru,South,P-106,Double bedsheet set,Home,2,899,0.15,1528.30,1040
+HG-41072,2026-09-30,ST-019,Delhi,North,P-109,Garden hose 15 m,Outdoor,2,899,0.1,1618.20,1120

@@ -1,0 +1,44 @@
+tenant_setting_group,setting,before,after,why
+Workspace settings,Create workspaces,Entire organisation,Specific groups: sg-fabric-workspace-creators,Stops workspace sprawl before it starts
+Workspace settings,Use semantic models across workspaces,Entire organisation,Entire organisation,Kept: Build permission still applies per model
+Workspace settings,Block users from reassigning personal workspaces (My Workspace),Disabled,Enabled,Keeps personal content off paid capacity
+Workspace settings,Define workspace retention period,Disabled,Enabled,Deleted workspaces stay recoverable for the retention period
+Microsoft Fabric,Users can create Fabric items,Entire organisation,Specific groups: sg-fabric-builders,Only trained builders create lakehouses and notebooks
+Help and support settings,Users can try Microsoft Fabric paid features,Entire organisation,Disabled,No surprise trial capacities outside the plan
+Help and support settings,Publish "Get Help" information,Disabled,Enabled,Points users to the internal help page
+Domain management settings,Allow tenant and domain admins to override workspace assignments (preview),Disabled,Enabled,Lets the platform team fix domain mistakes
+Information protection,Allow users to apply sensitivity labels for content,Disabled,Enabled,Labels must exist before content does
+Information protection,Apply sensitivity labels from data sources to their data in Power BI,Disabled,Enabled,Labels follow the data in
+Information protection,Automatically apply sensitivity labels to downstream content,Disabled,Enabled,Labels follow the data out
+Information protection,Restrict content with protected labels from being shared via link with everyone in your organization,Disabled,Enabled,Protected content needs named sharing
+Export and sharing settings,Guest users can access Microsoft Fabric,Entire organisation,Specific groups: sg-fabric-approved-guests,Only approved partners get in
+Export and sharing settings,Users can invite guest users to collaborate through item sharing and permissions,Entire organisation,Specific groups: sg-fabric-guest-inviters,Guest invitations go through a few named people
+Export and sharing settings,Guest users can browse and access Fabric content,Entire organisation,Disabled,Guests see only what is shared with them
+Export and sharing settings,Users can see guest users in lists of suggested people,Entire organisation,Disabled,Stops accidental shares to the wrong guest
+Export and sharing settings,External data sharing,Entire organisation,Specific groups: sg-fabric-data-sharing,Read-only data links are still data leaving
+Export and sharing settings,Users can accept external data shares,Entire organisation,Specific groups: sg-fabric-data-sharing,Inbound shares are owned by someone
+Export and sharing settings,Publish to web,Entire organisation,Disabled,Public reports need no sign-in to view
+Export and sharing settings,Export to Excel,Entire organisation,Entire organisation,Kept: blocking it moves the export to screenshots
+Export and sharing settings,Export to .csv,Entire organisation,Entire organisation,Kept: labels travel with the file
+Export and sharing settings,Download reports,Entire organisation,Specific groups: sg-fabric-builders,Report files carry cached data
+Export and sharing settings,Allow shareable links to grant access to everyone in your organization,Entire organisation,Disabled,Links should name people or groups
+Export and sharing settings,Users can send email subscriptions to external users,Entire organisation,Disabled,Scheduled data should not leave by email
+Export and sharing settings,Allow DirectQuery connections to Power BI semantic models,Entire organisation,Entire organisation,Kept: composite models are how reuse happens
+Export and sharing settings,Guest users can work with shared semantic models in their own tenants,Entire organisation,Disabled,Cached data can cross regions
+Export and sharing settings,Users with read or write permission can download data from notebooks,Entire organisation,Specific groups: sg-fabric-builders,Notebook output is raw data
+Integration settings,Allow XMLA endpoints and Analyze in Excel with on-premises semantic models,Entire organisation,Entire organisation,Kept: needed for Excel and modelling tools
+Integration settings,Semantic models can export data to OneLake,Entire organisation,Specific groups: sg-fabric-builders,Copies of model data should be deliberate
+Integration settings,Users can access data stored in OneLake with apps external to Fabric,Entire organisation,Specific groups: sg-fabric-builders,Keeps OneLake reads inside known tools
+Power BI visuals,Add and use certified visuals only (block uncertified),Disabled,Enabled,Uncertified visuals can call out to the internet
+Audit and usage settings,Usage metrics for content creators,Entire organisation,Entire organisation,Kept: creators need to see adoption
+Audit and usage settings,Workspace admins can turn on monitoring for their workspaces (preview),Disabled,Specific groups: sg-fabric-platform,Monitoring data lands in an Eventhouse
+Developer settings,Embed content in apps,Entire organisation,Specific groups: sg-fabric-automation,Embedding is an app decision
+Developer settings,Service principals can call Fabric public APIs,Entire organisation,Specific groups: sg-fabric-automation,Only pipeline identities call the API
+"Developer settings","Service principals can create workspaces, connections, and deployment pipelines",Entire organisation,Specific groups: sg-fabric-automation,Same identities as above
+Developer settings,Block ResourceKey Authentication,Disabled,Enabled,Push datasets should not accept a shared key
+Admin API settings,Service principals can access read-only admin APIs,Disabled,Specific groups: sg-fabric-governance-readers,Inventory and audit jobs need it
+Git integration,Users can synchronize workspace items with their Git repositories,Entire organisation,Specific groups: sg-fabric-builders,Repositories are part of the release process
+Git integration,Users can export items to Git repositories in other geographical locations,Entire organisation,Disabled,Code holds data residency obligations too
+Copilot and Azure OpenAI Service,Users can use Copilot and other features powered by Azure OpenAI,Entire organisation,Specific groups: sg-fabric-ai-pilot,Pilot first: Copilot sees what the user sees
+Copilot and Azure OpenAI Service,"Data sent to Azure OpenAI can be processed outside your capacity's geographic region, compliance boundary, or national cloud instance",Disabled,Specific groups: sg-fabric-ai-pilot,Needed in India only after legal sign-off
+Copilot and Azure OpenAI Service,"Data sent to Azure OpenAI can be stored outside your capacity's geographic region, compliance boundary, or national cloud instance",Disabled,Specific groups: sg-fabric-ai-pilot,Data agents keep chat history for up to 28 days

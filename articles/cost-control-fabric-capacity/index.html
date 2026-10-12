@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cost control: size, reserve, pause and charge back with real numbers | Fabric Field Notes</title><meta name="description" content="Cut a Fabric capacity bill from USD 7,008 to USD 3,610.67 a month: measure CU by item, resize, reserve, pause and charge back by domain."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/cost-control-fabric-capacity/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Cost control: size, reserve, pause and charge back with real numbers"><meta property="og:description" content="Cut a Fabric capacity bill from USD 7,008 to USD 3,610.67 a month: measure CU by item, resize, reserve, pause and charge back by domain."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/cost-control-fabric-capacity/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/cost-control-fabric-capacity.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Cost control: size, reserve, pause and charge back with real numbers</h1> <p class="lede" data-astro-cid-eomsrdgo>A Fabric bill of USD 7,008 a month cut to USD 3,610.67 without touching a single report. Measure CU use by item, check whether the capacity can shrink, reserve what runs all day, pause what does not and split the bill by domain. Prices are Central India list prices checked on 11 October 2026.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 3</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Capacity" data-astro-cid-eomsrdgo>Capacity</a><a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Most Fabric bills are too high for boring reasons: a production capacity on pay-as-you-go that never stops, a dev capacity running through the night for nobody and one item eating a sixth of the capacity by reloading everything every run. Fix them in that order. Check whether the capacity can shrink, reserve the CUs that run around the clock, pause the ones that do not, then send each team its share. On the Harbour Goods example below that takes the monthly bill from USD 7,008.00 to USD 3,610.67, a 48.5 per cent cut, with no change to any report.</p>
+<h2 id="prices-used-here">Prices used here</h2>
+<p>All prices are USD list prices for <strong>Central India</strong>, pulled from the Azure Retail Prices API (service <code>Microsoft Fabric</code>) on <strong>11 October 2026</strong>. They are before any EA, MCA or CSP discount. Microsoft bills in USD and converts at its published rates, so an INR invoice moves with the exchange rate.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Meter</th><th>Price</th></tr></thead><tbody><tr><td>Capacity, pay-as-you-go</td><td>USD 0.20 per CU hour</td></tr><tr><td>Capacity, 1-year reservation</td><td>USD 1,042 per CU per year (USD 86.83 per CU per month)</td></tr><tr><td>Capacity, 3-year reservation</td><td>USD 3,126 per CU, exactly three times the 1-year price</td></tr><tr><td>Capacity overage</td><td>USD 0.60 per CU hour, three times pay-as-you-go</td></tr><tr><td>OneLake storage, hot</td><td>USD 0.025 per GB per month</td></tr></tbody></table>
+<p>The 1-year reservation works out at 40.5 per cent below pay-as-you-go, the same discount the Microsoft pricing page quotes. At list price the 3-year term adds no further discount, so do not sign one without checking what your agreement actually says. Monthly figures below use 730 hours.</p>
+<h2 id="the-symptom">The symptom</h2>
+<p>Harbour Goods runs two F SKU capacities in Central India, both on pay-as-you-go:</p>
+<ul>
+<li><code>caphgprodf32</code>, an F32 for production, running all month: 32 x 0.20 x 730 = USD 4,672.00.</li>
+<li><code>caphgdevf16</code>, an F16 for dev and test, also running all month: 16 x 0.20 x 730 = USD 2,336.00.</li>
+</ul>
+<p>USD 7,008.00 a month. Finance wants it lower and wants to know which team is spending it. The platform team's first instinct is to drop production to an F16. Measure before you do that.</p>
+<h2 id="measure-it">Measure it</h2>
+<p><strong>1. CU use by item.</strong> A capacity admin installs the <strong>Microsoft Fabric Chargeback</strong> app from AppSource. Install it into a Pro workspace, not one on the capacity it reports on, or the report adds to the load it is measuring. The app breaks CU use down by workspace, item, domain and user. The sample <a href="/fabric-field-notes/samples/cost-control.csv">cost-control.csv</a> is a synthetic 40-row export of it for September 2026: one row per item on the production capacity, with its CU hours.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">import</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> pandas </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">as</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> pd</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">df </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> pd.read_csv(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"/lakehouse/default/Files/cost-control.csv"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">total </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> df[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_hours"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">].sum()</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">print</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(total) </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"># 14404</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">print</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(total </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> (</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">32</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> *</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 24</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> *</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 30</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">*</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 100</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)) </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"># 62.5 (% of September's F32 CU hours)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">print</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(df.nlargest(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">3</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_hours"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)[[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"item"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"item_type"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_hours"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">]])</span></span></code></pre>
+<p>The F32 had 23,040 CU hours in September and used 14,404, an average of 62.5 per cent. Averages flatter. Open the <strong>Fabric Capacity Metrics</strong> app as well and look at the <strong>Utilization</strong> chart for peaks, because throttling follows the smoothed peak, not the monthly mean.</p>
+<p><strong>2. The top items.</strong> Three items carry 34.8 per cent of the month:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Item</th><th>Type</th><th>CU hours</th><th>Share</th></tr></thead><tbody><tr><td><code>df_deliveries_full_reload</code></td><td>Dataflow Gen2</td><td>2,352</td><td>16.3%</td></tr><tr><td><code>eh_sensor_readings</code></td><td>Eventhouse</td><td>1,462</td><td>10.1%</td></tr><tr><td><code>sm_sales_kpis</code></td><td>Semantic model</td><td>1,206</td><td>8.4%</td></tr></tbody></table>
+<p>The first one is the story. It reloads the whole deliveries table every two hours to pick up a few hundred new rows.</p>
+<p><strong>3. Can production shrink?</strong> An F16 has 16 x 720 = 11,520 CU hours in a 30-day month. September used 14,404. Even if the dataflow vanished entirely, 12,052 CU hours is 104.6 per cent of an F16 before any peak. The downsize idea dies here, which is the point of measuring first. Downsizing a busy capacity with capacity overage left on would have been worse: overage bills at USD 0.60 per CU hour.</p>
+<p><strong>4. Who runs when.</strong> In the Azure portal open <strong>Cost Management</strong> > <strong>Cost analysis</strong>, filter to the two capacities and group by resource. The dev capacity bills 730 hours a month. The dev team works roughly 08:00 to 20:00 on weekdays.</p>
+<h2 id="fix-it">Fix it</h2>
+<h3 id="step-1-reserve-production">Step 1: reserve production</h3>
+<p>Production runs all day every day, so reserve it. In the Azure portal go to <strong>Reservations</strong> > <strong>Add</strong>, choose <strong>Microsoft Fabric</strong>, pick the Central India region, a 1-year term and a quantity of 32 CUs. Scope it to the subscription that holds the capacity.</p>
+<p>A reservation is a billing discount, not a resource. Nothing changes on the capacity. It bills 32 CUs at USD 86.83 each instead of USD 146: 32 x 1,042 / 12 = USD 2,778.67 a month. Two details matter. Reserve only the CUs you run 24x7, because scaling below the reserved quantity does not shrink the bill. And reserve in the capacity's own region; a Central India reservation does nothing for a South India capacity.</p>
+<h3 id="step-2-pause-dev-outside-working-hours">Step 2: pause dev outside working hours</h3>
+<p>Reservations pay off only above about 59.5 per cent uptime (USD 1,042 against 8,760 hours at USD 0.20). The dev capacity at 60 hours a week runs 260 hours a month, 35.6 per cent, so keep it on pay-as-you-go and pause it.</p>
+<p>Give an automation account a custom Azure role with only <code>Microsoft.Fabric/capacities/read</code>, <code>write</code>, <code>suspend/action</code> and <code>resume/action</code> on the capacity, then schedule two runbooks or pipeline steps:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"># 20:00 on weekdays and all weekend</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">az</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> fabric</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> capacity</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> suspend</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> --resource-group</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> rg-hg-fabric</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> --capacity-name</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> caphgdevf16</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"># 08:00 on weekdays</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">az</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> fabric</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> capacity</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> resume</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> --resource-group</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> rg-hg-fabric</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> --capacity-name</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> caphgdevf16</span></span></code></pre>
+<p>New cost: 16 x 0.20 x 260 = USD 832.00 a month.</p>
+<h3 id="step-3-fix-the-top-item">Step 3: fix the top item</h3>
+<p>Rebuild <code>df_deliveries_full_reload</code> to load only new and changed deliveries, using incremental copy or a notebook with a watermark on <code>dispatched_at</code>. This does not reduce the reserved bill, which is fixed. What it buys is headroom: if the item drops to a tenth of its September use, production falls from 62.5 to 53.3 per cent average utilisation. That is next year's growth absorbed without moving to an F64.</p>
+<h3 id="step-4-charge-back-by-domain">Step 4: charge back by domain</h3>
+<p>Assign every workspace to a domain first. Anything without one lands in <strong>No domain</strong> in the Chargeback app. Nobody pays for No domain. Then split the reserved production cost by CU share:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">reserved_month </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">32</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> *</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 1042</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> /</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 12</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">) </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D"># 2778.67</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">by_domain </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> (df.groupby(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"domain"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_hours"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">].sum()</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">               .sort_values(</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">ascending</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">False</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">               .to_frame(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_hours"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">))</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">by_domain[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"share_pct"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> (by_domain[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_hours"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> total </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">*</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 100</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">).round(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">by_domain[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"usd"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> (by_domain[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_hours"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> total </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">*</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> reserved_month).round(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">print</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(by_domain)</span></span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Domain</th><th>CU hours</th><th>Share</th><th>USD for September</th></tr></thead><tbody><tr><td>Supply chain</td><td>6,272</td><td>43.5%</td><td>1,209.93</td></tr><tr><td>Sales</td><td>3,005</td><td>20.9%</td><td>579.69</td></tr><tr><td>Finance</td><td>1,819</td><td>12.6%</td><td>350.90</td></tr><tr><td>Merchandising</td><td>1,197</td><td>8.3%</td><td>230.91</td></tr><tr><td>Platform</td><td>1,060</td><td>7.4%</td><td>204.48</td></tr><tr><td>No domain</td><td>1,051</td><td>7.3%</td><td>202.75</td></tr></tbody></table>
+<p>Rounding leaves the column one cent short of 2,778.67; give it to Platform. Add OneLake storage separately per workspace from the Metrics app's storage page, at USD 0.025 per GB a month. Storage is not covered by the reservation and does not stop when you pause. Start with showback: send the table for two months before anyone's budget is actually charged, so teams can argue with the numbers while they are still only numbers.</p>
+<h2 id="prove-it">Prove it</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>Before</th><th>After</th></tr></thead><tbody><tr><td>Production F32</td><td>USD 4,672.00 pay-as-you-go</td><td>USD 2,778.67 reserved</td></tr><tr><td>Dev F16</td><td>USD 2,336.00, 730 hours</td><td>USD 832.00, 260 hours</td></tr><tr><td>Monthly total</td><td>USD 7,008.00</td><td>USD 3,610.67</td></tr><tr><td>Saving</td><td></td><td>USD 3,397.33 a month, USD 40,767.96 a year, 48.5%</td></tr><tr><td>Unattributed CU use</td><td>7.3% in No domain</td><td>0% once every workspace has a domain</td></tr></tbody></table>
+<p>Check the result in <strong>Cost analysis</strong> at the end of the first full month. The production line should show the reservation and nothing on the pay-as-you-go meter unless you scaled above 32 CUs.</p>
+<h2 id="where-this-breaks">Where this breaks</h2>
+<ul>
+<li><strong>Pausing a reserved capacity saves nothing.</strong> The reservation bills whether the capacity runs or not. Pause only pay-as-you-go capacities.</li>
+<li><strong>Pausing bills the carry-forward at once.</strong> When a capacity pauses, smoothed future usage and overages are added to the bill immediately. A heavy evening job followed by a 20:00 pause shows as a spike, not a saving. Schedule big dev jobs earlier.</li>
+<li><strong>A paused capacity breaks things quietly.</strong> Scheduled refreshes and pipelines on that capacity fail while it is paused. Move anything that must run overnight to production.</li>
+<li><strong>Reserving the peak.</strong> If production sometimes needs 64 CUs on Monday mornings, reserve 32 and scale up on pay-as-you-go for those hours. Microsoft's own planning guide notes that extra reserved capacity only pays off if you need it more than about four days a week.</li>
+<li><strong>Spark on-demand billing sits outside all of this.</strong> If you move Spark off the capacity to on-demand billing, it bills at the pay-as-you-go rate with no reservation discount.</li>
+</ul>
+<h2 id="next-on-the-roadmap">Next on the roadmap</h2>
+<p>This covers Cost control (gov-3-2) on the <a href="/fabric-field-notes/roadmap/">roadmap</a>. If the numbers above still mean nothing to you, start with <a href="/fabric-field-notes/articles/capacity-and-cu-plainly/">Capacity and CU, plainly</a> and <a href="/fabric-field-notes/articles/read-capacity-metrics-app/">Read the Capacity Metrics app</a>. Domains, which make the chargeback work, are covered under Domains and data mesh (gov-4-1).</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A distillery splits the same way. Distillery A runs one production capacity shared by the stillhouse dashboards, the warehouse team tracking casks and finance closing the month. Reserve it, then charge each team by CU share exactly like the table above. The detail that matters on that floor is the dev capacity: the data team that builds the maturation reports also works the cask audit week, when nobody opens a notebook for five days. Pausing that capacity for the week is worth more than any query tuning.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/rest/api/cost-management/retail-prices/azure-retail-prices">Azure Retail Prices API</a> (queried 11 October 2026, region <code>centralindia</code>)</li>
+<li><a href="https://azure.microsoft.com/pricing/details/microsoft-fabric/">Microsoft Fabric pricing</a></li>
+<li><a href="https://learn.microsoft.com/azure/cost-management-billing/reservations/fabric-capacity">Save costs with Microsoft Fabric reservations</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/pause-resume">Pause and resume your Fabric capacity</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/monitor-paused-capacity">Monitor a paused capacity</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/throttling">Understand the Fabric capacity throttling policy</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/chargeback-app">Microsoft Fabric Chargeback app</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/chargeback-app-install">Install the Microsoft Fabric Chargeback app</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/capacity-planning-manage-capacity-growth-governance">Capacity planning guide: manage growth and governance</a></li>
+<li><a href="https://learn.microsoft.com/cli/azure/fabric/capacity">az fabric capacity</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#prices-used-here" data-astro-cid-eomsrdgo>Prices used here</a></li><li data-astro-cid-eomsrdgo><a href="#the-symptom" data-astro-cid-eomsrdgo>The symptom</a></li><li data-astro-cid-eomsrdgo><a href="#measure-it" data-astro-cid-eomsrdgo>Measure it</a></li><li data-astro-cid-eomsrdgo><a href="#fix-it" data-astro-cid-eomsrdgo>Fix it</a></li><li data-astro-cid-eomsrdgo><a href="#prove-it" data-astro-cid-eomsrdgo>Prove it</a></li><li data-astro-cid-eomsrdgo><a href="#where-this-breaks" data-astro-cid-eomsrdgo>Where this breaks</a></li><li data-astro-cid-eomsrdgo><a href="#next-on-the-roadmap" data-astro-cid-eomsrdgo>Next on the roadmap</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-3" data-astro-cid-eomsrdgo>Level 3: Cost control</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

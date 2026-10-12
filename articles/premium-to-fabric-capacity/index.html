@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Premium to Fabric capacity: planning the P SKU to F SKU move | Fabric Field Notes</title><meta name="description" content="Plan the move from Power BI Premium P SKUs to Fabric F SKUs: the retirement timeline, sizing, why same region wins and the F32 licence trap."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/premium-to-fabric-capacity/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Premium to Fabric capacity: planning the P SKU to F SKU move"><meta property="og:description" content="Plan the move from Power BI Premium P SKUs to Fabric F SKUs: the retirement timeline, sizing, why same region wins and the F32 licence trap."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/premium-to-fabric-capacity/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/premium-to-fabric-capacity.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Premium to Fabric capacity: planning the P SKU to F SKU move</h1> <p class="lede" data-astro-cid-eomsrdgo>A design guide for moving Power BI Premium P SKU workspaces to Fabric F SKUs before the agreement term ends. What the retirement timeline actually says, how to size, why same-region wins and the licence trap at F32.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 4</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Capacity" data-astro-cid-eomsrdgo>Capacity</a><a class="pill" href="/fabric-field-notes/articles/?tag=Power%20BI" data-astro-cid-eomsrdgo>Power BI</a><a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Power BI Premium per-capacity SKUs (P1 to P5) are being retired. Microsoft no longer sells new P SKUs. Nothing converts automatically. As of October 2026, Microsoft Learn does not give a single calendar date for everyone: each P SKU subscription retires at the end of its current agreement term. Customers on an expiring Enterprise Agreement or Microsoft Cloud Agreement cannot renew or add P capacity. Customers on an active EA can keep renewing annually until that EA term ends. After the subscription ends, the timeline is fixed: days 1 to 30 run at full size, days 31 to 90 are throttled. From day 91 every operation is rejected. The data is kept but nobody can reach it. The safe sequence is always the same: buy the F SKU, reassign workspaces, validate, then cancel the P SKU. Map P1 to F64 for a like-for-like start and stay at F64 or above if free users view reports.</p>
+<h2 id="the-decision">The decision</h2>
+<p>The retirement timeline, exactly as Learn states it.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Phase</th><th>Timing</th><th>What happens</th></tr></thead><tbody><tr><td>Retirement</td><td>End of your current agreement term</td><td>P SKU subscription ends and cannot be renewed</td></tr><tr><td>Grace period</td><td>Days 1 to 30 after the end</td><td>Capacity runs at current size at no charge; you can still reassign</td></tr><tr><td>Throttled</td><td>Days 31 to 90</td><td>Interactive operations delayed; export and recovery still possible</td></tr><tr><td>Full block</td><td>Day 91 onward</td><td>All operations rejected; data retained but inaccessible</td></tr></tbody></table>
+<p>Not affected: Power BI Pro, Premium Per User, Embedded EM and A SKUs plus sovereign clouds (Fabric is not available there yet). The real deadline for any given client is a date on their contract, which is why the first question in this guide is about paperwork, not technology.</p>
+<p>The sizing and region choices.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Choice</th><th>Option A</th><th>Option B</th><th>Default</th></tr></thead><tbody><tr><td>Size</td><td>Equivalent F SKU (P1 = F64, P2 = F128, P3 = F256, P4 = F512, P5 = F1024)</td><td>Right-size from 30 to 45 days of Capacity Metrics data</td><td>Start equivalent, right-size after a month</td></tr><tr><td>Region</td><td>Same region as the P SKU</td><td>Different region</td><td>Same region</td></tr><tr><td>Billing</td><td>Pay as you go (per second, one-minute minimum)</td><td>Reservation for a large discount</td><td>Pay as you go during migration, reserve once stable</td></tr><tr><td>Shape</td><td>One F SKU like the old P</td><td>Production F64 plus a small paused-when-idle dev SKU</td><td>Split only if the measured load fits</td></tr></tbody></table>
+<p>Same-region reassignment of standard Power BI items is effectively zero downtime apart from refreshes in flight. A cross-region move deletes large storage format semantic models and every Fabric item in the workspace (lakehouses, warehouses, notebooks, pipelines). Those must be captured in Git, their data backed up and then restored into a separate workspace so a Git sync does not delete anything. Regional price differences are not a reason to move. Microsoft says so on the FAQ page. The rebuild cost agrees.</p>
+<p>What behaves differently on F SKUs:</p>
+<ul>
+<li><strong>Autoscale does not exist.</strong> Use manual scale up and down in the Azure portal plus capacity surge protection.</li>
+<li><strong>Pause and resume</strong> are new and useful for dev capacities.</li>
+<li><strong>Free viewers need F64 or larger.</strong> On F2 to F32 every viewer needs Pro or PPU.</li>
+<li><strong>Power BI Report Server</strong> comes with a Fabric capacity reservation (the decision guide says F64 or higher) or with SQL Server Enterprise Edition plus Software Assurance. Check this before cancelling.</li>
+<li><strong>Embedded</strong> is included with every F SKU, so separate EM or A SKUs can go.</li>
+</ul>
+<h2 id="reference-design">Reference design</h2>
+<p>Harbour Goods, the fictional retailer used across this site, runs one P1 with 48 workspaces. Its agreement term ends on a date in the contract; call it T.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>T - 12 weeks  Inventory: every workspace on the P1, its items, storage</span></span>
+<span class="line"><span>              format, refresh windows, gateways. Flag Fabric items made</span></span>
+<span class="line"><span>              during an old trial.</span></span>
+<span class="line"><span>T - 10 weeks  Register Microsoft.Fabric, check CU quota, buy F64 in the</span></span>
+<span class="line"><span>              SAME region, add capacity admins, recreate P workload</span></span>
+<span class="line"><span>              settings (semantic model memory limits etc).</span></span>
+<span class="line"><span>T - 8 weeks   Pilot: one low-risk workspace with a report, a scheduled</span></span>
+<span class="line"><span>              refresh and a gateway connection. Validate.</span></span>
+<span class="line"><span>T - 6 weeks   Reassign in batches outside refresh windows</span></span>
+<span class="line"><span>              (Admin portal > Capacity settings > Fabric capacity, or the</span></span>
+<span class="line"><span>              semantic-link-labs Capacity Migration notebook).</span></span>
+<span class="line"><span>T - 4 weeks   Watch Capacity Metrics for 24 to 48 hours per batch.</span></span>
+<span class="line"><span>              Sustained 100% means undersized: scale up, do not wait.</span></span>
+<span class="line"><span>T - 2 weeks   Report Server licence confirmed. Cancel the P1.</span></span>
+<span class="line"><span>T             Agreement ends. Nothing left on it.</span></span></code></pre>
+<p>The two-week buffer before T is deliberate. The 30-day grace period is a safety net, not a migration window. Learn says that too.</p>
+<h2 id="questions-to-ask-the-client">Questions to ask the client</h2>
+<ol>
+<li>What is the exact end date of the agreement term for each P SKU? Is it under an EA, an MCA or something else? Ask procurement, not IT.</li>
+<li>Is the EA itself active and for how long? That decides whether you have this year or several.</li>
+<li>How many people view reports without a Pro licence? If any, F64 is the floor.</li>
+<li>Does anyone use Power BI Report Server on premises? Its licence path changes.</li>
+<li>Did Autoscale fire in the last 90 days? The F SKU has no autoscale, so peaks need a plan.</li>
+<li>Are there Fabric items in Premium workspaces already, from a trial nobody remembers? They matter for any cross-region move.</li>
+<li>Is there a data residency rule that forces a different region? Only that, or real data gravity, justifies the cross-region rebuild.</li>
+<li>Do departments want their own capacity to pause and scale? Then several F SKUs, each tagged for chargeback.</li>
+</ol>
+<h2 id="review-checklist">Review checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Agreement end date per P SKU written in the plan, with the 30, 90 and 91-day dates computed from it.</li>
+<li class="task-list-item"><input type="checkbox" disabled> F SKU bought and capacity admins added before any reassignment.</li>
+<li class="task-list-item"><input type="checkbox" disabled> P SKU workload settings recreated on the F SKU.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Viewer licensing checked against the chosen size (F64 line).</li>
+<li class="task-list-item"><input type="checkbox" disabled> Pilot workspace validated: reports load, refresh succeeds, gateway works.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Item counts after migration match the inventory.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Deployment pipelines, workspace apps and CI/CD jobs still publish.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Report Server licence confirmed before cancellation.</li>
+<li class="task-list-item"><input type="checkbox" disabled> P SKU cancelled only after every workspace passed validation.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns</h2>
+<ul>
+<li><strong>Cancel first, migrate later.</strong> Cancelling the P SKU before the F SKU exists puts every report on the grace clock. From day 91 nothing answers.</li>
+<li><strong>Sizing down to save money on day one.</strong> F32 is half the price of F64 until every viewer needs a Pro licence.</li>
+<li><strong>Chasing a cheaper region.</strong> The rebuild of large models and Fabric items costs more than the price gap. The gap can move, too.</li>
+<li><strong>Treating the grace period as the plan.</strong> Throttled reports from day 31 are how the CFO finds out.</li>
+<li><strong>Restoring Fabric items into the migrated workspace from Git.</strong> Git sync can remove anything not in the repository. Restore into a separate workspace.</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>Read <a href="/fabric-field-notes/articles/capacity-and-cu-plainly/">Capacity and CU plainly</a> for what a CU actually measures and <a href="/fabric-field-notes/articles/read-capacity-metrics-app/">Reading the Capacity Metrics app</a> for the right-sizing month. The question pages are <a href="/fabric-field-notes/questions/a08/">A08</a> and <a href="/fabric-field-notes/questions/h03/">H03</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A brewery group with one P1 shared across sites has the same deadline as a retailer, plus a calendar the retailer does not have. Brewery A runs its heaviest refreshes after the Monday morning brew-sheet upload and again at month end, when excise returns are reconciled. Schedule the reassignment batches away from both. The month-end excise model is the last workspace to move, because it is the report a tax office will eventually see. It is the only one where a stuck refresh has a legal consequence.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/power-bi/support/premium-migration-overview">Power BI Premium to Microsoft Fabric migration overview</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/support/premium-migration-decision-guide">Power BI Premium P SKU to Fabric F SKU migration decision guide</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/support/premium-migration-how-to">Migrate workspaces from Power BI Premium to Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/support/premium-migration-faq">Power BI Premium to Microsoft Fabric migration FAQ</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/licenses">Microsoft Fabric licenses</a></li>
+<li><a href="https://learn.microsoft.com/fabric/admin/portal-workspace-capacity-reassignment">Reassigning a workspace to another capacity</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-decision" data-astro-cid-eomsrdgo>The decision</a></li><li data-astro-cid-eomsrdgo><a href="#reference-design" data-astro-cid-eomsrdgo>Reference design</a></li><li data-astro-cid-eomsrdgo><a href="#questions-to-ask-the-client" data-astro-cid-eomsrdgo>Questions to ask the client</a></li><li data-astro-cid-eomsrdgo><a href="#review-checklist" data-astro-cid-eomsrdgo>Review checklist</a></li><li data-astro-cid-eomsrdgo><a href="#anti-patterns" data-astro-cid-eomsrdgo>Anti-patterns</a></li><li data-astro-cid-eomsrdgo><a href="#next" data-astro-cid-eomsrdgo>Next</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-4" data-astro-cid-eomsrdgo>Level 4: Premium to Fabric capacity</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

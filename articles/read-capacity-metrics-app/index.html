@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Read the Capacity Metrics app: find what used the CU | Fabric Field Notes</title><meta name="description" content="Read the Fabric Capacity Metrics app: the four Compute page visuals that matter, which item used the CU and whether anyone was throttled."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/read-capacity-metrics-app/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Read the Capacity Metrics app: find what used the CU"><meta property="og:description" content="Read the Fabric Capacity Metrics app: the four Compute page visuals that matter, which item used the CU and whether anyone was throttled."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/read-capacity-metrics-app/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/read-capacity-metrics-app.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Read the Capacity Metrics app: find what used the CU</h1> <p class="lede" data-astro-cid-eomsrdgo>Install the Fabric Capacity Metrics app, learn the four visuals on the Compute page that matter and work through one day on a small capacity to find which item used the capacity units and whether anyone was actually throttled.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 1</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Capacity" data-astro-cid-eomsrdgo>Capacity</a><a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>The Capacity Metrics app is a Power BI app that a capacity admin installs from AppSource. It shows 14 days of compute use per capacity, item and operation. Read it in this order: the matrix of items sorted by CU (s) tells you who used the capacity, the <strong>Throttling</strong> tab tells you whether anyone suffered and the <strong>Explore</strong> drill-through on one 30-second timepoint tells you exactly which operations filled it. The <strong>Utilization</strong> chart is the one people stare at and it misleads most often. Bars above 100 per cent are normal while the throttling charts stay below 100 per cent.</p>
+<h2 id="what-you-will-build">What you will build</h2>
+<p>An installed copy of the app and the habit of reading it. To practise the arithmetic before you have real trouble, you will also work through one day of operations on a pretend F8 capacity used by Harbour Goods, a fictional retailer:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Workspace</th><th>Items</th></tr></thead><tbody><tr><td>Sales Reporting</td><td><code>sm_sales</code> semantic model, queried by six report users, refreshed twice a day</td></tr><tr><td>Supply Chain</td><td><code>df_store_stock</code> Dataflow Gen2, <code>nb_load_orders</code> notebook, <code>pl_nightly</code> pipeline, <code>sm_stock</code> semantic model</td></tr><tr><td>Finance</td><td><code>wh_finance</code> warehouse</td></tr></tbody></table>
+<p>The day's operations are in <a href="/fabric-field-notes/samples/read-capacity-metrics-app.csv">read-capacity-metrics-app.csv</a>: 47 synthetic rows with item, operation, interactive or background, start time, duration and CU seconds. It is shaped like the rows you see after drilling through in the app.</p>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>Capacity admin rights on the capacity. Only a capacity admin can install the app. Afterwards you can share the report with others.</li>
+<li>A Power BI Pro or Premium Per User licence, or a Power BI individual trial.</li>
+<li>A workspace to hold the app that is not itself on the capacity you are watching. If the capacity is throttled, you still want the app to open. A Pro workspace is the usual answer.</li>
+</ul>
+<h2 id="step-1-install-the-app">Step 1: install the app</h2>
+<ol>
+<li>In Fabric, switch to the Power BI experience and select <strong>Apps</strong> > <strong>Get apps</strong>.</li>
+<li>Search for <strong>Microsoft Fabric</strong> and select <strong>Microsoft Fabric Capacity Metrics</strong>, then <strong>Get it now</strong>.</li>
+<li>Complete the AppSource sign-in if asked, then select <strong>Install</strong> in the <strong>Install this Power BI app</strong> window.</li>
+</ol>
+<h2 id="step-2-connect-it-to-your-data">Step 2: connect it to your data</h2>
+<ol>
+<li>Open the app from <strong>Apps</strong>. When you see "You have to connect to your own data to view this report", select <strong>Connect</strong>.</li>
+<li>Set <strong>UTC_offset</strong> to your standard time offset. India is <code>5.5</code>, the UK is <code>0</code>. Get this wrong and every spike appears at the wrong hour.</li>
+<li>Leave the other parameters as they are unless the dialog for your app version asks for a region or capacity ID. The capacity ID is the GUID after <code>/capacities/</code> in the capacity's admin page URL.</li>
+<li>Select <strong>Next</strong>. Choose <strong>OAuth2</strong> as the authentication method and <strong>Organizational</strong> as the privacy level, then <strong>Sign in and continue</strong>.</li>
+<li>Pick your capacity from <strong>Capacity Name</strong>. The first load takes a few minutes. Refresh if the pages are empty.</li>
+</ol>
+<p>The app refreshes itself at midnight by default. Do not edit its semantic model: Microsoft supports it only for the app's own reports.</p>
+<h2 id="step-3-learn-the-compute-page">Step 3: learn the Compute page</h2>
+<p>The <strong>Compute</strong> page holds four things worth knowing.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Visual</th><th>What it tells you</th><th>Watch out for</th></tr></thead><tbody><tr><td>Cards: SKU, Average utilization %, Peak utilization %</td><td>The size and how busy it was over the period</td><td>Both percentages are against base CUs, ignoring autoscale</td></tr><tr><td>Multimetric ribbon chart</td><td>CU, duration, operations and users per hour for the top items</td><td>Select a column to filter the page down to 30-second detail</td></tr><tr><td>Capacity utilization and throttling (tabs: Utilization, Throttling, Overages)</td><td>Usage per timepoint, throttling state, carry-forward debt</td><td>Unfiltered, columns show the peak every six minutes</td></tr><tr><td>Matrix by item and operation</td><td>Each item's CU (s), duration and users over 14 days</td><td>Hover an item to split its CU by operation, such as query versus refresh</td></tr></tbody></table>
+<p>Two ideas make the rest readable.</p>
+<p><strong>Interactive and background.</strong> Report queries are interactive. Refreshes, notebooks, pipelines and nearly all warehouse work are background. Interactive work is smoothed over at least five minutes and up to 64. Background work is smoothed over 24 hours, so a nightly job's cost shows up as a flat layer across the whole next day.</p>
+<p><strong>Throttling is about the future, not the present.</strong> Each 30-second timepoint has a fixed allowance. Smoothing borrows from future timepoints. The <strong>Throttling</strong> tab shows how much of the future is already spent:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Future capacity already used</th><th>Stage</th><th>What happens</th></tr></thead><tbody><tr><td>Up to 10 minutes</td><td>Overage protection</td><td>Nothing</td></tr><tr><td>10 to 60 minutes</td><td>Interactive delay</td><td>New interactive requests wait 20 seconds</td></tr><tr><td>60 minutes to 24 hours</td><td>Interactive rejection</td><td>New interactive requests fail</td></tr><tr><td>Over 24 hours</td><td>Background rejection</td><td>Everything new fails</td></tr></tbody></table>
+<p>Each throttling chart crosses 100 per cent when its stage begins. A value of 75 per cent leaves 15 minutes of headroom before that stage. Work already running is never stopped. Only new requests are delayed or refused.</p>
+<h2 id="step-4-work-the-example-day">Step 4: work the example day</h2>
+<p>An F8 has 8 capacity units. One 30-second timepoint therefore allows 8 x 30 = 240 CU seconds and one day allows 8 x 86,400 = 691,200 CU seconds. Open the CSV in a notebook or Excel and answer three questions.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">import</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> pandas </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">as</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> pd</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">ops </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> pd.read_csv(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"read-capacity-metrics-app.csv"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">print</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(ops[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_s"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">].sum(), ops.groupby(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"type"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_s"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">].sum())</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">print</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(ops.groupby(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"item_name"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)[</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"cu_s"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">].sum().sort_values(</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70">ascending</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">False</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">))</span></span></code></pre>
+<p><strong>1. Who used the capacity?</strong> Sort by item, as the matrix does. The Dataflow Gen2 <code>df_store_stock</code> dominates. It ran twice, at 02:00 and 14:00. Each run took about 38 minutes.</p>
+<p><strong>2. What does it cost every timepoint?</strong> One run used 61,200 CU seconds. Smoothed over 2,880 timepoints, that is 21.25 CU seconds per timepoint, or 8.85 per cent of the F8 allowance for the next 24 hours. With both runs inside the same 24 hours, the dataflow alone holds about 17.7 per cent of the capacity all afternoon and evening, before anyone opens a report.</p>
+<p><strong>3. Did the 09:41 spike hurt anyone?</strong> At 09:41 user-04 ran one heavy query, 3,000 CU seconds in 48 seconds, while 22 other queries ran in the same hour. Smoothed over the minimum five minutes, that one query adds up to 300 CU seconds per timepoint, 125 per cent of the allowance, on top of the 59 or so from background work. The <strong>Utilization</strong> chart shows a tall red bar well above the <strong>CU % Limit</strong> line. The excess is roughly 119 CU seconds per timepoint for ten timepoints, about 1,190 CU seconds in all. The capacity has about 181 spare CU seconds per timepoint to pay that back, so it borrows around three and a half minutes of future capacity. That is well inside the ten minutes of overage protection, so the <strong>Throttling</strong> tab would stay under 100 per cent and the <strong>System events</strong> table would show no InteractiveDelay. Tall bar, no victim.</p>
+<p>In the real app, select that spike, then <strong>Explore</strong>, to open the timepoint detail page. Its interactive and background tables list every operation that put CU into those 30 seconds, with the user, <strong>Timepoint CU (s)</strong> and <strong>% of base capacity</strong>. The background table shows operations that finished hours earlier, because their smoothed cost is still being paid.</p>
+<h2 id="check-it-worked">Check it worked</h2>
+<p>From the sample CSV:</p>
+<ul>
+<li>47 operations, 177,023 CU seconds in total, 25.6 per cent of the F8's daily 691,200.</li>
+<li>Background 170,600 CU seconds. Interactive 6,423.</li>
+<li>By item: <code>df_store_stock</code> 124,200 (70.2 per cent), <code>nb_load_orders</code> 22,000 (12.4), <code>sm_sales</code> 20,267 (11.4), <code>wh_finance</code> 8,000 (4.5), <code>pl_nightly</code> 1,800 (1.0), <code>sm_stock</code> 756 (0.4).</li>
+<li>All background work together adds about 59.2 CU seconds to every timepoint, roughly 24.7 per cent of the allowance as a steady floor.</li>
+<li>Six distinct report users. The 09:00 hour carries 23 queries and 4,980 CU seconds.</li>
+</ul>
+<p>The useful conclusion for Harbour Goods: report users are not the problem. Two dataflow runs are seven tenths of the day. Moving the 14:00 run to the night, or making it incremental, frees more room than any report tuning could.</p>
+<h2 id="where-this-breaks">Where this breaks</h2>
+<ul>
+<li><strong>Reading utilisation as throttling.</strong> Bars above 100 per cent are borrowing, not failure. Act on the Throttling tab and the System events table.</li>
+<li><strong>The wrong UTC offset.</strong> Spikes land at the wrong hour and you blame the wrong schedule.</li>
+<li><strong>Installing the app on the capacity it watches.</strong> When that capacity throttles, the app throttles with it.</li>
+<li><strong>Cross-capacity chains.</strong> A report on one capacity that queries a model on another shows its cost on the model's capacity. Check both.</li>
+<li><strong>Fourteen days only.</strong> For month-on-month trends, export or snapshot what you need before it rolls off.</li>
+<li><strong>Autoscale Billing for Spark.</strong> Spark on that billing runs outside the capacity and appears separately, so it never shows in this smoothing arithmetic.</li>
+</ul>
+<h2 id="next-on-the-roadmap">Next on the roadmap</h2>
+<p>This covers <a href="/fabric-field-notes/roadmap/">Read the Capacity Metrics app</a> (gov-1-2). Next on the governance track, <a href="/fabric-field-notes/articles/sharing-without-regret/">Sharing without regret</a> controls who can create the load you have just measured.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A brewery runs a nightly dataflow that pulls the day's brewhouse readings, tank temperatures and packaging counts into Fabric. The head brewer opens a dashboard at seven each morning. When the dashboard feels slow, the metrics app usually tells the same story as this example: the morning reports are cheap and a dataflow that reloads every reading since the brewery opened is the heavy item. Make that load incremental, so it only takes yesterday's readings. The flat background layer then drops for the whole day.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/metrics-app">What is the Microsoft Fabric Capacity Metrics app?</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/metrics-app-install">Install the Microsoft Fabric Capacity Metrics app</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/metrics-app-compute-page">Compute page in the Fabric Capacity Metrics app</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/metrics-app-timepoint-page">Understand the metrics app timepoint page</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/throttling">Understand the Fabric capacity throttling policy</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/fabric-operations">Fabric operations</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/capacity-planning-troubleshoot-consumption">Troubleshooting guide: monitor and identify capacity usage</a></li>
+<li><a href="https://learn.microsoft.com/fabric/enterprise/licenses">Microsoft Fabric concepts and licences</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#what-you-will-build" data-astro-cid-eomsrdgo>What you will build</a></li><li data-astro-cid-eomsrdgo><a href="#before-you-start" data-astro-cid-eomsrdgo>Before you start</a></li><li data-astro-cid-eomsrdgo><a href="#step-1-install-the-app" data-astro-cid-eomsrdgo>Step 1: install the app</a></li><li data-astro-cid-eomsrdgo><a href="#step-2-connect-it-to-your-data" data-astro-cid-eomsrdgo>Step 2: connect it to your data</a></li><li data-astro-cid-eomsrdgo><a href="#step-3-learn-the-compute-page" data-astro-cid-eomsrdgo>Step 3: learn the Compute page</a></li><li data-astro-cid-eomsrdgo><a href="#step-4-work-the-example-day" data-astro-cid-eomsrdgo>Step 4: work the example day</a></li><li data-astro-cid-eomsrdgo><a href="#check-it-worked" data-astro-cid-eomsrdgo>Check it worked</a></li><li data-astro-cid-eomsrdgo><a href="#where-this-breaks" data-astro-cid-eomsrdgo>Where this breaks</a></li><li data-astro-cid-eomsrdgo><a href="#next-on-the-roadmap" data-astro-cid-eomsrdgo>Next on the roadmap</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-1" data-astro-cid-eomsrdgo>Level 1: Read the Capacity Metrics app</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

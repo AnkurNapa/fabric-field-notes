@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Coexisting with Databricks and Snowflake: Fabric as one engine | Fabric Field Notes</title><meta name="description" content="Run Fabric alongside Databricks or Snowflake: mirroring, Iceberg or migration, table ownership, security and the patterns that double compute cost."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/coexisting-databricks-snowflake/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Coexisting with Databricks and Snowflake: Fabric as one engine"><meta property="og:description" content="Run Fabric alongside Databricks or Snowflake: mirroring, Iceberg or migration, table ownership, security and the patterns that double compute cost."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/coexisting-databricks-snowflake/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/coexisting-databricks-snowflake.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Coexisting with Databricks and Snowflake: Fabric as one engine</h1> <p class="lede" data-astro-cid-eomsrdgo>A design guide for platforms where Databricks or Snowflake stays and Fabric joins. Mirroring versus Iceberg versus migration, who writes which table, where security has to be rebuilt and the patterns that quietly double the compute bill.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 4</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Lakehouse" data-astro-cid-eomsrdgo>Lakehouse</a><a class="pill" href="/fabric-field-notes/articles/?tag=Direct%20Lake" data-astro-cid-eomsrdgo>Direct Lake</a><a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a><a class="pill" href="/fabric-field-notes/articles/?tag=Security" data-astro-cid-eomsrdgo>Security</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Fabric is designed to sit next to Databricks and Snowflake, not to replace them on day one. Keep the incumbent where the team is strong and the workload is stable. Add Fabric where Power BI, real-time or business self-service is the pain. The rule that keeps this sane is one writer per table: each table has exactly one engine that writes it and every other engine reads. For Azure Databricks, mirror the Unity Catalog into Fabric. Only metadata is mirrored and the data is read through shortcuts, so nothing is copied. For Snowflake, either mirror (Fabric replicates managed tables into OneLake as Delta) or have Snowflake write Iceberg tables into OneLake. Permissions never travel with the data in either case, so plan the security rebuild before anyone sees a report.</p>
+<h2 id="the-decision">The decision</h2>
+<p>Three ways to bring an existing platform's data into Fabric, plus the option nobody likes to say out loud.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pattern</th><th>Data copied?</th><th>Freshness</th><th>Who pays for compute</th><th>Security</th><th>Pick it when</th></tr></thead><tbody><tr><td>Mirrored Azure Databricks catalog (GA)</td><td>No, shortcuts to the Delta files</td><td>Seconds to several minutes to show in the SQL endpoint</td><td>Databricks for writes, Fabric for queries</td><td>Unity Catalog grants do not flow; rebuild in OneLake security</td><td>Databricks owns engineering, Fabric owns reporting</td></tr><tr><td>Mirrored Snowflake database</td><td>Yes, replicated to OneLake as Delta</td><td>Near real time for managed tables; views every 12 hours</td><td>Fabric replication compute free; Snowflake bills warehouse and cloud services credits for reading changes</td><td>Snowflake granular security not mirrored; rebuild</td><td>Snowflake stays the system of record, Fabric reads</td></tr><tr><td>Snowflake writes Iceberg into OneLake</td><td>No replication</td><td>As soon as Snowflake commits</td><td>Snowflake for writes, Fabric for reads</td><td>Set in Fabric; Snowflake reaches OneLake over the public network only</td><td>You want one copy and can live without private link</td></tr><tr><td>Full migration into Fabric</td><td>Yes, once</td><td>Native</td><td>Fabric only, after the run</td><td>Built fresh in Fabric</td><td>The incumbent is being switched off</td></tr></tbody></table>
+<p>The limits that change designs:</p>
+<ul>
+<li>A mirrored Databricks catalog does not show materialised views or streaming tables. It skips external tables that are not Delta. Tables are read-only in Fabric.</li>
+<li>Snowflake mirroring takes managed and Iceberg tables. External, transient, temporary and dynamic tables are not supported. The cap is 1,000 tables per mirrored database. <strong>Mirror all data</strong> silently takes the first 1,000 sorted by schema then table name. One older section of the limitations page still says 500, so check the page on the day you design.</li>
+<li>Snowflake can only reach OneLake over the public network for Iceberg. A workspace locked behind private link is out.</li>
+</ul>
+<h2 id="reference-design">Reference design</h2>
+<p>Harbour Goods, the fictional retailer used across this site, has a Databricks team that builds <code>orders</code> and <code>deliveries</code> from store systems and a finance team on Snowflake that owns <code>products</code> costing. Leadership wants Power BI on Direct Lake and an alert when deliveries run late.</p>
+<p><a href="/fabric-field-notes/diagrams/databricks-snowflake.svg" class="diagram"><picture><source media="(max-width: 40rem)" srcset="/fabric-field-notes/diagrams/databricks-snowflake-m.svg"><img src="/fabric-field-notes/diagrams/databricks-snowflake.svg" alt="Architecture: Azure Databricks and Snowflake keep writing their tables. Fabric mirrors both read-only, serves them from one lakehouse to a Direct Lake model and reports, and runs its own Eventhouse alerts." width="1200" height="590" loading="lazy" decoding="async"></picture></a></p>
+<p>Who writes what:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Table</th><th>Writer</th><th>Readers</th></tr></thead><tbody><tr><td><code>orders</code>, <code>deliveries</code> (gold)</td><td>Databricks</td><td>Fabric via mirrored catalog</td></tr><tr><td><code>products</code>, <code>unit_cost</code></td><td>Snowflake</td><td>Fabric via mirroring</td></tr><tr><td><code>store_targets</code>, <code>store_calendar</code></td><td>Fabric (Lakehouse)</td><td>Power BI; Databricks may read via OneLake</td></tr><tr><td>Silver and bronze</td><td>Databricks only</td><td>Nobody in Fabric</td></tr></tbody></table>
+<p>The serving lakehouse holds shortcuts to the mirrored tables plus the few tables Fabric genuinely owns. Mirrored databases are read-only, so any calculated column or derived table is built in that lakehouse, never by asking the source team for one more column every week.</p>
+<h2 id="questions-to-ask-the-client">Questions to ask the client</h2>
+<ol>
+<li>Which engine is the system of record for each subject area? If two teams both answer "us" for the same table, stop and settle that first.</li>
+<li>Is the Databricks workspace behind a private endpoint? Mirroring needs external data access on the metastore and the <code>EXTERNAL USE SCHEMA</code> privilege. It does not work if the workspace sits behind a private endpoint.</li>
+<li>Which Snowflake warehouse do the apps already keep warm? Point mirroring at that one so it does not wake a separate warehouse.</li>
+<li>How many Snowflake tables are in scope? Over 1,000 means more than one mirrored database or a narrower selection.</li>
+<li>What row level security, column masking or ABAC exists in Unity Catalog or Snowflake today? Every rule has to be rebuilt in Fabric. List them now.</li>
+<li>Who pays which bill? Snowflake credits rise when changes are read for mirroring. Finance should hear that from you, not from the invoice.</li>
+<li>Is there a plan to switch either platform off within three years? If yes, design the coexistence as a migration's first wave.</li>
+</ol>
+<h2 id="review-checklist">Review checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Every table in scope has exactly one writer, written down.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Silver data is not rebuilt in Fabric when Databricks already produces it.</li>
+<li class="task-list-item"><input type="checkbox" disabled> OneLake security roles (or semantic model RLS) reproduce every source-side access rule, tested with a restricted user.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Mirrored table counts checked against the 1,000-table Snowflake limit, with an explicit table list rather than <strong>Mirror all data</strong>.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Snowflake resource monitors or budgets set for mirroring-related credits.</li>
+<li class="task-list-item"><input type="checkbox" disabled> A reseed alert or weekly check on the Snowflake mirroring status page; a reseed re-reads the whole table.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Freshness expectation agreed with report owners, since mirrored Databricks changes take seconds to minutes to appear.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Known issue checked: dropping and recreating a Unity Catalog table with the same name breaks the mirror.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns</h2>
+<ul>
+<li><strong>Two writers, one table.</strong> Databricks writes <code>orders</code> and a Fabric notebook "just fixes a few rows". The next Databricks overwrite undoes it and nobody knows which number was right.</li>
+<li><strong>Rebuilding silver twice.</strong> The same cleaning logic in Databricks and Fabric means two compute bills and, by the second month, two different answers.</li>
+<li><strong>Assuming permissions came along.</strong> Mirroring moves structure and data, not grants. A report built on a mirrored table with no security rebuilt is an open door.</li>
+<li><strong>Mirror everything.</strong> Mirroring a whole Snowflake database for six tables burns credits and Fabric capacity on reseeds nobody needed.</li>
+<li><strong>Calling it temporary.</strong> A coexistence nobody designed becomes the permanent architecture. Decide whether it is a destination or a waypoint. Then write that down.</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>If coexistence is a waypoint, carry on to <a href="/fabric-field-notes/articles/migration-programmes-in-waves/">Migration programmes in waves</a> (eng-4-1). For the security rebuild, see <a href="/fabric-field-notes/articles/sharing-without-regret/">Sharing without regret</a>. The question pages behind this guide are <a href="/fabric-field-notes/questions/a04/">A04</a>, <a href="/fabric-field-notes/questions/b14/">B14</a> and <a href="/fabric-field-notes/questions/h06/">H06</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A winery often has the same split without calling it architecture. The vineyard team logs harvest picks and sugar readings in one system, the cellar team tracks tank transfers and blends in another. Finance costs every bottle somewhere else. One writer per table applies there too: the cellar system owns which wine sits in tank T-12 and what went into it. The reporting layer only reads. The day someone corrects a blend percentage in the report's own copy, the traceability record for that bottling stops matching the cellar book.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/mirroring/azure-databricks">Mirroring Azure Databricks Unity Catalog</a></li>
+<li><a href="https://learn.microsoft.com/fabric/mirroring/azure-databricks-tutorial">Tutorial: Configure Microsoft Fabric mirrored databases from Azure Databricks</a></li>
+<li><a href="https://learn.microsoft.com/azure/databricks/partners/bi/fabric-publish">Publish to OneLake from Azure Databricks</a></li>
+<li><a href="https://learn.microsoft.com/fabric/mirroring/snowflake">Mirroring Snowflake in Microsoft Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/mirroring/snowflake-limitations">Limitations in Microsoft Fabric mirrored databases from Snowflake</a></li>
+<li><a href="https://learn.microsoft.com/fabric/mirroring/snowflake-mirroring-faq">Frequently asked questions for Mirroring Snowflake</a></li>
+<li><a href="https://learn.microsoft.com/fabric/onelake/onelake-iceberg-snowflake">Use Snowflake with Iceberg tables in OneLake</a></li>
+<li><a href="https://learn.microsoft.com/fabric/onelake/onelake-iceberg-tables">Use Iceberg tables with OneLake</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-decision" data-astro-cid-eomsrdgo>The decision</a></li><li data-astro-cid-eomsrdgo><a href="#reference-design" data-astro-cid-eomsrdgo>Reference design</a></li><li data-astro-cid-eomsrdgo><a href="#questions-to-ask-the-client" data-astro-cid-eomsrdgo>Questions to ask the client</a></li><li data-astro-cid-eomsrdgo><a href="#review-checklist" data-astro-cid-eomsrdgo>Review checklist</a></li><li data-astro-cid-eomsrdgo><a href="#anti-patterns" data-astro-cid-eomsrdgo>Anti-patterns</a></li><li data-astro-cid-eomsrdgo><a href="#next" data-astro-cid-eomsrdgo>Next</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-4" data-astro-cid-eomsrdgo>Level 4: Coexisting with Databricks and Snowflake</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

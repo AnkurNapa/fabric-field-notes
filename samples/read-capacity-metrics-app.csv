@@ -1,0 +1,48 @@
+workspace,item_kind,item_name,operation,type,start,duration_s,cu_s,user
+Supply Chain,Pipeline,pl_nightly,Pipeline run,Background,2026-10-06 01:25:00,3600,900,svc-pipeline
+Supply Chain,Notebook,nb_load_orders,Notebook run,Background,2026-10-06 01:30:00,540,10800,svc-pipeline
+Supply Chain,Dataflow,df_store_stock,Dataflow Gen2 refresh,Background,2026-10-06 02:00:00,2280,61200,svc-pipeline
+Sales Reporting,SemanticModel,sm_sales,Semantic model refresh,Background,2026-10-06 03:00:00,420,7200,svc-pipeline
+Finance,Warehouse,wh_finance,Warehouse query,Background,2026-10-06 06:00:00,95,3800,user-07
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:01:47,2.7,81,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:02:15,2.3,54,user-06
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:05:13,3.8,145,user-03
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:08:39,1.1,20,user-01
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:10:46,5.9,175,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:11:51,1.2,40,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:12:57,0.5,14,user-02
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:13:49,5.9,219,user-03
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:16:04,5.0,154,user-05
+Supply Chain,SemanticModel,sm_stock,Query,Interactive,2026-10-06 09:17:11,4.7,101,user-01
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:17:59,0.9,30,user-03
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:20:12,4.2,95,user-06
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:22:32,3.3,116,user-01
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:23:24,0.5,10,user-02
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:24:34,1.8,61,user-04
+Supply Chain,SemanticModel,sm_stock,Query,Interactive,2026-10-06 09:37:47,2.5,61,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:39:12,1.8,65,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:39:16,4.9,190,user-06
+Supply Chain,SemanticModel,sm_stock,Query,Interactive,2026-10-06 09:41:03,1.0,28,user-02
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:41:12,48.0,3000,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:41:59,5.1,179,user-02
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:43:45,2.1,76,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 09:44:20,3.0,66,user-03
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 10:10:27,0.7,19,user-02
+Supply Chain,SemanticModel,sm_stock,Query,Interactive,2026-10-06 10:24:52,5.8,184,user-04
+Finance,Warehouse,wh_finance,Warehouse query,Background,2026-10-06 11:00:00,110,4200,user-07
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 11:08:46,1.1,41,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 11:33:10,2.4,88,user-03
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 11:55:55,5.9,230,user-05
+Supply Chain,SemanticModel,sm_stock,Query,Interactive,2026-10-06 12:04:50,2.4,74,user-01
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 12:11:05,3.3,99,user-05
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 12:20:42,2.0,58,user-06
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 12:22:17,4.5,163,user-03
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 12:23:35,2.0,57,user-06
+Supply Chain,Pipeline,pl_nightly,Pipeline run,Background,2026-10-06 13:25:00,3620,900,svc-pipeline
+Supply Chain,Notebook,nb_load_orders,Notebook run,Background,2026-10-06 13:30:00,560,11200,svc-pipeline
+Supply Chain,Dataflow,df_store_stock,Dataflow Gen2 refresh,Background,2026-10-06 14:00:00,2340,63000,svc-pipeline
+Sales Reporting,SemanticModel,sm_sales,Semantic model refresh,Background,2026-10-06 15:00:00,430,7400,svc-pipeline
+Supply Chain,SemanticModel,sm_stock,Query,Interactive,2026-10-06 15:09:03,4.0,143,user-03
+Supply Chain,SemanticModel,sm_stock,Query,Interactive,2026-10-06 15:59:39,5.9,165,user-04
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 17:18:21,3.7,68,user-05
+Sales Reporting,SemanticModel,sm_sales,Query,Interactive,2026-10-06 17:46:20,2.0,54,user-02

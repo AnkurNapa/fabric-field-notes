@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Fabric IQ and ontologies: when an ontology is worth the modelling cost | Fabric Field Notes</title><meta name="description" content="Decide whether a Fabric IQ ontology is worth the modelling cost, what it adds over a semantic model and how to scope the first one."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/fabric-iq-ontology-design/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Fabric IQ and ontologies: when an ontology is worth the modelling cost"><meta property="og:description" content="Decide whether a Fabric IQ ontology is worth the modelling cost, what it adds over a semantic model and how to scope the first one."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/fabric-iq-ontology-design/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/fabric-iq-ontology-design.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Fabric IQ and ontologies: when an ontology is worth the modelling cost</h1> <p class="lede" data-astro-cid-eomsrdgo>A design guide for deciding whether to build an ontology in Fabric IQ, what it adds over a good semantic model and how to scope the first one. Ontology and the IQ workload are in preview as of October 2026.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 4</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=AI" data-astro-cid-eomsrdgo>AI</a><a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a><a class="pill" href="/fabric-field-notes/articles/?tag=Power%20BI" data-astro-cid-eomsrdgo>Power BI</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>An ontology in Fabric IQ is a shared business vocabulary: entity types such as Customer, Order, Store and Shipment, their properties, the relationships between them, rules written in plain language and metrics carried over from Power BI DAX measures. It binds those definitions to live data in lakehouses, eventhouses, warehouses, SQL databases, mirrored databases and semantic models without copying the data. It is worth the modelling cost when several agents or teams must share one vocabulary across domains, especially in operational and real-time scenarios. It is overkill for a single-domain question and answer agent over one semantic model. As of October 2026 both the IQ workload and the ontology item are in <strong>preview</strong>. The old ontology experience retires on 31 January 2027. Plan for change.</p>
+<h2 id="the-decision">The decision</h2>
+<p>What each layer is for, so the ontology is not asked to do a semantic model's job.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Layer</th><th>What it holds</th><th>Best at</th><th>Not for</th></tr></thead><tbody><tr><td>Power BI semantic model</td><td>Tables, relationships, DAX measures</td><td>Trusted KPIs, fast interactive reports</td><td>Concepts that span several models or live streams</td></tr><tr><td>Ontology (preview)</td><td>Entity types, relationships, rules, metrics, bindings, namespaces</td><td>One vocabulary across domains for people, apps and agents</td><td>Querying data itself; it serves definitions, consumers query the bound sources</td></tr><tr><td>Graph (preview)</td><td>Materialised nodes and edges</td><td>Multihop paths, dependency chains, shortest paths</td><td>Routine lookups and aggregations</td></tr><tr><td>Data agent</td><td>Q&#x26;A over chosen sources</td><td>A tailored analyst for one domain</td><td>Governing definitions others reuse</td></tr><tr><td>Operations agent</td><td>Rules and actions over live data</td><td>Watching real-time data and recommending action</td><td>Ad hoc analysis</td></tr></tbody></table>
+<p>When it pays and when it does not:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Signal</th><th>Build an ontology</th><th>Stay with a semantic model and a data agent</th></tr></thead><tbody><tr><td>Domains involved</td><td>Three or more (sales, logistics, warehouse sensors)</td><td>One</td></tr><tr><td>Consumers</td><td>Several agents and apps need the same meaning</td><td>One report family, one agent</td></tr><tr><td>Data shape</td><td>Mix of eventhouse streams, lakehouse tables and models</td><td>One star schema</td></tr><tr><td>Questions</td><td>"Which orders are at risk because of that cold room?"</td><td>"What were net sales last month?"</td></tr><tr><td>Team</td><td>Someone can own a vocabulary as a product</td><td>Nobody has time to curate definitions</td></tr></tbody></table>
+<p>Facts that shape the design (preview, so check Learn before you commit):</p>
+<ul>
+<li>You can generate an ontology from an existing semantic model. Tables, relationships, calculated columns and DAX measures come across; measures become <strong>metrics</strong> whose DAX stays owned by the source model.</li>
+<li>Graph execution is opt-in. An ontology-derived graph does not load instance data unless you materialise it.</li>
+<li>Versions are named and created manually. Restoring one replaces the current definition.</li>
+<li>Import works from RDF, Turtle and OWL into an empty ontology. Export goes to RDF or Turtle.</li>
+<li>Access respects the bound data: OneLake security and source row, object and column level security still apply.</li>
+<li>The ontology agent follows Copilot regional processing. Outside the US and the EU Data Boundary it is disabled by default until an admin turns on the tenant setting <strong>Data sent to Azure OpenAI can be processed outside your capacity's geographic region, compliance boundary, or national cloud instance</strong>.</li>
+<li>During preview the ontology agent reads semantic models for grounding but does not bind entities directly to them. A Fabric data agent pointed at an ontology does not use the semantic-model grounding the ontology carries; only the ontology agent does.</li>
+<li>Old-experience ontologies need <strong>create a copy in the new experience</strong>. Rules and Activator alerts are recreated by hand and downstream agents and dashboards must be reconnected to the new item.</li>
+</ul>
+<h2 id="reference-design">Reference design</h2>
+<p>Harbour Goods, the fictional retailer used across this site, already has a sales semantic model. It wants one agent that can answer questions crossing orders, deliveries and the cold-store sensors.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Namespace: commerce                 Namespace: logistics</span></span>
+<span class="line"><span>  Store ----sells----> Product        Delivery ---fulfils---> Order</span></span>
+<span class="line"><span>    |                     |              |</span></span>
+<span class="line"><span>  places (via)         Order &#x3C;----------+</span></span>
+<span class="line"><span>                          |            Warehouse --has--> Sensor</span></span>
+<span class="line"><span>                       metric: Net sales,          property: temperature_c</span></span>
+<span class="line"><span>                       Gross margin % (from</span></span>
+<span class="line"><span>                       sm_sales_kpis DAX)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Rule (plain language, logistics):</span></span>
+<span class="line"><span>  "An order is at risk when its delivery is dispatched from a warehouse</span></span>
+<span class="line"><span>   where any cold-room sensor read above 8 C in the four hours before</span></span>
+<span class="line"><span>   dispatched_at."</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Bindings:</span></span>
+<span class="line"><span>  Store, Product, Order -> lakehouse tables stores, products, orders</span></span>
+<span class="line"><span>  Delivery              -> lakehouse table deliveries</span></span>
+<span class="line"><span>  Warehouse, Sensor     -> eventhouse table sensor_readings</span></span>
+<span class="line"><span>  Metrics               -> DAX measures owned by sm_sales_kpis</span></span>
+<span class="line"><span>Consumers:</span></span>
+<span class="line"><span>  ontology agent (sales and service desk), operations agent (cold chain),</span></span>
+<span class="line"><span>  Real-Time Dashboard with ontology as source,</span></span>
+<span class="line"><span>  Copilot Studio agent via the Fabric IQ Ontology MCP (preview)</span></span></code></pre>
+<p>Start with the generated ontology from <code>sm_sales_kpis</code>, bind entities to the gold lakehouse tables underneath it, then add the logistics namespace by hand. Keep the first version to the entity types the first two consumers actually ask about. An ontology that models the whole company before anyone uses it is a glossary project with a Fabric licence.</p>
+<h2 id="questions-to-ask-the-client">Questions to ask the client</h2>
+<ol>
+<li>Which questions do people ask today that need two or more systems to answer? If none, you do not need an ontology yet.</li>
+<li>Which semantic models are trusted enough to seed the ontology? Generating from a model nobody trusts imports its arguments too.</li>
+<li>Who owns each definition? "Active customer" needs one owner, not a committee.</li>
+<li>Which agents or apps will consume it in the next six months? Name them.</li>
+<li>Where is the capacity? Outside the US and EU, cross-geo processing for Copilot must be acceptable to the data protection team.</li>
+<li>How will you absorb preview changes? Someone must read release notes and the known issues list.</li>
+<li>Do relationship-path questions matter ("what is downstream of this warehouse")? Only then plan for graph materialisation and its cost.</li>
+</ol>
+<h2 id="review-checklist">Review checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> At least two named consumers, each with five real questions the ontology must answer.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Every metric traces to a DAX measure in a named semantic model.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Each entity type has one owner and one binding of record.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Namespaces match the domains that own the definitions.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Security tested with a restricted user through an agent, not only in the portal.</li>
+<li class="task-list-item"><input type="checkbox" disabled> A named version saved before every significant change.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Known issues for ontology checked on the Fabric known issues site.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Any old-experience ontology has a copy in the new experience well before 31 January 2027, with consumers rewired.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns</h2>
+<ul>
+<li><strong>Ontology as a data warehouse.</strong> It stores definitions and bindings, not data. Fix data quality in the lakehouse, not in the vocabulary.</li>
+<li><strong>Redefining measures.</strong> Writing a new margin formula in a rule when the semantic model already has one. Two definitions of margin is the problem the ontology was meant to solve.</li>
+<li><strong>Boiling the ocean.</strong> Fifty entity types on day one, zero consumers on day ninety.</li>
+<li><strong>Production promises on preview.</strong> Fine for a pilot with a named owner. Not fine for a regulatory report.</li>
+<li><strong>Graph by default.</strong> Materialising a graph for questions a SQL join answers in milliseconds.</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>For agents on a single model, start with <a href="/fabric-field-notes/articles/copilot-agents-ai-functions/">Copilot, agents and AI functions</a>. For the real-time bindings this design leans on, see <a href="/fabric-field-notes/articles/real-time-platform-design/">Real-time platform design</a> (rti-4-1). The question page behind this guide is <a href="/fabric-field-notes/questions/j06/">J06</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A distillery is a good case for an ontology because its questions cross systems by nature. A cask has a fill date, a spirit batch, a warehouse position and a strength reading at each regauge, all kept in different places. "Which casks filled from batch 14 sit in the warmest bay of Warehouse 2?" needs every one of them. Define Cask, Batch and Bay once, bind them to the production log, the warehouse map and the sensor feed. The same question then gets the same answer whether a blender asks the agent or a manager opens the dashboard.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/iq/overview">What is Fabric IQ?</a></li>
+<li><a href="https://learn.microsoft.com/fabric/iq/ontology/overview">What is ontology (preview)?</a></li>
+<li><a href="https://learn.microsoft.com/fabric/iq/ontology/how-to-use-ontology-agent">Use the ontology agent (preview) in Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/iq/ontology/how-to-generate-from-semantic-models">Generate an ontology (preview) from semantic models</a></li>
+<li><a href="https://learn.microsoft.com/fabric/iq/ontology/how-to-bind-data">Data binding in ontology (preview)</a></li>
+<li><a href="https://learn.microsoft.com/fabric/graph/overview">Graph in Microsoft Fabric overview (preview)</a></li>
+<li><a href="https://learn.microsoft.com/microsoft-copilot-studio/mcp-fabric-iq-ontology">Fabric IQ Ontology MCP (preview)</a></li>
+<li><a href="https://learn.microsoft.com/fabric/admin/service-admin-portal-copilot">Copilot and Agent tenant settings</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-decision" data-astro-cid-eomsrdgo>The decision</a></li><li data-astro-cid-eomsrdgo><a href="#reference-design" data-astro-cid-eomsrdgo>Reference design</a></li><li data-astro-cid-eomsrdgo><a href="#questions-to-ask-the-client" data-astro-cid-eomsrdgo>Questions to ask the client</a></li><li data-astro-cid-eomsrdgo><a href="#review-checklist" data-astro-cid-eomsrdgo>Review checklist</a></li><li data-astro-cid-eomsrdgo><a href="#anti-patterns" data-astro-cid-eomsrdgo>Anti-patterns</a></li><li data-astro-cid-eomsrdgo><a href="#next" data-astro-cid-eomsrdgo>Next</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-4" data-astro-cid-eomsrdgo>Level 4: Fabric IQ and ontologies</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

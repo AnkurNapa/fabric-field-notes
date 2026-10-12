@@ -1,0 +1,49 @@
+submission_id,store_id,order_id,issue_type,severity,note
+SUB-001,ST-007,HG-40103,wrong_item,1,Wrong colour sent
+SUB-002,ST-019,HG-40104,damaged,3,Carton crushed on arrival
+SUB-003,ST-019,HG-40105,missing,1,Two units short against delivery note
+SUB-004,ST-014,HG-40106,wrong_item,1,Wrong colour sent
+SUB-005,ST-003,HG-40108,wrong_item,1,Wrong colour sent
+SUB-006,ST-007,HG-40109,damaged,5,Carton crushed on arrival
+SUB-007,ST-003,HG-40113,missing,1,Two units short against delivery note
+SUB-008,ST-011,HG-40115,wrong_item,2,Wrong colour sent
+SUB-009,ST-019,HG-40116,late,5,Delivered after store close
+SUB-010,ST-003,HG-40118,missing,3,Two units short against delivery note
+SUB-011,ST-019,HG-40119,damaged,5,Carton crushed on arrival
+SUB-012,ST-019,HG-40120,missing,4,Two units short against delivery note
+SUB-013,ST-011,HG-40124,wrong_item,5,Wrong colour sent
+SUB-014,ST-011,HG-40128,late,2,Delivered after store close
+SUB-015,ST-022,HG-40130,missing,1,Two units short against delivery note
+SUB-016,ST-019,HG-40133,wrong_item,3,Wrong colour sent
+SUB-017,ST-011,HG-40137,damaged,1,Carton crushed on arrival
+SUB-018,ST-007,HG-40141,late,2,Delivered after store close
+SUB-019,ST-014,HG-40145,damaged,1,Carton crushed on arrival
+SUB-020,ST-011,HG-40148,late,5,Delivered after store close
+SUB-021,ST-019,HG-40152,wrong_item,1,Wrong colour sent
+SUB-022,ST-011,HG-40153,wrong_item,1,Wrong colour sent
+SUB-023,ST-022,HG-40154,late,5,Delivered after store close
+SUB-024,ST-011,HG-40158,wrong_item,3,Wrong colour sent
+SUB-025,ST-014,HG-40159,late,2,Delivered after store close
+SUB-026,ST-014,HG-40160,damaged,2,Carton crushed on arrival
+SUB-027,ST-007,HG-40163,missing,4,Two units short against delivery note
+SUB-028,ST-014,HG-40167,damaged,2,Carton crushed on arrival
+SUB-029,ST-014,HG-40171,late,2,Delivered after store close
+SUB-030,ST-019,HG-40175,late,4,Delivered after store close
+SUB-031,ST-022,HG-40178,wrong_item,2,Wrong colour sent
+SUB-032,ST-003,HG-40180,missing,2,Two units short against delivery note
+SUB-033,ST-022,HG-40182,missing,1,Two units short against delivery note
+SUB-034,ST-019,HG-40186,missing,3,Two units short against delivery note
+SUB-035,ST-003,HG-40189,missing,4,Two units short against delivery note
+SUB-036,ST-019,HG-40192,late,2,Delivered after store close
+SUB-037,st-14,HG-40182,missing,1,Two units short against delivery note
+SUB-038,ST14,HG-40106,wrong_item,1,Wrong colour sent
+SUB-039,ST-0141,HG-40175,late,4,Delivered after store close
+SUB-040,ST-019,HG-40192,late,0,Delivered after store close
+SUB-041,ST-014,HG-40160,damaged,6,Carton crushed on arrival
+SUB-042,ST-014,HG-40160,damaged,9,Carton crushed on arrival
+SUB-043,ST-014,HG-40160,broken,2,Customer complaint
+SUB-044,ST-014,HG-40160,lost,2,Customer complaint
+SUB-045,ST-003,HG-4012,missing,1,Two units short against delivery note
+SUB-046,ST-022,40133,wrong_item,2,Wrong colour sent
+SUB-047,ST-014,HG-40160,damaged,2,Carton crushed on arrival
+SUB-048,ST-014,HG-40106,wrong_item,1,Wrong colour sent

@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SQL basics on the SQL analytics endpoint | Fabric Field Notes</title><meta name="description" content="Learn SQL basics in Fabric: SELECT, WHERE and ORDER BY on the SQL analytics endpoint, with first queries on an orders table and answers to check."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/da-basics-03-sql-select-where-order-by/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="SQL basics on the SQL analytics endpoint"><meta property="og:description" content="Learn SQL basics in Fabric: SELECT, WHERE and ORDER BY on the SQL analytics endpoint, with first queries on an orders table and answers to check."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/da-basics-03-sql-select-where-order-by/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/da-basics-03-sql-select-where-order-by.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/start/" data-astro-cid-eomsrdgo>Data analysis basics, lesson 3 of 8</a></p> <h1 data-astro-cid-eomsrdgo>SQL basics on the SQL analytics endpoint</h1> <p class="lede" data-astro-cid-eomsrdgo>Lesson 3 of Data analysis basics. SELECT picks columns, WHERE picks rows and ORDER BY sorts them. Write your first queries against the Harbour Goods orders table in Fabric and check every answer.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span>  <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Lakehouse" data-astro-cid-eomsrdgo>Lakehouse</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>SQL is the language for asking questions of tables. Three parts do most of the work: <code>SELECT</code> says which columns you want, <code>WHERE</code> says which rows to keep and <code>ORDER BY</code> says how to sort the result. In Fabric you write SQL in the SQL analytics endpoint of a lakehouse. It is read only, so nothing you type in this lesson can damage the data.</p>
+<h2 id="why-it-matters-for-your-career">Why it matters for your career</h2>
+<p>SQL is in nearly every analyst job advert. It has been for thirty years. Once you can read and filter a table yourself, you stop waiting for someone else to export a spreadsheet for you.</p>
+<h2 id="the-idea">The idea</h2>
+<p>A query reads like a sentence. Think of it as "show me these columns, from this table, for rows like this, in this order".</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">SELECT</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> order_id, order_date, product_id, quantity   </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">-- which columns</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">FROM</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> dbo</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">orders</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">                                      -- which table</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">WHERE</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> store_id </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> 'ST-011'</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">                            -- which rows</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">ORDER BY</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> order_date;                                 </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">-- what order</span></span></code></pre>
+<p><code>dbo</code> is the <strong>schema</strong>, a named folder that holds tables. Text values go in single quotes, numbers do not. Anything after <code>--</code> is a comment that SQL ignores.</p>
+<p><code>WHERE</code> can combine conditions with <code>AND</code> (both must be true) and <code>OR</code> (either can be true). Comparisons use <code>=</code>, <code>&#x3C;></code> (not equal), <code>&#x3C;</code>, <code>></code>, <code>&#x3C;=</code> and <code>>=</code>. <code>ORDER BY</code> sorts ascending by default; add <code>DESC</code> for largest first. <code>TOP 10</code> after <code>SELECT</code> limits the result to ten rows, which is handy while you explore.</p>
+<h2 id="try-it-in-fabric">Try it in Fabric</h2>
+<p>Use the <code>lh_harbour</code> lakehouse from <a href="/fabric-field-notes/articles/da-basics-01-what-a-data-analyst-does/">lesson 1</a>.</p>
+<ol>
+<li>Open <code>lh_harbour</code> and switch the ribbon dropdown, top right, from <strong>Lakehouse</strong> to <strong>SQL analytics endpoint</strong>.</li>
+<li>Select <strong>New SQL query</strong>. A query editor opens. You can run one statement by selecting it and choosing <strong>Run</strong>.</li>
+<li>Look first. Run <code>SELECT TOP 10 * FROM dbo.orders;</code>. The star means every column. Use it to explore, not in finished work.</li>
+<li>Count the rows: <code>SELECT COUNT(*) AS order_lines FROM dbo.orders;</code></li>
+<li>Run the store query from <strong>The idea</strong> above.</li>
+<li>Now a two-condition filter. Which order lines had three or more units of a product priced over 1,000 INR?</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">SELECT</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> order_id, order_date, store_id, product_id, quantity, unit_price</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">FROM</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> dbo</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">orders</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">WHERE</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> quantity </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">>=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 3</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">  AND</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> unit_price </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">></span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> 1000</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">ORDER BY</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> unit_price </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">DESC</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, order_date;</span></span></code></pre>
+<p>If a table does not appear in the endpoint's Explorer, select <strong>Refresh</strong>. The endpoint picks up new tables in the background and can lag a minute behind the lakehouse.</p>
+<p><strong>Check it worked.</strong> Step 4 returns 60. Step 5 returns nine rows for ST-011, starting with HG-40002 on 2026-07-02 and ending with HG-40054 on 2026-09-29. One of them, HG-40056, has an empty quantity. Step 6 returns nine rows:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>order_id</th><th>order_date</th><th>store_id</th><th>product_id</th><th>quantity</th><th>unit_price</th></tr></thead><tbody><tr><td>HG-40022</td><td>2026-07-30</td><td>ST-019</td><td>P-108</td><td>3</td><td>2899</td></tr><tr><td>HG-40013</td><td>2026-07-16</td><td>ST-007</td><td>P-103</td><td>3</td><td>2499</td></tr><tr><td>HG-40036</td><td>2026-08-26</td><td>ST-003</td><td>P-105</td><td>4</td><td>2199</td></tr><tr><td>HG-40042</td><td>2026-09-04</td><td>ST-007</td><td>P-105</td><td>3</td><td>2199</td></tr><tr><td>HG-40054</td><td>2026-09-29</td><td>ST-011</td><td>P-105</td><td>4</td><td>2199</td></tr><tr><td>HG-40006</td><td>2026-07-10</td><td>ST-003</td><td>P-107</td><td>4</td><td>1799</td></tr><tr><td>HG-40012</td><td>2026-07-14</td><td>ST-003</td><td>P-107</td><td>4</td><td>1799</td></tr><tr><td>HG-40010</td><td>2026-07-12</td><td>ST-019</td><td>P-104</td><td>3</td><td>1299</td></tr><tr><td>HG-40023</td><td>2026-08-01</td><td>ST-007</td><td>P-104</td><td>3</td><td>1299</td></tr></tbody></table>
+<p>The second sort column, <code>order_date</code>, breaks ties: the three rows at 2199 come out in date order.</p>
+<h2 id="common-beginner-mistakes">Common beginner mistakes</h2>
+<ul>
+<li><strong>Double quotes around text.</strong> In T-SQL, Microsoft's dialect of SQL, <code>'ST-011'</code> is a value and <code>"ST-011"</code> is treated as a column name, so the query fails.</li>
+<li><strong>Forgetting that blanks are special.</strong> The empty quantity in HG-40056 is a <strong>NULL</strong>, meaning "no value". <code>WHERE quantity = NULL</code> finds nothing; write <code>WHERE quantity IS NULL</code>.</li>
+<li><strong>Mixing AND and OR without brackets.</strong> <code>WHERE a OR b AND c</code> means <code>a OR (b AND c)</code>. Add brackets so the next reader does not have to guess.</li>
+<li><strong>Trying to fix data here.</strong> <code>UPDATE</code> and <code>DELETE</code> fail on the SQL analytics endpoint because it is read only. That is a feature. Lesson 6 shows how to clean data without changing the source.</li>
+</ul>
+<h2 id="next-lesson">Next lesson</h2>
+<p>Next, <a href="/fabric-field-notes/articles/da-basics-04-group-by-and-totals/">Grouping and totals</a>: GROUP BY, SUM, COUNT and HAVING. Previous: <a href="/fabric-field-notes/articles/da-basics-02-asking-a-good-question/">Asking a good question</a>. This lesson covers the query half of the roadmap step <a href="/fabric-field-notes/roadmap/#level-1">Your first lakehouse</a> (eng-1-1); the full build is in <a href="/fabric-field-notes/articles/first-lakehouse-sales-csv/">Your first lakehouse</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A distillery keeps a cask register: one row per cask with its warehouse, fill date, strength and bulk litres. The same three clauses answer the daily questions. <code>WHERE warehouse = 'W2' AND fill_date &#x3C; '2023-01-01'</code> finds casks old enough to sample. <code>ORDER BY strength_abv DESC</code> puts the hottest first. A cask with an empty strength is a NULL. It is usually the one that was refilled and never re-dipped.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/data-engineering/lakehouse-sql-analytics-endpoint">What is the SQL analytics endpoint for a lakehouse?</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-warehouse/sql-query-editor">Query using the SQL query editor</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-engineering/sql-analytics-endpoint-metadata-sync">SQL analytics endpoint metadata sync</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-warehouse/tsql-surface-area">T-SQL surface area in Fabric Data Warehouse</a></li>
+<li><a href="https://learn.microsoft.com/sql/t-sql/queries/select-transact-sql">SELECT (Transact-SQL)</a></li>
+</ul> <nav class="lesson-nav" aria-label="Lessons" data-astro-cid-eomsrdgo> <a href="/fabric-field-notes/articles/da-basics-02-asking-a-good-question/" data-astro-cid-eomsrdgo><span class="meta" data-astro-cid-eomsrdgo>Previous lesson</span>Asking a good question</a> <a class="nx" href="/fabric-field-notes/articles/da-basics-04-group-by-and-totals/" data-astro-cid-eomsrdgo><span class="meta" data-astro-cid-eomsrdgo>Next lesson</span>Grouping and totals</a> </nav> <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#why-it-matters-for-your-career" data-astro-cid-eomsrdgo>Why it matters for your career</a></li><li data-astro-cid-eomsrdgo><a href="#the-idea" data-astro-cid-eomsrdgo>The idea</a></li><li data-astro-cid-eomsrdgo><a href="#try-it-in-fabric" data-astro-cid-eomsrdgo>Try it in Fabric</a></li><li data-astro-cid-eomsrdgo><a href="#common-beginner-mistakes" data-astro-cid-eomsrdgo>Common beginner mistakes</a></li><li data-astro-cid-eomsrdgo><a href="#next-lesson" data-astro-cid-eomsrdgo>Next lesson</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-1" data-astro-cid-eomsrdgo>Level 1: Your first lakehouse</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

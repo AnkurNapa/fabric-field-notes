@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Row and object security that holds under Direct Lake | Fabric Field Notes</title><meta name="description" content="Set up dynamic row-level and object-level security on a Direct Lake model and learn which identity reads the data in OneLake and SQL modes."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/row-object-security-direct-lake/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Row and object security that holds under Direct Lake"><meta property="og:description" content="Set up dynamic row-level and object-level security on a Direct Lake model and learn which identity reads the data in OneLake and SQL modes."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/row-object-security-direct-lake/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/row-object-security-direct-lake.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Row and object security that holds under Direct Lake</h1> <p class="lede" data-astro-cid-eomsrdgo>Give each regional lead only their stores and hide product cost from them, with dynamic RLS and OLS on a Direct Lake model. Plus the part most guides skip: where the rules live, which identity reads the data and why Direct Lake on OneLake and on SQL behave differently.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 2</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Power%20BI" data-astro-cid-eomsrdgo>Power BI</a><a class="pill" href="/fabric-field-notes/articles/?tag=Direct%20Lake" data-astro-cid-eomsrdgo>Direct Lake</a><a class="pill" href="/fabric-field-notes/articles/?tag=Security" data-astro-cid-eomsrdgo>Security</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Define row-level security (RLS) and object-level security (OLS) as roles in the semantic model, then bind the Direct Lake model to a fixed identity cloud connection with single sign-on off. That combination keeps queries in memory and stops viewers going round the model to the lakehouse. Two rules catch almost everyone. First, model roles only apply to workspace Viewers; Admin, Member and Contributor bypass them, so test with a real Viewer. Second, RLS written on the lakehouse SQL analytics endpoint is not semantic model RLS. Direct Lake on SQL honours it by falling back to DirectQuery. Direct Lake on OneLake does not read it at all.</p>
+<h2 id="what-you-will-build">What you will build</h2>
+<p>Harbour Goods has four regional leads. Each should see sales for their own region's stores and nothing else. None of them should see product cost, because cost prices are negotiated centrally and the leads talk to suppliers.</p>
+<p>On the <code>sm_sales_kpis</code> model you will add:</p>
+<ul>
+<li>A <code>dim_store</code> table (store, city, region) and a <code>region_access</code> table that maps a user's sign-in name to the regions they can see.</li>
+<li>One dynamic role, <code>Region leads</code>, that filters stores by the signed-in user.</li>
+<li>OLS on the same role that hides <code>fact_sales[cost_amount]</code>.</li>
+<li>A fixed identity connection so viewers need no access to the lakehouse itself.</li>
+</ul>
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>The <code>lh_sales_gold</code> lakehouse and <code>sm_sales_kpis</code> Direct Lake on OneLake model from <a href="/fabric-field-notes/articles/direct-lake-model-sales-kpis/">Your first Direct Lake model</a>.</li>
+<li>The store list: <a href="/fabric-field-notes/samples/harbour-goods-stores.csv">harbour-goods-stores.csv</a>, six stores in four regions. Upload it to the lakehouse <strong>Files</strong> area.</li>
+<li>Two accounts: yours (Admin or Member) and a test account added to the workspace as <strong>Viewer</strong>. Without the second account you cannot see RLS working.</li>
+<li>Contributor or higher to create the cloud connection.</li>
+</ul>
+<h2 id="step-1-add-the-store-and-access-tables">Step 1: add the store and access tables</h2>
+<p>Open a notebook on the lakehouse and run this. Replace the two sign-in names with real ones from your tenant: your own and your Viewer test account.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">stores </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> (spark.read.option(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"header"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">True</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">          .csv(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"Files/harbour-goods-stores.csv"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">          .selectExpr(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"store_id"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"city"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"region"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"to_date(opened) AS opened"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">))</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">stores.write.mode(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"overwrite"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">).format(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"delta"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">).saveAsTable(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"dim_store"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">access </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> spark.createDataFrame(</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    [(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"you@yourtenant.example"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"West"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">),</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">     (</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"viewer.test@yourtenant.example"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"West"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">),</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">     (</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"viewer.test@yourtenant.example"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"South"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)],</span></span>
+<span class="line"><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">    "user_upn string, region string"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">access.write.mode(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"overwrite"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">).format(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"delta"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">).saveAsTable(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">"region_access"</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">)</span></span></code></pre>
+<p>Store sign-in names in lower case. <code>USERPRINCIPALNAME()</code> returns the user principal name as the service resolves it. A capital letter typed into a mapping table is the most common reason a lead sees an empty report on day one.</p>
+<p>In production this mapping comes from HR or an identity export, not a notebook. Keep it as a Delta table so the access list has history and an owner.</p>
+<h2 id="step-2-add-the-tables-to-the-model">Step 2: add the tables to the model</h2>
+<ol>
+<li>Open <code>sm_sales_kpis</code> from the workspace and switch to <strong>Editing</strong>.</li>
+<li>Select <strong>Edit tables</strong>, tick <code>dim_store</code> and <code>region_access</code> and confirm.</li>
+<li>Drag <code>fact_sales[store_id]</code> onto <code>dim_store[store_id]</code>: <strong>Many to one</strong>, cross filter <strong>Single</strong>.</li>
+<li>Leave <code>region_access</code> unrelated. Hide it from report view (right-click > <strong>Hide</strong>).</li>
+</ol>
+<p>Single direction is deliberate. Bidirectional relationships are not supported in a Direct Lake model when the source relies on OneLake security RLS. They also make RLS filters harder to reason about.</p>
+<h2 id="step-3-create-the-dynamic-role">Step 3: create the dynamic role</h2>
+<ol>
+<li>On the ribbon select <strong>Manage roles</strong>, then <strong>New</strong>. Name the role <code>Region leads</code>.</li>
+<li>Under <strong>Select tables</strong> pick <code>dim_store</code>. Select <strong>Switch to DAX editor</strong> and enter:</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="dax"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">dim_store[region]</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">    IN</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> CALCULATETABLE</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> (</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        VALUES</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">region_access[region]</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ),</span></span>
+<span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">        region_access[user_upn]</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> LOWER</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">USERPRINCIPALNAME</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> () )</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    )</span></span></code></pre>
+<ol start="3">
+<li>Pick <code>region_access</code> and enter:</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="dax"><code><span class="line"><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">region_access[user_upn]</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> LOWER</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> ( </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">USERPRINCIPALNAME</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> () )</span></span></code></pre>
+<ol start="4">
+<li>Select <strong>Save</strong>, then <strong>Assign</strong> and add the Viewer test account. <strong>Save</strong> again.</li>
+</ol>
+<p>The second filter stops a lead with Build permission from querying the mapping table and learning who else sees what. The filter on <code>dim_store</code> flows to <code>fact_sales</code> through the relationship, so one rule covers every measure.</p>
+<h2 id="step-4-hide-cost-with-ols">Step 4: hide cost with OLS</h2>
+<p>There is no OLS designer. Learn documents TMDL for it. TMDL view is available in the browser as a preview (some tenants label it <strong>TMDL View (Preview)</strong>) as well as in Desktop.</p>
+<ol>
+<li>Open TMDL view and drag the <code>Region leads</code> role from the <strong>Data</strong> pane into the editor. It scripts the role you just built as a <code>createOrReplace</code> block.</li>
+<li>Add the <code>fact_sales</code> permission at the bottom, keeping the indentation:</li>
+</ol>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>		tablePermission fact_sales</span></span>
+<span class="line"><span>			columnPermission cost_amount</span></span>
+<span class="line"><span>				metadataPermission: none</span></span></code></pre>
+<ol start="3">
+<li>Select <strong>Preview</strong>, check only the role changes, then <strong>Apply</strong>.</li>
+</ol>
+<p>Scripting the role first matters. A <code>createOrReplace</code> that only contains the OLS lines replaces the whole role and silently drops the RLS filters you wrote in Step 3.</p>
+<p>OLS hides the column and any measure that depends on it. For this role, <code>Gross margin %</code> and <code>Average order margin %</code> stop working and visuals that use them show a "can't be found" error. That is the intended behaviour, so give the leads a report page built on Net sales and quantities rather than reusing the margin page.</p>
+<p>Keep RLS and OLS for the same audience in one role. Mixing an OLS role and a separate RLS role for one person is where tabular models start returning errors.</p>
+<h2 id="step-5-bind-a-fixed-identity">Step 5: bind a fixed identity</h2>
+<ol>
+<li>In the workspace, open <strong>...</strong> on <code>sm_sales_kpis</code> > <strong>Settings</strong>.</li>
+<li>Expand <strong>Gateway and cloud connections</strong>. Under <strong>Cloud connections</strong>, open <strong>Maps to</strong> and select <strong>Create a connection</strong>.</li>
+<li>Choose <strong>OAuth 2.0</strong>, <strong>Service Principal</strong> or <strong>Workspace Identity</strong> as the authentication method. Key and SAS options may appear but are not supported for Direct Lake.</li>
+<li>Leave single sign-on off. The option is described as Microsoft Entra ID SSO for DirectQuery and Direct Lake queries; the exact label may vary.</li>
+<li>Give the fixed identity Read and ReadAll on <code>lh_sales_gold</code>. Select <strong>Apply</strong> on the model settings.</li>
+</ol>
+<p>Now the model reads the lake as one identity and applies your roles on top. Viewers need Read on the model and the report, nothing on the lakehouse. With SSO on, every viewer needs ReadAll on the lakehouse and can walk past the roles through a notebook or the SQL endpoint.</p>
+<h2 id="onelake-or-sql-where-the-rules-actually-run">OneLake or SQL: where the rules actually run</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Rule written in</th><th>Direct Lake on OneLake</th><th>Direct Lake on SQL</th></tr></thead><tbody><tr><td>Semantic model RLS and OLS</td><td>Applied in memory</td><td>Applied in memory</td></tr><tr><td>SQL analytics endpoint RLS</td><td>Not applied (see note)</td><td>Applied, query falls back to DirectQuery</td></tr><tr><td>SQL analytics endpoint CLS or OLS</td><td>Not evaluated</td><td>Query errors on the secured column</td></tr><tr><td>OneLake security RLS and OLS</td><td>Applied, then intersected with model roles</td><td>Not applicable</td></tr></tbody></table>
+<p>Learn is not consistent about the second row. The Direct Lake overview says queries on OneLake succeed and SQL endpoint RLS is not applied. The security integration page says such queries return an error. Either way the SQL rule does not protect a Direct Lake on OneLake report. Test it in your tenant before relying on either reading. Put the rule in the model or in OneLake security.</p>
+<p>OneLake security is the choice when the same rows must be enforced in Spark, SQL and Power BI alike. Model roles only exist inside the model. A lead with ReadAll on the lakehouse can still read every row in a notebook.</p>
+<h2 id="check-it-worked">Check it worked</h2>
+<ol>
+<li>In the workspace, open <strong>...</strong> on <code>sm_sales_kpis</code> > <strong>Security</strong>, then <strong>...</strong> next to <code>Region leads</code> > <strong>Test as role</strong>. <code>USERPRINCIPALNAME()</code> returns your own identity here, so you see what your mapping row allows: West only.</li>
+<li>Sign in as the Viewer test account and open the report.</li>
+</ol>
+<p>Figures computed from the 66-row sample:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Who</th><th>Net sales</th><th>Orders</th><th>Cost column</th></tr></thead><tbody><tr><td>You, as Admin</td><td>468,212.55</td><td>66</td><td>Visible</td></tr><tr><td>You, Test as role (West)</td><td>194,931.65</td><td>21</td><td>Hidden</td></tr><tr><td>Viewer test account (West and South)</td><td>320,621.10</td><td>43</td><td>Hidden</td></tr></tbody></table>
+<p>West is ST-011 Mumbai and ST-014 Pune. South adds ST-003 Bengaluru and ST-007 Chennai. If the Viewer sees 468,212.55, they are not a Viewer. If they see blank, compare their sign-in name with the <code>region_access</code> row character by character.</p>
+<h2 id="where-this-breaks">Where this breaks</h2>
+<ul>
+<li><strong>Workspace roles beat model roles.</strong> Admin, Member and Contributor have Write on the model and RLS never applies to them. A lead given Contributor "so they can build their own reports" sees everything.</li>
+<li><strong>SSO hands out the lake.</strong> With SSO on, viewers need lakehouse access to query the model. Anyone with that access can bypass model roles through other engines.</li>
+<li><strong>Owner access for framing.</strong> The model owner must be able to read the source tables or refresh fails with an access denied message naming the tables.</li>
+<li><strong>Guest users.</strong> For B2B guests <code>USERPRINCIPALNAME()</code> may return an <code>#EXT#</code> form. Test with the real guest account; Test as role uses your identity.</li>
+<li><strong>Copilot and Q&#x26;A.</strong> Test as role cannot validate Copilot or Q&#x26;A output. Sign in as a Viewer to check what Copilot answers for a restricted user.</li>
+<li><strong>OneLake security limits.</strong> It does not support dynamic rules, so per-user mappings like this one stay in the model. After changing OneLake security roles, refresh Direct Lake on OneLake models that read the item.</li>
+</ul>
+<h2 id="next-on-the-roadmap">Next on the roadmap</h2>
+<p>This is Row and object security (bi-2-4) on the <a href="/fabric-field-notes/roadmap/">roadmap</a>. Before it, <a href="/fabric-field-notes/articles/calculation-groups-field-parameters/">Calculation groups and field parameters</a> (bi-2-3). Next, label the model as confidential and trace who depends on it in <a href="/fabric-field-notes/articles/labels-endorsement-lineage/">Labels, endorsement and lineage</a> (gov-2-2). For the wider sharing picture, read <a href="/fabric-field-notes/articles/sharing-without-regret/">Sharing without regret</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A brewing group with three sites wants one production model where each head brewer sees only their own fermentation vessels and batches. The pattern is identical: a site table, a mapping of sign-in names to sites and one dynamic role. Brewery A's brewer opens the report and sees FV-01 to FV-08 and nothing from the other sites. The OLS line hides malt and hop cost per batch, which head office negotiates and site teams do not need. The model shows the brewer their tanks. It cannot stop someone with lakehouse access reading the other sites' gravity logs in a notebook, so the fixed identity is not optional.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/fundamentals/direct-lake-security-integration">Integrate Direct Lake security</a></li>
+<li><a href="https://learn.microsoft.com/fabric/fundamentals/direct-lake-overview">Direct Lake overview: comparison and limitations</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/service-admin-row-level-security">Row-level security (RLS) with Power BI</a></li>
+<li><a href="https://learn.microsoft.com/fabric/security/service-admin-object-level-security">Object-level security (OLS)</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/transform-model/service-edit-data-models">Edit semantic models in the Power BI service</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/transform-model/desktop-tmdl-view">Work with TMDL view</a></li>
+<li><a href="https://learn.microsoft.com/power-bi/connect-data/service-connect-cloud-data-sources">Connect to cloud data sources in the Power BI service</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#what-you-will-build" data-astro-cid-eomsrdgo>What you will build</a></li><li data-astro-cid-eomsrdgo><a href="#before-you-start" data-astro-cid-eomsrdgo>Before you start</a></li><li data-astro-cid-eomsrdgo><a href="#step-1-add-the-store-and-access-tables" data-astro-cid-eomsrdgo>Step 1: add the store and access tables</a></li><li data-astro-cid-eomsrdgo><a href="#step-2-add-the-tables-to-the-model" data-astro-cid-eomsrdgo>Step 2: add the tables to the model</a></li><li data-astro-cid-eomsrdgo><a href="#step-3-create-the-dynamic-role" data-astro-cid-eomsrdgo>Step 3: create the dynamic role</a></li><li data-astro-cid-eomsrdgo><a href="#step-4-hide-cost-with-ols" data-astro-cid-eomsrdgo>Step 4: hide cost with OLS</a></li><li data-astro-cid-eomsrdgo><a href="#step-5-bind-a-fixed-identity" data-astro-cid-eomsrdgo>Step 5: bind a fixed identity</a></li><li data-astro-cid-eomsrdgo><a href="#onelake-or-sql-where-the-rules-actually-run" data-astro-cid-eomsrdgo>OneLake or SQL: where the rules actually run</a></li><li data-astro-cid-eomsrdgo><a href="#check-it-worked" data-astro-cid-eomsrdgo>Check it worked</a></li><li data-astro-cid-eomsrdgo><a href="#where-this-breaks" data-astro-cid-eomsrdgo>Where this breaks</a></li><li data-astro-cid-eomsrdgo><a href="#next-on-the-roadmap" data-astro-cid-eomsrdgo>Next on the roadmap</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-2" data-astro-cid-eomsrdgo>Level 2: Row and object security</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

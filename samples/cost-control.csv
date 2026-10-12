@@ -1,0 +1,41 @@
+month,capacity,workspace,domain,item,item_type,cu_hours
+2026-09,caphgprodf32,ws-sales-prod,Sales,sm_sales_kpis,Semantic model,1206
+2026-09,caphgprodf32,ws-sales-prod,Sales,rpt_store_daily,Report,337
+2026-09,caphgprodf32,ws-sales-prod,Sales,rpt_regional_review,Report,150
+2026-09,caphgprodf32,ws-sales-prod,Sales,nb_build_gold_sales,Notebook,654
+2026-09,caphgprodf32,ws-sales-prod,Sales,pl_nightly_sales,Pipeline,117
+2026-09,caphgprodf32,ws-sales-prod,Sales,lh_sales_gold,Lakehouse,177
+2026-09,caphgprodf32,ws-sales-prod,Sales,da_sales_questions,Data agent,279
+2026-09,caphgprodf32,ws-supply-prod,Supply chain,df_deliveries_full_reload,Dataflow Gen2,2352
+2026-09,caphgprodf32,ws-supply-prod,Supply chain,lh_deliveries,Lakehouse,223
+2026-09,caphgprodf32,ws-supply-prod,Supply chain,sm_delivery_sla,Semantic model,563
+2026-09,caphgprodf32,ws-supply-prod,Supply chain,rpt_carrier_scorecard,Report,205
+2026-09,caphgprodf32,ws-supply-prod,Supply chain,nb_carrier_join,Notebook,384
+2026-09,caphgprodf32,ws-supply-prod,Supply chain,pl_delivery_events,Pipeline,79
+2026-09,caphgprodf32,ws-coldstore-prod,Supply chain,eh_sensor_readings,Eventhouse,1462
+2026-09,caphgprodf32,ws-coldstore-prod,Supply chain,es_warehouse_sensors,Eventstream,642
+2026-09,caphgprodf32,ws-coldstore-prod,Supply chain,act_temperature_alerts,Activator,119
+2026-09,caphgprodf32,ws-coldstore-prod,Supply chain,rtd_cold_store,Real-Time Dashboard,243
+2026-09,caphgprodf32,ws-finance-prod,Finance,wh_finance,Warehouse,876
+2026-09,caphgprodf32,ws-finance-prod,Finance,sm_margin,Semantic model,476
+2026-09,caphgprodf32,ws-finance-prod,Finance,rpt_month_end,Report,120
+2026-09,caphgprodf32,ws-finance-prod,Finance,rpt_store_pnl,Report,129
+2026-09,caphgprodf32,ws-finance-prod,Finance,pl_month_end_load,Pipeline,50
+2026-09,caphgprodf32,ws-finance-prod,Finance,nb_cost_allocation,Notebook,168
+2026-09,caphgprodf32,ws-merch-prod,Merchandising,sm_product_mix,Semantic model,324
+2026-09,caphgprodf32,ws-merch-prod,Merchandising,rpt_category_review,Report,114
+2026-09,caphgprodf32,ws-merch-prod,Merchandising,nb_price_elasticity,Notebook,424
+2026-09,caphgprodf32,ws-merch-prod,Merchandising,lh_merch,Lakehouse,62
+2026-09,caphgprodf32,ws-merch-prod,Merchandising,df_supplier_files,Dataflow Gen2,273
+2026-09,caphgprodf32,ws-platform-prod,Platform,nb_maintenance_optimize,Notebook,207
+2026-09,caphgprodf32,ws-platform-prod,Platform,pl_orchestrator,Pipeline,70
+2026-09,caphgprodf32,ws-platform-prod,Platform,lh_bronze_landing,Lakehouse,245
+2026-09,caphgprodf32,ws-platform-prod,Platform,cj_erp_copy,Copy job,380
+2026-09,caphgprodf32,ws-platform-prod,Platform,mirror_erp_orders,Mirrored database,158
+2026-09,caphgprodf32,ws-hr-prod,No domain,sm_headcount,Semantic model,81
+2026-09,caphgprodf32,ws-hr-prod,No domain,rpt_headcount,Report,41
+2026-09,caphgprodf32,ws-adhoc-analytics,No domain,nb_scratch_explore,Notebook,419
+2026-09,caphgprodf32,ws-adhoc-analytics,No domain,sm_scratch_copy_sales,Semantic model,239
+2026-09,caphgprodf32,ws-adhoc-analytics,No domain,rpt_scratch,Report,44
+2026-09,caphgprodf32,ws-adhoc-analytics,No domain,df_scratch_import,Dataflow Gen2,227
+2026-09,caphgprodf32,ws-sales-prod,Sales,rpt_promotions,Report,85

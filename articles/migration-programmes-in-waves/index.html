@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="en-GB" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Migration programmes: Synapse, ADF, SSIS and Databricks in waves | Fabric Field Notes</title><meta name="description" content="Run a Fabric migration from Synapse, ADF, SSIS and Databricks in waves, with the right tool per workload and an acceptance test per wave."><link rel="canonical" href="https://ankurnapa.github.io/fabric-field-notes/articles/migration-programmes-in-waves/"><meta property="og:type" content="article"><meta property="og:site_name" content="Fabric Field Notes"><meta property="og:title" content="Migration programmes: Synapse, ADF, SSIS and Databricks in waves"><meta property="og:description" content="Run a Fabric migration from Synapse, ADF, SSIS and Databricks in waves, with the right tool per workload and an acceptance test per wave."><meta property="og:url" content="https://ankurnapa.github.io/fabric-field-notes/articles/migration-programmes-in-waves/"><meta property="og:image" content="https://ankurnapa.github.io/fabric-field-notes/og/migration-programmes-in-waves.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="author" content="Ankur Napa"><script>
+      try { var t = localStorage.getItem('ffn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script><meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#252423" media="(prefers-color-scheme: dark)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1ZHW47YJDC"></script><script>(function(){const gaId = "G-1ZHW47YJDC";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        })();</script><link rel="icon" type="image/svg+xml" href="/fabric-field-notes/logo.svg"><link rel="apple-touch-icon" href="/fabric-field-notes/apple-touch-icon.png"><link rel="stylesheet" href="/fabric-field-notes/_astro/about.C7KcOuEK.css">
+<link rel="stylesheet" href="/fabric-field-notes/_astro/_id_.CzM3x6oR.css"></head> <body data-astro-cid-5hce7sga> <a class="skip" href="#main" data-astro-cid-5hce7sga>Skip to content</a> <header class="site-head" data-astro-cid-5hce7sga> <div class="wrap bar" data-astro-cid-5hce7sga> <a class="brand" href="/fabric-field-notes/" aria-label="Fabric Field Notes home" data-astro-cid-5hce7sga> <img src="/fabric-field-notes/logo.svg" width="28" height="28" alt="" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga>Fabric <strong data-astro-cid-5hce7sga>Field Notes</strong></span> </a> <nav id="site-nav" aria-label="Main" data-astro-cid-5hce7sga> <a href="/fabric-field-notes/" class="home" aria-label="Home" data-astro-cid-5hce7sga> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" data-astro-cid-5hce7sga></path></svg> </a> <a href="/fabric-field-notes/start/" data-astro-cid-5hce7sga>Start here</a><a href="/fabric-field-notes/roadmap/" data-astro-cid-5hce7sga>Roadmap</a><a href="/fabric-field-notes/careers/" data-astro-cid-5hce7sga>Careers</a><a href="/fabric-field-notes/articles/" aria-current="page" data-astro-cid-5hce7sga>Articles</a><a href="/fabric-field-notes/questions/" data-astro-cid-5hce7sga>Questions</a><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Calculator</a><a href="/fabric-field-notes/events/" data-astro-cid-5hce7sga>Events</a><a href="/fabric-field-notes/about/" data-astro-cid-5hce7sga>About</a> <a class="nav-follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a> </nav> <a class="find" href="/fabric-field-notes/search/" aria-label="Search" data-astro-cid-5hce7sga> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="11" cy="11" r="7" data-astro-cid-5hce7sga></circle><path d="M20 20l-3.5-3.5" data-astro-cid-5hce7sga></path></svg> </a> <button class="theme" type="button" aria-label="Colour theme: auto" title="Colour theme" data-astro-cid-5hce7sga> <svg class="i-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="9" data-astro-cid-5hce7sga></circle><path d="M12 3v18" data-astro-cid-5hce7sga></path><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" data-astro-cid-5hce7sga></path></svg> <svg class="i-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><circle cx="12" cy="12" r="4" data-astro-cid-5hce7sga></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-5hce7sga></path></svg> <svg class="i-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-5hce7sga></path></svg> <span class="theme-label" data-astro-cid-5hce7sga>Auto</span> </button> <a class="follow" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow</a> <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-astro-cid-5hce7sga> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" data-astro-cid-5hce7sga><path class="m-open" d="M4 7h16M4 12h16M4 17h16" data-astro-cid-5hce7sga></path><path class="m-close" d="M6 6l12 12M18 6L6 18" data-astro-cid-5hce7sga></path></svg> <span class="menu-label" data-astro-cid-5hce7sga>Menu</span> </button> </div> <div class="promo" data-astro-cid-5hce7sga> <div class="wrap promo-in" data-astro-cid-5hce7sga> <span class="promo-tag" data-astro-cid-5hce7sga>User group</span> <span class="promo-date" data-astro-cid-5hce7sga>Fri, 16 October 2026, 6:00 PM IST</span> <span class="promo-title" data-astro-cid-5hce7sga>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</span> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-5hce7sga>Join free</a> </div> </div> </header> <main id="main" data-pagefind-body data-astro-cid-5hce7sga> <header class="head" data-astro-cid-eomsrdgo> <div class="wrap" data-astro-cid-eomsrdgo> <p class="back" data-astro-cid-eomsrdgo><a class="more" href="/fabric-field-notes/articles/" data-astro-cid-eomsrdgo>All articles</a></p> <h1 data-astro-cid-eomsrdgo>Migration programmes: Synapse, ADF, SSIS and Databricks in waves</h1> <p class="lede" data-astro-cid-eomsrdgo>A design guide for running a Fabric migration as a programme of waves rather than one big cutover. Which tool moves which workload, what each one leaves behind and the acceptance test that decides when a wave is actually done.</p> <p class="facts" data-astro-cid-eomsrdgo> <span class="meta" data-astro-cid-eomsrdgo>11 Oct 2026</span>  <span class="badge asof" data-astro-cid-eomsrdgo>Fabric as of October 2026</span> <span class="badge docs" data-astro-cid-eomsrdgo>Checked against Microsoft Learn</span> <span class="badge lvl" data-astro-cid-eomsrdgo>Level 4</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <span class="byline" data-astro-cid-eomsrdgo><img class="avatar" src="/fabric-field-notes/ankur.jpg" alt="" width="28" height="28" data-astro-cid-eomsrdgo> Ankur Napa</span> <span class="sep" aria-hidden="true" data-astro-cid-eomsrdgo></span> <a class="pill" href="/fabric-field-notes/articles/?tag=Lakehouse" data-astro-cid-eomsrdgo>Lakehouse</a><a class="pill" href="/fabric-field-notes/articles/?tag=Warehouse" data-astro-cid-eomsrdgo>Warehouse</a><a class="pill" href="/fabric-field-notes/articles/?tag=Spark" data-astro-cid-eomsrdgo>Spark</a><a class="pill" href="/fabric-field-notes/articles/?tag=Governance" data-astro-cid-eomsrdgo>Governance</a> </p> </div> </header> <div class="wrap layout" data-astro-cid-eomsrdgo> <article class="body" data-astro-cid-eomsrdgo>  <h2 id="short-answer">Short answer</h2>
+<p>Do not migrate a platform. Migrate workloads, one wave at a time, each with its own tool and its own exit test. Synapse is really three migrations: Spark goes through the Spark Migration Assistant, dedicated SQL pools go through the Fabric Migration Assistant for Data Warehouse and pipelines follow the Data Factory upgrade path. ADF pipelines get assessed and upgraded where they are marked Ready, while the rest keep running in ADF. SSIS packages can run as they are through the Invoke SSIS Package activity, then get rewritten when they earn it. Databricks usually stays where it is and gets mirrored. Move data access first so Fabric can read existing data on day one, then ingestion, then transformation, then models and reports. A wave is finished when consumers have moved and the old thing is switched off, not when objects exist in Fabric.</p>
+<h2 id="the-decision">The decision</h2>
+<p>Most migration arguments are really one question asked badly: lift and shift or rebuild? The honest answer depends on three things the client already knows: how hard the deadline is, how clean the code is and how much the numbers matter to an auditor.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Approach</th><th>Pick it when</th><th>What it costs you</th><th>What it buys you</th></tr></thead><tbody><tr><td>Lift and shift</td><td>Hard deadline (a licence or a data centre exit), code is reasonably clean</td><td>You carry today's design debt into Fabric</td><td>Speed and a short parallel run</td></tr><tr><td>Phased modernisation</td><td>Lots of technical debt, no fixed exit date</td><td>Longer programme, two platforms billing at once</td><td>Each wave lands in a better shape than it left</td></tr><tr><td>Parallel run</td><td>Financial, regulatory or contractual numbers</td><td>Double compute for the run period, a reconciliation process to build</td><td>Evidence that the new numbers match the old ones</td></tr><tr><td>Coexist and do not migrate</td><td>The source works and the team is strong in it</td><td>Two platforms to govern for years</td><td>No migration risk at all for that workload</td></tr></tbody></table>
+<p>By source, the tooling looks like this.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Source workload</th><th>Fabric destination</th><th>Tool or path</th><th>Status (October 2026)</th><th>What it does not do</th></tr></thead><tbody><tr><td>Synapse Spark pools, notebooks, Spark job definitions, lake databases</td><td>Lakehouse, notebooks, environments</td><td>Spark Migration Assistant (<strong>Migrate</strong> on the workspace toolbar)</td><td>Preview</td><td>Moves no data. Lake databases only migrate if you pick a data gateway connection</td></tr><tr><td>Synapse dedicated SQL pool</td><td>Warehouse</td><td>Fabric Migration Assistant for Data Warehouse (DACPAC upload or direct connection)</td><td>No preview label for Synapse sources (Teradata is preview)</td><td>SQL authentication users, column-level encryption, external tables and multi-statement TVFs need workarounds</td></tr><tr><td>Synapse pipelines</td><td>Data Factory pipelines</td><td>Synapse pipelines migration experience</td><td>Preview</td><td>Migrate the Spark items first or notebook activities arrive unmapped</td></tr><tr><td>ADF pipelines</td><td>Data Factory pipelines</td><td>Mount the factory, <strong>Assess and upgrade</strong>, then upgrade Ready pipelines</td><td>Preview</td><td>Self-hosted IR, tumbling window triggers, CDC and dynamic linked services stay behind</td></tr><tr><td>SSIS packages</td><td>Pipeline running the package</td><td>Invoke SSIS Package activity</td><td>Preview</td><td>No on-premises or private network sources yet, no custom components</td></tr><tr><td>Databricks</td><td>Mirrored Azure Databricks catalog</td><td>Mirroring (metadata only, data read through shortcuts)</td><td>GA</td><td>Unity Catalog permissions do not travel</td></tr></tbody></table>
+<h2 id="reference-design">Reference design</h2>
+<p>A wave plan for Harbour Goods, the fictional retailer used across this site. Today it runs a Synapse workspace with a dedicated pool holding <code>orders</code> and <code>deliveries</code>, an ADF factory with 140 pipelines, 60 SSIS packages on an old SQL Server for store and product loads and a Databricks workspace the data science team likes.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Wave 0  Foundations          capacity, workspaces, identities, connections,</span></span>
+<span class="line"><span>                             gateways, Git and deployment pipelines</span></span>
+<span class="line"><span>Wave 1  Read before you move shortcuts to the Synapse ADLS account,</span></span>
+<span class="line"><span>                             mirrored Databricks catalog</span></span>
+<span class="line"><span>                             -> Power BI can use Direct Lake on day one</span></span>
+<span class="line"><span>Wave 2  Pilot, end to end    one subject area (deliveries): pipeline, table,</span></span>
+<span class="line"><span>                             model, report, all in Fabric, old path still live</span></span>
+<span class="line"><span>Wave 3  Ingestion            ADF Ready pipelines upgraded; SSIS packages run</span></span>
+<span class="line"><span>                             through Invoke SSIS Package</span></span>
+<span class="line"><span>Wave 4  Warehouse            dedicated pool schema via Migration Assistant,</span></span>
+<span class="line"><span>                             facts via CETAS + COPY INTO, dimensions via copy</span></span>
+<span class="line"><span>Wave 5  Transformation       Synapse notebooks via Spark Migration Assistant,</span></span>
+<span class="line"><span>                             mssparkutils -> notebookutils</span></span>
+<span class="line"><span>Wave 6  Consumers + exit     rebind reports, reroute extracts, parallel run</span></span>
+<span class="line"><span>                             on finance tables, then switch off the source</span></span></code></pre>
+<p>Two ordering rules drive that shape. First, data access before compute: shortcuts and mirroring let Fabric read the existing lake without moving anything, so reporting can start while the heavy engineering waits. Second, the pilot is a whole vertical slice, not a horizontal layer. A wave that moves every pipeline but no reports proves nothing to the business.</p>
+<p>For the big fact tables in the dedicated pool the fastest documented path is to extract in parallel with CETAS to ADLS Gen2, then load with <code>COPY INTO</code> in the Warehouse. The plain copy assistant is fine for dimensions like <code>stores</code> and <code>products</code>, which are small enough that elegance does not matter.</p>
+<h2 id="questions-to-ask-the-client">Questions to ask the client</h2>
+<ol>
+<li>What date forces this? A licence renewal, a data centre lease or nothing? The answer picks the approach in the first table.</li>
+<li>Which numbers would an auditor or a board member notice if they moved by one per cent? Those tables get a parallel run.</li>
+<li>How many SSIS packages use custom or third-party components, or read from sources inside a private network? Those cannot use the SSIS activity in preview.</li>
+<li>Do any ADF pipelines use tumbling window triggers? They need redesign as schedules plus watermark logic.</li>
+<li>Is the Synapse workspace inside a managed virtual network? The Spark Migration Assistant cannot migrate those.</li>
+<li>Who owns each downstream consumer: reports, extracts, APIs, spreadsheets with live connections? Nobody can decommission what nobody has listed.</li>
+<li>Is the Databricks team happy? If yes, mirror and leave them alone.</li>
+<li>What does Synapse workspace RBAC look like today? Warehouse grants and masking mostly migrate, but workspace access collapses to four Fabric roles, so that layer is a redesign, not a copy.</li>
+</ol>
+<h2 id="review-checklist">Review checklist</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> The Fabric Assessment Tool has been run against the Synapse workspace and the blockers list is in the plan.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Capacity Metrics app baseline taken on the target capacity before Wave 2.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Every wave has a named acceptance test covering data, security, operations and downstream consumption.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Upgraded ADF triggers are noted as arriving disabled, with a named person to re-enable them.</li>
+<li class="task-list-item"><input type="checkbox" disabled> SSIS packages saved with <code>DontSaveSensitive</code> have credentials supplied through connection manager overrides.</li>
+<li class="task-list-item"><input type="checkbox" disabled> Reconciliation queries exist for every table in a parallel run, with an agreed tolerance.</li>
+<li class="task-list-item"><input type="checkbox" disabled> The data sync for the parallel run period is designed before the run starts.</li>
+<li class="task-list-item"><input type="checkbox" disabled> A decommission date is in the calendar for each source, triggered by the date, not by someone remembering.</li>
+</ul>
+<h2 id="anti-patterns">Anti-patterns</h2>
+<ul>
+<li><strong>Big bang cutover.</strong> One weekend, everything moves, nothing is reversible. Waves exist so that one bad surprise costs a week, not the programme.</li>
+<li><strong>Done means created.</strong> Objects exist in Fabric, so the wave is marked green. Then a finance extract still points at the dedicated pool for six months. Done means the source is off.</li>
+<li><strong>Migrating the debt.</strong> Lifting a 2,000-line stored procedure into the Warehouse because the assistant converted it. If nobody can explain it, that is a rewrite candidate, not a migration win.</li>
+<li><strong>Rebuilding the Databricks silver layer in Fabric.</strong> Two teams transforming the same data means two compute bills and two answers. Mirror the gold.</li>
+<li><strong>Security as an afterthought.</strong> Synapse roles do not map one to one. Design the workspace and OneLake security model in Wave 0.</li>
+<li><strong>Decommissioning on a feeling.</strong> Switching off the source before every consumer is rerouted is how a store manager finds out first.</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>Pair this with <a href="/fabric-field-notes/articles/coexisting-databricks-snowflake/">Coexisting with Databricks and Snowflake</a> (eng-4-2) for the workloads you decide not to move. Read <a href="/fabric-field-notes/articles/git-deployment-pipelines-dev-to-prod/">Dev to prod without fear</a> for the Git and deployment path that Wave 0 has to land alongside it. The question pages behind this guide are <a href="/fabric-field-notes/questions/h01/">H01 Synapse</a>, <a href="/fabric-field-notes/questions/h02/">H02 ADF</a>, <a href="/fabric-field-notes/questions/h07/">H07 SSIS</a> and <a href="/fabric-field-notes/questions/h09/">H09 wave order</a>.</p>
+<h2 id="on-the-brewhouse-floor">On the brewhouse floor</h2>
+<p>A brewery that bought another brewery inherits its spreadsheets, its SQL Server and its SSIS jobs, the way it inherits the other site's yeast. Brewery A ran its brew logs and packaging counts through packages nobody had opened since the person who wrote them left. The wave approach works there too: run those packages untouched through the SSIS activity first, so the daily brew report keeps arriving, then rewrite the one that calculates excise volume, because that is the number a tax inspector reads. Packaging yield gets a parallel run. The cleaning schedule export does not.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/fabric/data-engineering/migrate-synapse-overview">Overview of migrating Azure Synapse Spark to Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-engineering/synapse-migration-strategy-planning">Phase 1: Migration strategy and planning</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-engineering/synapse-to-fabric-spark-migration-assistant">Migrate Spark workloads from Azure Synapse Analytics to Microsoft Fabric (Preview)</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-warehouse/migration-assistant">Fabric Migration Assistant for Data Warehouse</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-warehouse/migrate-using-connection-to-source-system">Migrate with a direct connection to the source system</a></li>
+<li><a href="https://learn.microsoft.com/azure/data-factory/how-to-upgrade-your-azure-synapse-analytics-pipelines-to-fabric-data-factory">Upgrade your Azure Synapse Analytics pipelines to Fabric Data Factory (preview)</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-factory/how-to-upgrade-your-azure-data-factory-pipelines-to-fabric-data-factory">Upgrade your Azure Data Factory pipelines to Fabric</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-factory/upgrade-best-practices">Upgrade best practices</a></li>
+<li><a href="https://learn.microsoft.com/fabric/data-factory/invoke-ssis-package-activity">Invoke SSIS Package activity</a></li>
+<li><a href="https://learn.microsoft.com/fabric/mirroring/azure-databricks">Mirroring Azure Databricks Unity Catalog</a></li>
+</ul>  <section class="author" data-astro-cid-eomsrdgo> <img src="/fabric-field-notes/ankur.jpg" alt="" width="64" height="64" data-astro-cid-eomsrdgo> <div data-astro-cid-eomsrdgo> <p class="name" data-astro-cid-eomsrdgo>Ankur Napa</p> <p data-astro-cid-eomsrdgo>Brewer turned Microsoft Fabric developer, certified DP-600. Leads the <a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-eomsrdgo>Bangalore Microsoft Fabric User Group</a>.</p> </div> </section> </article> <aside class="side" data-astro-cid-eomsrdgo> <nav class="box" aria-label="On this page" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On this page</p> <ol data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="#short-answer" data-astro-cid-eomsrdgo>Short answer</a></li><li data-astro-cid-eomsrdgo><a href="#the-decision" data-astro-cid-eomsrdgo>The decision</a></li><li data-astro-cid-eomsrdgo><a href="#reference-design" data-astro-cid-eomsrdgo>Reference design</a></li><li data-astro-cid-eomsrdgo><a href="#questions-to-ask-the-client" data-astro-cid-eomsrdgo>Questions to ask the client</a></li><li data-astro-cid-eomsrdgo><a href="#review-checklist" data-astro-cid-eomsrdgo>Review checklist</a></li><li data-astro-cid-eomsrdgo><a href="#anti-patterns" data-astro-cid-eomsrdgo>Anti-patterns</a></li><li data-astro-cid-eomsrdgo><a href="#next" data-astro-cid-eomsrdgo>Next</a></li><li data-astro-cid-eomsrdgo><a href="#on-the-brewhouse-floor" data-astro-cid-eomsrdgo>On the brewhouse floor</a></li><li data-astro-cid-eomsrdgo><a href="#sources" data-astro-cid-eomsrdgo>Sources</a></li></ol> </nav> <div class="box" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>On the roadmap</p> <ul data-astro-cid-eomsrdgo><li data-astro-cid-eomsrdgo><a href="/fabric-field-notes/roadmap/#level-4" data-astro-cid-eomsrdgo>Level 4: Migration programmes</a></li></ul> </div> <div class="box promo" data-astro-cid-eomsrdgo> <p class="meta" data-astro-cid-eomsrdgo>Next live session</p> <p class="t" data-astro-cid-eomsrdgo>Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</p> <p data-astro-cid-eomsrdgo>Fri 16 Oct, 6:00 PM IST</p> <a class="btn" href="https://community.fabric.microsoft.com/event/bangaloremicrosoftfabricusergroupoccasion-board/claude-code-and-rayfin-building-dashboard-mvps-on-microsoft-fabric---ankur-napa/5373428" data-astro-cid-eomsrdgo>Join free</a> </div> </aside> </div> </main> <footer class="site-foot" data-astro-cid-5hce7sga> <div class="wrap cols" data-astro-cid-5hce7sga> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Follow the notes</h2> <p data-astro-cid-5hce7sga>New walkthroughs and a monthly note on what changed in Fabric, posted on LinkedIn first.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>Follow on LinkedIn</a></p> <p data-astro-cid-5hce7sga>Looking for a Fabric or data role? Sign up for job alerts from the user group and the regular newsletter by email.</p> <p data-astro-cid-5hce7sga><a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSciHL0aap3rCaHxmVj_-BTvwMDT2RIh8BxRYpUWlgvJZHV5gQ/viewform" data-astro-cid-5hce7sga>Get job alerts and the newsletter</a></p> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>What is next</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>16 Oct</a>: Claude Code and Rayfin: building dashboard MVPs on Microsoft Fabric</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>23 Oct</a>: Part 2: from dashboard MVP to a live Fabric app</li><li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>30 Oct</a>: Part 3: adding AI and shipping your Fabric app safely</li> </ul> </section> <section data-astro-cid-5hce7sga> <h2 data-astro-cid-5hce7sga>Tools and more</h2> <ul class="next" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/cost-calculator/" data-astro-cid-5hce7sga>Fabric cost calculator</a></li> <li data-astro-cid-5hce7sga><a href="https://www.linkedin.com/in/ankur-napa" data-astro-cid-5hce7sga>LinkedIn</a></li> <li data-astro-cid-5hce7sga><a href="https://github.com/AnkurNapa" data-astro-cid-5hce7sga>GitHub</a></li> <li data-astro-cid-5hce7sga><a href="https://ankurnapa.github.io/" data-astro-cid-5hce7sga>Blog: beer, wine, whisky and AI</a></li> <li data-astro-cid-5hce7sga><a href="https://community.fabric.microsoft.com/group/BangaloreMicrosoftFabricUserGroup" data-astro-cid-5hce7sga>Bangalore Microsoft Fabric User Group</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/people/" data-astro-cid-5hce7sga>Fabric educators to follow</a></li> <li data-astro-cid-5hce7sga><a href="/fabric-field-notes/beverage/" data-astro-cid-5hce7sga>Fabric in beer, whisky, wine and food</a></li> </ul> </section> </div> <div class="legal" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>Written by Ankur Napa for the Bangalore Microsoft Fabric User Group and everyone learning Fabric.</p> <p data-astro-cid-5hce7sga>Independent community site. Not affiliated with or endorsed by Microsoft. Microsoft Fabric is a trademark of Microsoft Corporation.</p> </div> </div> </footer> <script type="module">const a=["auto","light","dark"],t=document.querySelector(".theme"),c=t?.querySelector(".theme-label"),o=()=>{try{return localStorage.getItem("ffn-theme")||"auto"}catch{return"auto"}},r=e=>{e==="auto"?delete document.documentElement.dataset.theme:document.documentElement.dataset.theme=e,t&&(t.dataset.mode=e,t.setAttribute("aria-label",`Colour theme: ${e}`)),c&&(c.textContent=e[0].toUpperCase()+e.slice(1))};r(o());const n=document.querySelector(".menu-btn"),l=e=>{n?.setAttribute("aria-expanded",String(e)),n?.closest(".bar")?.classList.toggle("open",e)};n?.addEventListener("click",()=>l(n.getAttribute("aria-expanded")!=="true"));document.addEventListener("keydown",e=>{e.key==="Escape"&&l(!1)});t?.addEventListener("click",()=>{const e=a[(a.indexOf(o())+1)%a.length];try{e==="auto"?localStorage.removeItem("ffn-theme"):localStorage.setItem("ffn-theme",e)}catch{}r(e)});</script> </body></html> <script type="module">document.querySelectorAll(".body pre").forEach(e=>{const t=document.createElement("button");t.type="button",t.className="copy",t.textContent="Copy",t.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(e.innerText.replace(/Copy$/,"")),t.textContent="Copied"}catch{t.textContent="Select and copy"}setTimeout(()=>t.textContent="Copy",1600)}),e.append(t)});</script> 

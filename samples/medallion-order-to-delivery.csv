@@ -1,0 +1,61 @@
+order_id,order_date,store_id,city,region,product_id,product_name,category,unit_cost,quantity,unit_price,discount,replaces_order_id,delivery_id,carrier,dispatched_at,delivered_at,status
+HG-30001,2026-08-02,ST-007,Chennai,South,P-102,Cotton bath towel,Home,260.00,1,549.00,0.00,,DL-0001,CityRoute,2026-08-03 12:00,2026-08-04 17:00,delivered
+HG-30002,2026-08-03,ST-003,Bengaluru,South,P-106,Yoga mat,Fitness,420.00,2,899.00,0.05,,DL-0002,BlueLine,2026-08-04 14:00,2026-08-05 16:00,delivered
+HG-30003,2026-08-06,ST-021,Jaipur,North,P-105,Bluetooth speaker,Electronics,1500.00,4,2199.00,0.05,,DL-0003,BlueLine,2026-08-06 10:00,2026-08-07 12:00,delivered
+HG-30004,2026-08-06,ST-021,Jaipur,North,P-102,Cotton bath towel,Home,260.00,1,549.00,0.00,,DL-0004,SwiftShip,2026-08-06 10:00,2026-08-09 10:00,delivered
+HG-30005,2026-08-08,ST-011,Mumbai,West,P-105,Bluetooth speaker,Electronics,1500.00,3,2199.00,0.00,,DL-0005,CityRoute,2026-08-08 15:00,2026-08-12 19:00,damaged
+HG-30007,2026-08-09,ST-011,Mumbai,West,P-107,Backpack 30 L,Travel,980.00,4,1799.00,0.00,,DL-0007,BlueLine,2026-08-09 12:00,2026-08-10 16:00,delivered
+HG-30008,2026-08-09,ST-011,Mumbai,West,P-106,Yoga mat,Fitness,420.00,2,899.00,0.05,,DL-0008,BlueLine,2026-08-10 09:00,2026-08-11 13:00,delivered
+HG-30009,2026-08-10,ST-014,Pune,West,P-108,Pressure cooker 5 L,Kitchen,1900.00,3,2899.00,0.05,,DL-0009,CityRoute,2026-08-11 13:00,2026-08-15 17:00,delivered
+HG-30010,2026-08-10,ST-011,Mumbai,West,P-101,Steel water bottle 750 mL,Kitchen,380.00,4,699.00,0.00,,DL-0010,BlueLine,2026-08-11 11:00,2026-08-12 12:00,delivered
+HG-30011,2026-08-10,ST-014,Pune,West,P-105,Bluetooth speaker,Electronics,1500.00,2,2199.00,0.10,,DL-0011,CityRoute,2026-08-11 15:00,2026-08-15 21:00,delivered
+HG-30012,2026-08-11,ST-021,Jaipur,North,P-106,Yoga mat,Fitness,420.00,1,899.00,0.10,,DL-0012,CityRoute,2026-08-11 12:00,2026-08-15 12:00,delivered
+HG-30013,2026-08-11,ST-019,Delhi,North,P-102,Cotton bath towel,Home,260.00,1,549.00,0.00,,DL-0013,BlueLine,2026-08-11 12:00,,lost
+HG-30006,2026-08-12,ST-011,Mumbai,West,P-105,Bluetooth speaker,Electronics,1500.00,3,0.00,0.00,HG-30005,DL-0006,SwiftShip,2026-08-13 13:00,2026-08-17 13:00,delivered
+HG-30014,2026-08-14,ST-019,Delhi,North,P-102,Cotton bath towel,Home,260.00,1,0.00,0.00,HG-30013,DL-0014,BlueLine,2026-08-14 09:00,2026-08-18 13:00,delivered
+HG-30015,2026-08-14,ST-014,Pune,West,P-101,Steel water bottle 750 mL,Kitchen,380.00,2,699.00,0.05,,DL-0015,SwiftShip,2026-08-14 10:00,2026-08-16 13:00,delivered
+HG-30016,2026-08-14,ST-003,Bengaluru,South,P-104,LED desk lamp,Electronics,820.00,2,1299.00,0.10,,DL-0016,BlueLine,2026-08-14 14:00,2026-08-17 14:00,delivered
+HG-30017,2026-08-15,ST-011,Mumbai,West,P-105,Bluetooth speaker,Electronics,1500.00,1,2199.00,0.10,,DL-0017,CityRoute,2026-08-15 09:00,2026-08-19 15:00,delivered
+HG-30018,2026-08-16,ST-019,Delhi,North,P-106,Yoga mat,Fitness,420.00,3,899.00,0.05,,DL-0018,CityRoute,2026-08-16 14:00,2026-08-17 16:00,delivered
+HG-30019,2026-08-16,ST-011,Mumbai,West,P-108,Pressure cooker 5 L,Kitchen,1900.00,3,2899.00,0.00,,DL-0019,SwiftShip,2026-08-16 17:00,2026-08-18 23:00,delivered
+HG-30020,2026-08-16,ST-014,Pune,West,P-102,Cotton bath towel,Home,260.00,2,549.00,0.05,,DL-0020,CityRoute,2026-08-16 11:00,2026-08-20 15:00,delivered
+HG-30021,2026-08-17,ST-011,Mumbai,West,P-106,Yoga mat,Fitness,420.00,2,899.00,0.00,,DL-0021,CityRoute,2026-08-17 09:00,2026-08-18 10:00,delivered
+HG-30022,2026-08-17,ST-007,Chennai,South,P-106,Yoga mat,Fitness,420.00,3,899.00,0.00,,DL-0022,BlueLine,2026-08-18 09:00,2026-08-22 12:00,damaged
+HG-30025,2026-08-17,ST-003,Bengaluru,South,P-104,LED desk lamp,Electronics,820.00,4,1299.00,0.00,,DL-0025,SwiftShip,2026-08-17 15:00,2026-08-18 21:00,delivered
+HG-30026,2026-08-17,ST-021,Jaipur,North,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,2,2499.00,0.05,,DL-0026,SwiftShip,2026-08-17 16:00,2026-08-19 22:00,delivered
+HG-30027,2026-08-18,ST-011,Mumbai,West,P-105,Bluetooth speaker,Electronics,1500.00,3,2199.00,0.10,,DL-0027,BlueLine,2026-08-19 13:00,2026-08-23 14:00,delivered
+HG-30028,2026-08-18,ST-021,Jaipur,North,P-107,Backpack 30 L,Travel,980.00,4,1799.00,0.05,,DL-0028,CityRoute,2026-08-19 10:00,2026-08-22 16:00,delivered
+HG-30029,2026-08-19,ST-007,Chennai,South,P-105,Bluetooth speaker,Electronics,1500.00,2,2199.00,0.00,,DL-0029,CityRoute,2026-08-19 11:00,2026-08-21 14:00,delivered
+HG-30030,2026-08-20,ST-011,Mumbai,West,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,4,2499.00,0.00,,DL-0030,CityRoute,2026-08-20 10:00,2026-08-22 14:00,delivered
+HG-30031,2026-08-20,ST-007,Chennai,South,P-102,Cotton bath towel,Home,260.00,4,549.00,0.00,,DL-0031,SwiftShip,2026-08-21 15:00,2026-08-22 19:00,delivered
+HG-30032,2026-08-21,ST-011,Mumbai,West,P-108,Pressure cooker 5 L,Kitchen,1900.00,2,2899.00,0.05,,DL-0032,BlueLine,2026-08-22 11:00,2026-08-26 13:00,damaged
+HG-30034,2026-08-21,ST-007,Chennai,South,P-108,Pressure cooker 5 L,Kitchen,1900.00,3,2899.00,0.00,,DL-0034,CityRoute,2026-08-22 13:00,2026-08-24 15:00,delivered
+HG-30035,2026-08-21,ST-003,Bengaluru,South,P-104,LED desk lamp,Electronics,820.00,3,1299.00,0.05,,DL-0035,BlueLine,2026-08-22 17:00,2026-08-25 19:00,delivered
+HG-30036,2026-08-21,ST-003,Bengaluru,South,P-104,LED desk lamp,Electronics,820.00,1,1299.00,0.05,,DL-0036,BlueLine,2026-08-22 12:00,2026-08-25 17:00,delivered
+HG-30023,2026-08-22,ST-007,Chennai,South,P-106,Yoga mat,Fitness,420.00,3,0.00,0.00,HG-30022,DL-0023,SwiftShip,2026-08-23 13:00,2026-08-25 19:00,damaged
+HG-30037,2026-08-22,ST-021,Jaipur,North,P-106,Yoga mat,Fitness,420.00,3,899.00,0.00,,DL-0037,BlueLine,2026-08-22 13:00,2026-08-23 14:00,delivered
+HG-30038,2026-08-22,ST-007,Chennai,South,P-101,Steel water bottle 750 mL,Kitchen,380.00,3,699.00,0.00,,DL-0038,SwiftShip,2026-08-23 17:00,2026-08-26 19:00,delivered
+HG-30039,2026-08-22,ST-011,Mumbai,West,P-106,Yoga mat,Fitness,420.00,3,899.00,0.00,,DL-0039,BlueLine,2026-08-22 09:00,2026-08-23 13:00,delivered
+HG-30040,2026-08-22,ST-011,Mumbai,West,P-102,Cotton bath towel,Home,260.00,3,549.00,0.05,,DL-0040,BlueLine,2026-08-23 10:00,2026-08-26 13:00,delivered
+HG-30041,2026-08-24,ST-014,Pune,West,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,4,2499.00,0.00,,DL-0041,BlueLine,2026-08-25 11:00,,lost
+HG-30044,2026-08-24,ST-003,Bengaluru,South,P-105,Bluetooth speaker,Electronics,1500.00,2,2199.00,0.05,,DL-0044,SwiftShip,2026-08-24 15:00,2026-08-27 16:00,delivered
+HG-30045,2026-08-25,ST-011,Mumbai,West,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,4,2499.00,0.00,,DL-0045,BlueLine,2026-08-25 13:00,2026-08-27 16:00,delivered
+HG-30033,2026-08-26,ST-011,Mumbai,West,P-108,Pressure cooker 5 L,Kitchen,1900.00,2,0.00,0.00,HG-30032,DL-0033,CityRoute,2026-08-26 15:00,2026-08-29 15:00,delivered
+HG-30024,2026-08-27,ST-007,Chennai,South,P-106,Yoga mat,Fitness,420.00,3,0.00,0.00,HG-30023,DL-0024,SwiftShip,2026-08-27 15:00,2026-08-28 17:00,delivered
+HG-30046,2026-08-27,ST-007,Chennai,South,P-108,Pressure cooker 5 L,Kitchen,1900.00,1,2899.00,0.00,,DL-0046,BlueLine,2026-08-27 11:00,2026-08-30 15:00,delivered
+HG-30047,2026-08-27,ST-014,Pune,West,P-106,Yoga mat,Fitness,420.00,4,899.00,0.10,,DL-0047,BlueLine,2026-08-28 11:00,2026-08-31 12:00,delivered
+HG-30048,2026-08-27,ST-021,Jaipur,North,P-102,Cotton bath towel,Home,260.00,1,549.00,0.05,,DL-0048,SwiftShip,2026-08-27 09:00,2026-08-29 15:00,delivered
+HG-30042,2026-08-28,ST-014,Pune,West,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,4,0.00,0.00,HG-30041,DL-0042,CityRoute,2026-08-29 14:00,,lost
+HG-30049,2026-08-28,ST-019,Delhi,North,P-107,Backpack 30 L,Travel,980.00,1,1799.00,0.10,,DL-0049,BlueLine,2026-08-29 12:00,2026-08-30 17:00,delivered
+HG-30050,2026-08-28,ST-019,Delhi,North,P-107,Backpack 30 L,Travel,980.00,4,1799.00,0.00,,DL-0050,SwiftShip,2026-08-29 09:00,2026-09-02 09:00,delivered
+HG-30051,2026-08-29,ST-007,Chennai,South,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,4,2499.00,0.10,,DL-0051,SwiftShip,2026-08-30 14:00,2026-09-02 19:00,delivered
+HG-30052,2026-08-29,ST-019,Delhi,North,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,2,2499.00,0.05,,DL-0052,BlueLine,2026-08-29 12:00,2026-08-30 14:00,damaged
+HG-30054,2026-08-29,ST-019,Delhi,North,P-107,Backpack 30 L,Travel,980.00,4,1799.00,0.05,,DL-0054,CityRoute,2026-08-29 14:00,2026-09-01 17:00,delivered
+HG-30055,2026-08-29,ST-019,Delhi,North,P-101,Steel water bottle 750 mL,Kitchen,380.00,1,699.00,0.00,,DL-0055,SwiftShip,2026-08-30 11:00,2026-09-02 12:00,delivered
+HG-30056,2026-08-30,ST-003,Bengaluru,South,P-102,Cotton bath towel,Home,260.00,3,549.00,0.05,,DL-0056,BlueLine,2026-08-30 17:00,2026-08-31 23:00,delivered
+HG-30057,2026-08-30,ST-021,Jaipur,North,P-102,Cotton bath towel,Home,260.00,1,549.00,0.05,,DL-0057,CityRoute,2026-08-31 14:00,2026-09-03 20:00,delivered
+HG-30058,2026-08-31,ST-011,Mumbai,West,P-106,Yoga mat,Fitness,420.00,2,899.00,0.05,,DL-0058,SwiftShip,2026-08-31 17:00,2026-09-03 20:00,delivered
+HG-30059,2026-08-31,ST-003,Bengaluru,South,P-101,Steel water bottle 750 mL,Kitchen,380.00,3,699.00,0.05,,DL-0059,CityRoute,2026-09-01 09:00,2026-09-03 13:00,delivered
+HG-30060,2026-08-31,ST-011,Mumbai,West,P-108,Pressure cooker 5 L,Kitchen,1900.00,4,2899.00,0.00,,DL-0060,BlueLine,2026-09-01 10:00,2026-09-03 13:00,delivered
+HG-30053,2026-09-01,ST-019,Delhi,North,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,2,0.00,0.00,HG-30052,DL-0053,SwiftShip,2026-09-01 09:00,2026-09-02 10:00,delivered
+HG-30043,2026-09-02,ST-014,Pune,West,P-103,Ceramic dinner set 12 pc,Kitchen,1450.00,4,0.00,0.00,HG-30042,DL-0043,BlueLine,2026-09-03 13:00,2026-09-06 18:00,delivered
